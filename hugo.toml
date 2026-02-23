@@ -1,0 +1,54 @@
+baseURL = 'https://example.com'
+languageCode = 'zh-cn'
+title = '七哇夸'
+copyright = '七哇夸'
+theme = 'PaperMod'
+pagination.pagerSize = 9
+hasCJKLanguage = true
+enableEmoji = true
+
+[params]
+    author = "我的名字"
+    description = "一个基于 Hugo 的个人博客"
+    subtitle = "Farroadeta"
+    
+[params.social]
+    github = "https://github.com"
+    twitter = "https://twitter.com"
+    
+[params.features]
+    toc = true
+    code_copy = true
+    
+[[menus.main]]
+    identifier = "home"
+    name = "首页"
+    url = "/"
+    weight = 1
+
+[[menus.main]]
+    identifier = "archives"
+    name = "归档"
+    url = "/posts"
+    weight = 2
+
+[[menus.main]]
+    identifier = "tags"
+    name = "标签"
+    url = "/tags"
+    weight = 3
+
+[module]
+    [module.hugoVersion]
+        extended = true
+        min = "0.116.0"
+
+[markup]
+    [markup.highlight]
+        style = "evergarden"
+        tabWidth = 4
+        codeFences = true
+        guessSyntax = true
+
+[outputs]
+    home = ["HTML", "JSON"]

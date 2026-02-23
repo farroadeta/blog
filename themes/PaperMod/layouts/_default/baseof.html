@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="{{ .Site.LanguageCode }}">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ if .IsHome }}{{ .Site.Title }}{{ else }}{{ .Title }} - {{ .Site.Title }}{{ end }}</title>
+    <meta name="description" content="{{ with .Description }}{{ . }}{{ else }}{{ .Site.Params.description }}{{ end }}">
+    <link rel="stylesheet" href="{{ "css/style.css" | relURL }}?v=37">
+    <link rel="stylesheet" href="{{ "css/papermod.css" | relURL }}?v=37">
+    <link rel="icon" href="{{ "favicon.ico" | relURL }}" type="image/x-icon">
+</head>
+<body>
+    <header class="header">
+        <div class="header-container">
+            <div class="header-title">
+                <a href="{{ "/" | relURL }}" class="header-logo-link">
+                    <div class="header-logo">
+                        <img src="{{ "images/avatar.png" | relURL }}" alt="{{ .Site.Title }}">
+                    </div>
+                    <div class="header-name">
+                        <span class="header-site-title">{{ .Site.Title }}</span>
+                        <span class="header-subtitle">{{ .Site.Params.subtitle }}</span>
+                    </div>
+                </a>
+            </div>
+            <nav class="header-nav">
+                <ul>
+                    {{ range .Site.Menus.main }}
+                    <li><a href="{{ .URL }}">{{ .Name }}</a></li>
+                    {{ end }}
+                </ul>
+            </nav>
+            <div class="header-right">
+                <button class="theme-toggle" aria-label="Toggle theme">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+                <button class="mobile-menu-toggle" aria-label="Toggle mobile menu">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" stroke-linejoin="round">
+                        <line x1="3" y1="12" x2="21" y2="12"></line>
+                        <line x1="3" y1="6" x2="21" y2="6"></line>
+                        <line x1="3" y1="18" x2="21" y2="18"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <!-- 移动端菜单 -->
+        <div class="mobile-menu">
+            <ul>
+                {{ range .Site.Menus.main }}
+                <li><a href="{{ .URL }}">{{ .Name }}</a></li>
+                {{ end }}
+            </ul>
+            <button class="theme-toggle" aria-label="Toggle theme">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" stroke-linejoin="round">
+                    <circle cx="12" cy="12" r="5"></circle>
+                    <line x1="12" y1="1" x2="12" y2="3"></line>
+                    <line x1="12" y1="21" x2="12" y2="23"></line>
+                    <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                    <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                    <line x1="1" y1="12" x2="3" y2="12"></line>
+                    <line x1="21" y1="12" x2="23" y2="12"></line>
+                    <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                    <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                </svg>
+            </button>
+        </div>
+    </header>
+    <main>
+        <div class="container">
+            {{ block "main" . }}
+            {{ end }}
+        </div>
+    </main>
+    <footer class="footer">
+        <div class="footer-container">
+            <p class="footer-copyright">{{ .Site.Copyright }}</p>
+            <p class="footer-powered">
+                月瘦梦肥，此为心乡
+            </p>
+        </div>
+    </footer>
+    <script src="{{ "js/script.js" | relURL }}"></script>
+</body>
+</html>

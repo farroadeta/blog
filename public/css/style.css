@@ -1,0 +1,421 @@
+/* 全局样式重置 */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: "SimSun", "Songti SC", "STSong", Georgia, serif;
+    line-height: 1.6;
+    color: #333;
+    background-color: #f5f5f5;
+}
+
+/* 容器样式 */
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+/* 头部样式 */
+header {
+    background-color: #fff;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    padding: 20px 0;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+.site-title {
+    font-size: 1.8rem;
+    font-weight: 700;
+    margin-bottom: 15px;
+}
+
+.site-title a {
+    color: #333;
+    text-decoration: none;
+}
+
+nav ul {
+    list-style: none;
+    display: flex;
+    gap: 20px;
+}
+
+nav ul li a {
+    color: #666;
+    text-decoration: none;
+    font-weight: 500;
+    transition: color 0.3s ease;
+}
+
+nav ul li a:hover {
+    color: #007bff;
+}
+
+/* 主内容样式 */
+main {
+    padding: 40px 0;
+}
+
+/* 首页样式 */
+.hero {
+    text-align: center;
+    padding: 60px 0;
+    background-color: #fff;
+    margin-bottom: 40px;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.hero h1 {
+    font-size: 2.5rem;
+    margin-bottom: 20px;
+    color: #333;
+}
+
+.hero p {
+    font-size: 1.2rem;
+    color: #666;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.latest-posts h2 {
+    font-size: 1.8rem;
+    margin-bottom: 30px;
+    color: #333;
+}
+
+/* 文章列表样式 */
+.post-list {
+    display: grid;
+    gap: 30px;
+}
+
+.post-card {
+    background-color: #fff;
+    border-radius: 8px;
+    padding: 30px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.post-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+.post-card-title {
+    font-size: 1.4rem;
+    margin-bottom: 15px;
+}
+
+.post-card-title a {
+    color: #333;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.post-card-title a:hover {
+    color: #007bff;
+}
+
+.post-card-meta {
+    font-size: 0.9rem;
+    color: #999;
+    margin-bottom: 15px;
+    display: flex;
+    gap: 20px;
+}
+
+.post-card-excerpt {
+    color: #666;
+    margin-bottom: 20px;
+    line-height: 1.6;
+}
+
+.post-card-link {
+    display: inline-block;
+    color: #007bff;
+    text-decoration: none;
+    font-weight: 500;
+    transition: color 0.3s ease;
+}
+
+.post-card-link:hover {
+    color: #0056b3;
+    text-decoration: underline;
+}
+
+/* 文章页面样式 */
+.post {
+    background-color: #fff;
+    border-radius: 8px;
+    padding: 40px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.post-title {
+    font-size: 2rem;
+    margin-bottom: 20px;
+    color: #333;
+}
+
+.post-meta {
+    font-size: 0.9rem;
+    color: #999;
+    margin-bottom: 30px;
+    display: flex;
+    gap: 20px;
+}
+
+.post-content {
+    color: #333;
+    line-height: 1.8;
+}
+
+.post-content h2 {
+    font-size: 1.5rem;
+    margin: 30px 0 20px;
+    color: #333;
+}
+
+.post-content h3 {
+    font-size: 1.2rem;
+    margin: 25px 0 15px;
+    color: #333;
+}
+
+.post-content p {
+    margin-bottom: 20px;
+}
+
+.post-content ul, .post-content ol {
+    margin: 20px 0;
+    padding-left: 30px;
+}
+
+.post-content li {
+    margin-bottom: 10px;
+}
+
+.post-content code {
+    background-color: #f8f9fa;
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 0.9rem;
+}
+
+.post-content pre {
+    background-color: #f8f9fa;
+    padding: 20px;
+    border-radius: 8px;
+    overflow-x: auto;
+    margin: 20px 0;
+}
+
+.post-content pre code {
+    background: none;
+    padding: 0;
+}
+
+.post-license {
+    margin-top: 40px;
+    padding-top: 20px;
+    border-top: 1px solid #eee;
+    font-size: 0.9rem;
+    color: #999;
+}
+
+.post-license a {
+    color: #007bff;
+    text-decoration: none;
+}
+
+.post-license a:hover {
+    text-decoration: underline;
+}
+
+/* 页脚样式 */
+footer {
+    background-color: #333;
+    color: #fff;
+    padding: 40px 0;
+    margin-top: 60px;
+}
+
+footer .container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+
+footer p {
+    margin-bottom: 10px;
+}
+
+footer a {
+    color: #fff;
+    text-decoration: none;
+}
+
+footer a:hover {
+    text-decoration: underline;
+}
+
+/* 响应式设计 */
+@media (max-width: 768px) {
+    .container {
+        padding: 0 15px;
+    }
+
+    .hero h1 {
+        font-size: 2rem;
+    }
+
+    .hero p {
+        font-size: 1rem;
+    }
+
+    .post-list {
+        grid-template-columns: 1fr;
+    }
+
+    .post {
+        padding: 20px;
+    }
+
+    .post-title {
+        font-size: 1.5rem;
+    }
+
+    nav ul {
+        flex-direction: column;
+        gap: 10px;
+    }
+}
+
+/* 暗色模式支持 */
+@media (prefers-color-scheme: dark) {
+    body {
+        background-color: #1a1a1a;
+        color: #e0e0e0;
+    }
+
+    header {
+        background-color: #2d2d2d;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+    }
+
+    .site-title a {
+        color: #e0e0e0;
+    }
+
+    nav ul li a {
+        color: #b0b0b0;
+    }
+
+    nav ul li a:hover {
+        color: #00b4ff;
+    }
+
+    .hero {
+        background-color: #2d2d2d;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+    }
+
+    .hero h1 {
+        color: #e0e0e0;
+    }
+
+    .hero p {
+        color: #b0b0b0;
+    }
+
+    .latest-posts h2 {
+        color: #e0e0e0;
+    }
+
+    .post-card {
+        background-color: #2d2d2d;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+    }
+
+    .post-card-title a {
+        color: #e0e0e0;
+    }
+
+    .post-card-title a:hover {
+        color: #00b4ff;
+    }
+
+    .post-card-meta {
+        color: #808080;
+    }
+
+    .post-card-excerpt {
+        color: #b0b0b0;
+    }
+
+    .post-card-link {
+        color: #00b4ff;
+    }
+
+    .post-card-link:hover {
+        color: #0088cc;
+    }
+
+    .post {
+        background-color: #2d2d2d;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+    }
+
+    .post-title {
+        color: #e0e0e0;
+    }
+
+    .post-meta {
+        color: #808080;
+    }
+
+    .post-content {
+        color: #e0e0e0;
+    }
+
+    .post-content h2 {
+        color: #e0e0e0;
+    }
+
+    .post-content h3 {
+        color: #e0e0e0;
+    }
+
+    .post-content code {
+        background-color: #3d3d3d;
+        color: #e0e0e0;
+    }
+
+    .post-content pre {
+        background-color: #3d3d3d;
+    }
+
+    .post-license {
+        color: #808080;
+        border-top-color: #3d3d3d;
+    }
+
+    .post-license a {
+        color: #00b4ff;
+    }
+
+    footer {
+        background-color: #1a1a1a;
+    }
+}

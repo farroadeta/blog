@@ -1,0 +1,87 @@
+{{ define "main" }}
+    <section class="hero hitokoto-section">
+        <div class="hero-container">
+            <div class="hero-image">
+                <img src="{{ "images/banner.jpg" | relURL }}" alt="Banner">
+            </div>
+            <div class="hitokoto-content">
+                <p class="hitokoto-text" id="hitokoto">正在加载一言...</p>
+                <p class="hitokoto-from" id="hitokoto-from"></p>
+            </div>
+        </div>
+    </section>
+    <script>
+        // 获取一言
+        fetch('https://v1.hitokoto.cn')
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById('hitokoto').textContent = data.hitokoto;
+                document.getElementById('hitokoto-from').textContent = '—' + (data.from_who || '佚名') + '《' + data.from + '》—';
+            })
+            .catch(error => {
+                document.getElementById('hitokoto').textContent = '生活不止眼前的苟且，还有诗和远方。';
+                document.getElementById('hitokoto-from').textContent = '—高晓松—';
+            });
+    </script>
+    <section class="post-list">
+        <div class="post-list-container">
+            <h2 class="post-list-title">最近文章</h2>
+            <div class="post-linear-list">
+                {{ range first 5 .Site.RegularPages.ByDate.Reverse }}
+                <article class="post-linear-item" data-cover="{{ with .Params.cover }}{{ . }}{{ end }}">
+                    <div class="post-linear-left">
+                        <div class="post-linear-header">
+                            <h3 class="post-linear-title"><a href="{{ .RelPermalink }}">{{ with .File }}{{ .BaseFileName }}{{ else }}{{ .Title }}{{ end }}</a></h3>
+                        </div>
+                        <div class="post-linear-excerpt">
+                            {{ .Plain | truncate 150 }}
+                        </div>
+                        <div class="post-linear-footer">
+                            <span class="post-linear-date">{{ .Date.Format "2006-01-02" }}</span>
+                            <div class="post-linear-tags">
+                                {{ range .Params.tags }}
+                                <a href="{{ "/tags/" | relURL }}{{ . | urlize }}" class="post-linear-tag">{{ . }}</a>
+                                {{ end }}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="post-linear-right" style="display: none;">
+                        <img src="" alt="{{ .Title }}">
+                    </div>
+                    <div class="post-content-hidden" style="display: none;">
+                        {{ .Content }}
+                    </div>
+                </article>
+                {{ end }}
+            </div>
+        </div>
+    </section>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const articles = document.querySelectorAll('.post-linear-item');
+            articles.forEach(function(article) {
+                let imgSrc = '';
+                
+                const cover = article.getAttribute('data-cover');
+                if (cover) {
+                    imgSrc = cover;
+                } else {
+                    const contentDiv = article.querySelector('.post-content-hidden');
+                    if (contentDiv) {
+                        const img = contentDiv.querySelector('img');
+                        if (img && img.src) {
+                            imgSrc = img.src;
+                        }
+                    }
+                }
+                
+                if (imgSrc) {
+                    const imgContainer = article.querySelector('.post-linear-right');
+                    const targetImg = imgContainer.querySelector('img');
+                    targetImg.src = imgSrc;
+                    imgContainer.style.display = 'flex';
+                }
+            });
+        });
+    </script>
+{{ end }}

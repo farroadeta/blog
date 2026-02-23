@@ -1,1 +1,1 @@
-https://qwk.dpdns.org/
+https://blog.qwk.dpdns.org/

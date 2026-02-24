@@ -216,19 +216,28 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 });
 
-// 窗口 resize 事件处理
+// 窗口 resize 事件处理 - 使用防抖
+let resizeTimeout;
 window.addEventListener('resize', () => {
-    // 响应式调整
-    const headerNav = document.querySelector('.header-nav');
-    if (window.innerWidth <= 768) {
-        headerNav.classList.add('mobile');
-    } else {
-        headerNav.classList.remove('mobile');
-    }
+    clearTimeout(resizeTimeout);
+    resizeTimeout = setTimeout(() => {
+        // 响应式调整
+        const headerNav = document.querySelector('.header-nav');
+        if (headerNav) {
+            if (window.innerWidth <= 768) {
+                headerNav.classList.add('mobile');
+            } else {
+                headerNav.classList.remove('mobile');
+            }
+        }
+    }, 250);
 });
 
-// 滚动到顶部按钮
+// 滚动到顶部按钮 - 移动端禁用
 function initScrollToTop() {
+    // 移动端不创建按钮
+    if (window.innerWidth <= 768) return;
+    
     const scrollToTopBtn = document.createElement('button');
     scrollToTopBtn.className = 'scroll-to-top';
     scrollToTopBtn.innerHTML = `
@@ -255,16 +264,23 @@ function initScrollToTop() {
     scrollToTopBtn.style.zIndex = '999';
     scrollToTopBtn.style.boxShadow = '0 2px 10px rgba(0, 0, 0, 0.2)';
 
-    // 滚动显示/隐藏
+    // 滚动显示/隐藏 - 使用 requestAnimationFrame
+    let ticking = false;
     window.addEventListener('scroll', () => {
-        if (window.scrollY > 300) {
-            scrollToTopBtn.style.opacity = '1';
-            scrollToTopBtn.style.visibility = 'visible';
-        } else {
-            scrollToTopBtn.style.opacity = '0';
-            scrollToTopBtn.style.visibility = 'hidden';
+        if (!ticking) {
+            window.requestAnimationFrame(() => {
+                if (window.scrollY > 300) {
+                    scrollToTopBtn.style.opacity = '1';
+                    scrollToTopBtn.style.visibility = 'visible';
+                } else {
+                    scrollToTopBtn.style.opacity = '0';
+                    scrollToTopBtn.style.visibility = 'hidden';
+                }
+                ticking = false;
+            });
+            ticking = true;
         }
-    });
+    }, { passive: true });
 
     // 点击滚动到顶部
     scrollToTopBtn.addEventListener('click', () => {

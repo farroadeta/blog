@@ -27,7 +27,19 @@
         {{ $pathParts := split $path "/" }}
         {{ $folderName := index $pathParts 0 }}
         {{ if and $folderName (ne $folderName "posts") }}
-        {{ $allData = $allData | append (dict "path" $path "folder" $folderName "title" .Title "date" (.Date.Format "2006-01-02") "url" .RelPermalink) }}
+        {{ $content := .Plain | truncate 150 }}
+        {{ $images := slice }}
+        {{ with .Params.cover }}
+            {{ $images = $images | append . }}
+        {{ end }}
+        {{ $imgMatches := findRE "<img[^>]+src=\"([^\"]+)\"" .Content 3 }}
+        {{ range $imgMatches }}
+            {{ $src := replaceRE ".*src=\"([^\"]+)\".*" "$1" . }}
+            {{ if not (in $images $src) }}
+                {{ $images = $images | append $src }}
+            {{ end }}
+        {{ end }}
+        {{ $allData = $allData | append (dict "path" $path "folder" $folderName "title" .Title "date" (.Date.Format "2006-01-02") "url" .RelPermalink "content" $content "images" $images) }}
         {{ end }}
         {{ end }}
         {{ end }}
@@ -136,47 +148,53 @@
             }
             
             if (files.length > 0) {
-                // 按日期分组
-                var groupedFiles = {};
+                html += '<div class="archive-card-list" style="max-width: 800px; margin: 1.5rem auto 0;">';
+                
                 files.forEach(function(file) {
-                    if (!groupedFiles[file.date]) {
-                        groupedFiles[file.date] = [];
+                    var title = file.title;
+                    if (!title) {
+                        var urlParts = file.url.split('/');
+                        title = urlParts[urlParts.length - 2] || 'Untitled';
+                        try {
+                            title = decodeURIComponent(title);
+                        } catch(e) {
+                            // 如果解码失败，保持原样
+                        }
                     }
-                    groupedFiles[file.date].push(file);
-                });
-                
-                html += '<div class="file-linear-list" style="max-width: 800px; margin: 1.5rem auto 0;">';
-                
-                // 遍历分组后的文件
-                Object.keys(groupedFiles).sort().reverse().forEach(function(date) {
-                    var dateFiles = groupedFiles[date];
                     
-                    dateFiles.forEach(function(file, index) {
-                        var title = file.title;
-                        if (!title) {
-                            var urlParts = file.url.split('/');
-                            title = urlParts[urlParts.length - 2] || 'Untitled';
-                            try {
-                                title = decodeURIComponent(title);
-                            } catch(e) {
-                                // 如果解码失败，保持原样
-                            }
+                    var content = file.content || '';
+                    var imageCount = file.images ? file.images.length : 0;
+                    
+                    html += '<article class="archive-card">';
+                    html += '<div class="archive-card-header">';
+                    html += '<div class="archive-card-avatar">';
+                    html += '<img src="{{ "images/avatar.png" | relURL }}" alt="avatar">';
+                    html += '</div>';
+                    html += '<div class="archive-card-user">';
+                    html += '<span class="archive-card-username">{{ .Site.Title }}</span>';
+                    html += '<span class="archive-card-time">' + file.date + '</span>';
+                    html += '</div>';
+                    html += '</div>';
+                    
+                    html += '<div class="archive-card-body">';
+                    html += '<h3 class="archive-card-title"><a href="' + file.url + '">' + title + '</a></h3>';
+                    if (content) {
+                        html += '<p class="archive-card-content">' + content + '</p>';
+                    }
+                    
+                    // 图片展示
+                    if (imageCount > 0) {
+                        html += '<div class="archive-card-images" data-count="' + Math.min(imageCount, 3) + '">';
+                        for (var i = 0; i < Math.min(imageCount, 3); i++) {
+                            html += '<div class="archive-image-item">';
+                            html += '<img src="' + file.images[i] + '" alt="图片" loading="lazy">';
+                            html += '</div>';
                         }
-                        
-                        html += '<div class="file-linear-item" style="display: flex; margin-bottom: 0.75rem; align-items: baseline;">';
-                        
-                        // 只在每组的第一个文件显示日期
-                        if (index === 0) {
-                            html += '<span class="file-linear-date" style="font-size: 0.9rem; color: var(--text-secondary); white-space: nowrap; width: 100px; flex-shrink: 0;">' + date + '</span>';
-                        } else {
-                            html += '<span class="file-linear-date" style="font-size: 0.9rem; color: var(--text-secondary); white-space: nowrap; width: 100px; flex-shrink: 0; visibility: hidden;">' + date + '</span>';
-                        }
-                        
-                        html += '<a href="' + file.url + '" style="text-decoration: none; color: var(--text-color); flex: 1;">';
-                        html += '<h3 class="file-linear-title" style="margin: 0; font-size: 1rem; font-weight: 400;">' + title + '</h3>';
-                        html += '</a>';
                         html += '</div>';
-                    });
+                    }
+                    
+                    html += '</div>';
+                    html += '</article>';
                 });
                 
                 html += '</div>';
@@ -190,16 +208,41 @@
         
         {{ else }}
         
-        <div class="post-linear-list">
+        <div class="archive-card-list">
             {{ range .Pages }}
-            <article class="post-linear-item">
-                <div class="post-linear-left">
-                    <div class="post-linear-header">
-                        <h3 class="post-linear-title"><a href="{{ .RelPermalink }}">{{ .Title | default .File.BaseFileName }}</a></h3>
+            {{ $images := slice }}
+            {{ with .Params.cover }}
+                {{ $images = $images | append . }}
+            {{ end }}
+            {{ $imgMatches := findRE "<img[^>]+src=\"([^\"]+)\"" .Content 3 }}
+            {{ range $imgMatches }}
+                {{ $src := replaceRE ".*src=\"([^\"]+)\".*" "$1" . }}
+                {{ if not (in $images $src) }}
+                    {{ $images = $images | append $src }}
+                {{ end }}
+            {{ end }}
+            <article class="archive-card">
+                <div class="archive-card-header">
+                    <div class="archive-card-avatar">
+                        <img src="{{ "images/avatar.png" | relURL }}" alt="avatar">
                     </div>
-                    <div class="post-linear-footer">
-                        <span class="post-linear-date">{{ .Date.Format "2006-01-02" }}</span>
+                    <div class="archive-card-user">
+                        <span class="archive-card-username">{{ .Site.Title }}</span>
+                        <span class="archive-card-time">{{ .Date.Format "2006-01-02" }}</span>
                     </div>
+                </div>
+                <div class="archive-card-body">
+                    <h3 class="archive-card-title"><a href="{{ .RelPermalink }}">{{ .Title | default .File.BaseFileName }}</a></h3>
+                    <p class="archive-card-content">{{ .Plain | truncate 150 }}</p>
+                    {{ if gt (len $images) 0 }}
+                    <div class="archive-card-images" data-count="{{ len $images }}">
+                        {{ range first 3 $images }}
+                        <div class="archive-image-item">
+                            <img src="{{ . }}" alt="图片" loading="lazy">
+                        </div>
+                        {{ end }}
+                    </div>
+                    {{ end }}
                 </div>
             </article>
             {{ end }}

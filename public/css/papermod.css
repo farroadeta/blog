@@ -1604,6 +1604,176 @@ article img {
     transform: scale(1.02);
 }
 
+/* 归档页面卡片样式 */
+.archive-card-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.archive-card {
+    background-color: var(--card-background);
+    border-radius: 12px;
+    padding: 1.25rem;
+    box-shadow: 
+        0 1px 2px rgba(0, 0, 0, 0.02),
+        0 2px 4px rgba(0, 0, 0, 0.02),
+        0 4px 8px rgba(0, 0, 0, 0.02),
+        0 8px 16px rgba(0, 0, 0, 0.02);
+    transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), 
+                box-shadow 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+    position: relative;
+}
+
+.archive-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    border-radius: 12px;
+    box-shadow: 
+        0 0 0 1px rgba(255, 255, 255, 0.1) inset,
+        0 0 0 1px rgba(0, 0, 0, 0.05) inset;
+    pointer-events: none;
+}
+
+.archive-card:hover {
+    transform: translateY(-4px) scale(1.005);
+    box-shadow: 
+        0 2px 4px rgba(0, 0, 0, 0.02),
+        0 4px 8px rgba(0, 0, 0, 0.03),
+        0 8px 16px rgba(0, 0, 0, 0.04),
+        0 16px 32px rgba(0, 0, 0, 0.05),
+        0 32px 64px rgba(0, 0, 0, 0.06);
+}
+
+.archive-card-header {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-bottom: 0.75rem;
+}
+
+.archive-card-avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    overflow: hidden;
+    flex-shrink: 0;
+}
+
+.archive-card-avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.archive-card-user {
+    display: flex;
+    flex-direction: column;
+    gap: 0.15rem;
+}
+
+.archive-card-username {
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: var(--primary-color);
+}
+
+.archive-card-time {
+    font-size: 0.8rem;
+    color: var(--text-secondary);
+}
+
+.archive-card-body {
+    margin-bottom: 0.5rem;
+}
+
+.archive-card-title {
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin: 0 0 0.5rem 0;
+    line-height: 1.4;
+}
+
+.archive-card-title a {
+    color: var(--accent-color);
+    text-decoration: none;
+    transition: opacity 0.2s ease;
+}
+
+.archive-card-title a:hover {
+    opacity: 0.8;
+}
+
+.archive-card-content {
+    font-size: 0.95rem;
+    color: var(--text-color);
+    line-height: 1.6;
+    margin: 0;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.archive-card-images {
+    display: grid;
+    gap: 4px;
+    margin-top: 0.75rem;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.archive-card-images[data-count="1"] {
+    grid-template-columns: 1fr;
+}
+
+.archive-card-images[data-count="1"] .archive-image-item {
+    aspect-ratio: 16/9;
+}
+
+.archive-card-images[data-count="2"] {
+    grid-template-columns: repeat(2, 1fr);
+}
+
+.archive-card-images[data-count="2"] .archive-image-item {
+    aspect-ratio: 1;
+}
+
+.archive-card-images[data-count="3"] {
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: repeat(2, 1fr);
+}
+
+.archive-card-images[data-count="3"] .archive-image-item:first-child {
+    grid-row: span 2;
+    aspect-ratio: auto;
+}
+
+.archive-card-images[data-count="3"] .archive-image-item {
+    aspect-ratio: 1;
+}
+
+.archive-image-item {
+    position: relative;
+    overflow: hidden;
+    background-color: var(--background-color);
+}
+
+.archive-image-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+}
+
+.archive-card:hover .archive-image-item img {
+    transform: scale(1.02);
+}
+
 /* 移动端 iCity 卡片适配 */
 @media (max-width: 768px) {
     .icity-card-list {
@@ -1652,5 +1822,43 @@ article img {
     .icity-action svg {
         width: 16px;
         height: 16px;
+    }
+    
+    /* 归档页面移动端适配 */
+    .archive-card-list {
+        padding: 0 0.5rem;
+    }
+    
+    .archive-card {
+        padding: 1rem;
+        border-radius: 10px;
+    }
+    
+    .archive-card-avatar {
+        width: 36px;
+        height: 36px;
+    }
+    
+    .archive-card-username {
+        font-size: 0.9rem;
+    }
+    
+    .archive-card-time {
+        font-size: 0.75rem;
+    }
+    
+    .archive-card-title {
+        font-size: 1rem;
+    }
+    
+    .archive-card-content {
+        font-size: 0.9rem;
+        -webkit-line-clamp: 3;
+        line-height: 1.5;
+    }
+    
+    .archive-card-images {
+        gap: 3px;
+        border-radius: 6px;
     }
 }

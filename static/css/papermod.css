@@ -1454,17 +1454,15 @@ article img {
     border-radius: 50%;
     overflow: hidden;
     flex-shrink: 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
     background-color: var(--background-color);
 }
 
 .icity-card-avatar img {
-    width: 90%;
-    height: 90%;
-    object-fit: contain;
-    object-position: center;
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center 20%;
 }
 
 .icity-card-user {
@@ -1667,17 +1665,15 @@ article img {
     border-radius: 50%;
     overflow: hidden;
     flex-shrink: 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
     background-color: var(--background-color);
 }
 
 .archive-card-avatar img {
-    width: 90%;
-    height: 90%;
-    object-fit: contain;
-    object-position: center;
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center 20%;
 }
 
 .archive-card-user {

@@ -1520,6 +1520,65 @@ article img {
     height: 18px;
 }
 
+/* iCity 图片缩略图样式 */
+.icity-card-images {
+    display: grid;
+    gap: 4px;
+    margin-top: 0.75rem;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+/* 1张图片 - 大图展示 */
+.icity-card-images[data-count="1"] {
+    grid-template-columns: 1fr;
+}
+
+.icity-card-images[data-count="1"] .icity-image-item {
+    aspect-ratio: 16/9;
+}
+
+/* 2张图片 - 并排 */
+.icity-card-images[data-count="2"] {
+    grid-template-columns: repeat(2, 1fr);
+}
+
+.icity-card-images[data-count="2"] .icity-image-item {
+    aspect-ratio: 1;
+}
+
+/* 3张图片 - 一大两小 */
+.icity-card-images[data-count="3"] {
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: repeat(2, 1fr);
+}
+
+.icity-card-images[data-count="3"] .icity-image-item:first-child {
+    grid-row: span 2;
+    aspect-ratio: auto;
+}
+
+.icity-card-images[data-count="3"] .icity-image-item {
+    aspect-ratio: 1;
+}
+
+.icity-image-item {
+    position: relative;
+    overflow: hidden;
+    background-color: var(--background-color);
+}
+
+.icity-image-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+}
+
+.icity-card:hover .icity-image-item img {
+    transform: scale(1.02);
+}
+
 /* 移动端 iCity 卡片适配 */
 @media (max-width: 768px) {
     .icity-card-list {
@@ -1551,6 +1610,11 @@ article img {
     .icity-card-content {
         font-size: 0.9rem;
         -webkit-line-clamp: 2;
+    }
+    
+    .icity-card-images {
+        gap: 3px;
+        border-radius: 6px;
     }
     
     .icity-action {

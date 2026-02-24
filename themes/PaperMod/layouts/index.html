@@ -28,7 +28,20 @@
             <h2 class="post-list-title">最近</h2>
             <div class="icity-card-list">
                 {{ range first 10 .Site.RegularPages.ByDate.Reverse }}
-                <article class="icity-card" data-cover="{{ with .Params.cover }}{{ . }}{{ end }}">
+                {{ $images := slice }}
+                {{ with .Params.cover }}
+                    {{ $images = $images | append . }}
+                {{ end }}
+                {{ $content := .Content }}
+                {{ $imgMatches := findRE "<img[^>]+src=\"([^\"]+)\"" $content 3 }}
+                {{ range $imgMatches }}
+                    {{ $src := replaceRE ".*src=\"([^\"]+)\".*" "$1" . }}
+                    {{ if not (in $images $src) }}
+                        {{ $images = $images | append $src }}
+                    {{ end }}
+                {{ end }}
+                {{ $imageCount := len $images }}
+                <article class="icity-card" data-images="{{ $images | jsonify }}">
                     <div class="icity-card-header">
                         <div class="icity-card-avatar">
                             <img src="{{ "images/avatar.png" | relURL }}" alt="avatar">
@@ -43,6 +56,15 @@
                             <a href="{{ .RelPermalink }}">{{ with .File }}{{ .BaseFileName }}{{ else }}{{ .Title }}{{ end }}</a>
                         </h3>
                         <p class="icity-card-content">{{ .Plain | truncate 200 }}</p>
+                        {{ if gt $imageCount 0 }}
+                        <div class="icity-card-images" data-count="{{ $imageCount }}">
+                            {{ range first 3 $images }}
+                            <div class="icity-image-item">
+                                <img src="{{ . }}" alt="图片" loading="lazy">
+                            </div>
+                            {{ end }}
+                        </div>
+                        {{ end }}
                     </div>
                     <div class="icity-card-footer">
                         <div class="icity-card-actions">
@@ -64,9 +86,6 @@
                                 </svg>
                             </span>
                         </div>
-                    </div>
-                    <div class="post-content-hidden" style="display: none;">
-                        {{ .Content }}
                     </div>
                 </article>
                 {{ end }}

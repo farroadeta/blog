@@ -219,6 +219,7 @@ article img {
     max-width: 110px;
     display: block;
     transition: var(--transition);
+    margin-left: 8px;
 }
 
 .header-logo-link:hover .header-logo-svg {

@@ -214,7 +214,7 @@ article img {
 
 /* SVG Logo 样式 */
 .header-logo-svg {
-    height: 8px !important;
+    height: 36px !important;
     width: auto !important;
     max-width: 200px;
     display: block;

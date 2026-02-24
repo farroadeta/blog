@@ -1,0 +1,172 @@
+{{ define "main" }}
+<div class="search-container">
+    <h1 class="search-title">搜索</h1>
+    <div class="search-box">
+        <input type="text" id="search-input" placeholder="输入关键词搜索文章..." autocomplete="off">
+        <button id="search-clear" class="search-clear" style="display: none;">
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="18" y1="6" x2="6" y2="18"></line>
+                <line x1="6" y1="6" x2="18" y2="18"></line>
+            </svg>
+        </button>
+    </div>
+    <div id="search-stats" class="search-stats"></div>
+    <div id="search-results" class="search-results"></div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.6.2"></script>
+<script>
+(function() {
+    const searchInput = document.getElementById('search-input');
+    const searchClear = document.getElementById('search-clear');
+    const searchResults = document.getElementById('search-results');
+    const searchStats = document.getElementById('search-stats');
+    let fuse = null;
+    let searchData = [];
+
+    // 加载搜索数据
+    fetch('{{ "index.json" | relURL }}')
+        .then(response => response.json())
+        .then(data => {
+            searchData = data.items || data;
+            fuse = new Fuse(searchData, {
+                keys: [
+                    { name: 'title', weight: 0.4 },
+                    { name: 'content', weight: 0.3 },
+                    { name: 'summary', weight: 0.2 },
+                    { name: 'tags', weight: 0.1 }
+                ],
+                includeScore: true,
+                includeMatches: true,
+                threshold: 0.4,
+                minMatchCharLength: 1
+            });
+        })
+        .catch(error => {
+            console.error('加载搜索数据失败:', error);
+            searchResults.innerHTML = '<div class="search-error">加载搜索数据失败，请刷新页面重试</div>';
+        });
+
+    // 搜索功能
+    function performSearch(query) {
+        if (!fuse || !query.trim()) {
+            searchResults.innerHTML = '';
+            searchStats.innerHTML = '';
+            return;
+        }
+
+        const results = fuse.search(query);
+        displayResults(results, query);
+    }
+
+    // 显示搜索结果
+    function displayResults(results, query) {
+        if (results.length === 0) {
+            searchStats.innerHTML = `<span>未找到包含 "<strong>${escapeHtml(query)}</strong>" 的文章</span>`;
+            searchResults.innerHTML = '<div class="search-no-results">没有找到相关文章，试试其他关键词？</div>';
+            return;
+        }
+
+        searchStats.innerHTML = `<span>找到 <strong>${results.length}</strong> 篇包含 "<strong>${escapeHtml(query)}</strong>" 的文章</span>`;
+
+        const html = results.map(result => {
+            const item = result.item;
+            const highlightedTitle = highlightText(item.title, result.matches, 'title');
+            const highlightedSummary = highlightText(item.summary || item.content?.substring(0, 200) || '', result.matches, 'content');
+            const date = item.date ? new Date(item.date).toLocaleDateString('zh-CN') : '';
+            
+            return `
+                <article class="search-result-item">
+                    <h2 class="search-result-title">
+                        <a href="${item.permalink || item.url}">${highlightedTitle}</a>
+                    </h2>
+                    <div class="search-result-meta">
+                        ${date ? `<span class="search-result-date">${date}</span>` : ''}
+                        ${item.tags ? `<span class="search-result-tags">${item.tags.map(tag => `<span class="tag">${tag}</span>`).join('')}</span>` : ''}
+                    </div>
+                    <p class="search-result-summary">${highlightedSummary}...</p>
+                </article>
+            `;
+        }).join('');
+
+        searchResults.innerHTML = html;
+    }
+
+    // 高亮匹配文本
+    function highlightText(text, matches, key) {
+        if (!matches || !text) return escapeHtml(text);
+        
+        const match = matches.find(m => m.key === key);
+        if (!match) return escapeHtml(text);
+
+        let result = '';
+        let lastIndex = 0;
+        
+        match.indices.forEach(([start, end]) => {
+            result += escapeHtml(text.substring(lastIndex, start));
+            result += `<mark>${escapeHtml(text.substring(start, end + 1))}</mark>`;
+            lastIndex = end + 1;
+        });
+        result += escapeHtml(text.substring(lastIndex));
+        
+        return result;
+    }
+
+    // HTML 转义
+    function escapeHtml(text) {
+        if (!text) return '';
+        const div = document.createElement('div');
+        div.textContent = text;
+        return div.innerHTML;
+    }
+
+    // 输入事件
+    let debounceTimer;
+    searchInput.addEventListener('input', function() {
+        clearTimeout(debounceTimer);
+        const query = this.value;
+        
+        // 显示/隐藏清除按钮
+        searchClear.style.display = query ? 'flex' : 'none';
+        
+        debounceTimer = setTimeout(() => {
+            performSearch(query);
+        }, 300);
+    });
+
+    // 清除按钮
+    searchClear.addEventListener('click', function() {
+        searchInput.value = '';
+        searchClear.style.display = 'none';
+        searchResults.innerHTML = '';
+        searchStats.innerHTML = '';
+        searchInput.focus();
+    });
+
+    // 键盘快捷键
+    document.addEventListener('keydown', function(e) {
+        // Ctrl/Cmd + K 聚焦搜索框
+        if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
+            e.preventDefault();
+            searchInput.focus();
+        }
+        // ESC 清除搜索
+        if (e.key === 'Escape' && document.activeElement === searchInput) {
+            searchInput.value = '';
+            searchClear.style.display = 'none';
+            searchResults.innerHTML = '';
+            searchStats.innerHTML = '';
+        }
+    });
+
+    // 页面加载时检查 URL 参数
+    const urlParams = new URLSearchParams(window.location.search);
+    const searchQuery = urlParams.get('q');
+    if (searchQuery) {
+        searchInput.value = searchQuery;
+        searchClear.style.display = 'flex';
+        setTimeout(() => performSearch(searchQuery), 500);
+    }
+})();
+</script>
+{{ end }}

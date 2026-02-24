@@ -113,13 +113,15 @@ article img {
     margin: 1rem 0;
 }
 
-/* 头部样式 - 使用 !important 防止被覆盖 */
+/* 头部样式 */
 .header {
-    background-color: #ffffff !important;
+    background-color: var(--card-background);
     border-bottom: 1px solid var(--border-color);
     position: relative;
     z-index: 100;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08) !important;
+    box-shadow: 0 2px 8px var(--shadow-color);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
 }
 
 /* 桌面端使用 sticky */
@@ -128,17 +130,6 @@ article img {
         position: sticky;
         top: 0;
     }
-}
-
-/* 暗色模式头部样式 - 保持白色 */
-@media (prefers-color-scheme: dark) {
-    .header {
-        background-color: #ffffff;
-    }
-}
-
-[data-theme="dark"] .header {
-    background-color: #ffffff !important;
 }
 
 .header-container {

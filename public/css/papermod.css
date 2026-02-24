@@ -1634,8 +1634,9 @@ article img {
     
     .icity-card-content {
         font-size: 0.9rem;
-        -webkit-line-clamp: 4;
+        -webkit-line-clamp: 4 !important;
         line-height: 1.5;
+        max-height: 6em;
     }
     
     .icity-card-images {

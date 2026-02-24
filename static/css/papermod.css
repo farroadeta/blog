@@ -897,12 +897,13 @@ article img {
 
     .header-nav {
         display: flex !important;
-        flex: 1 1 auto;
+        flex: 0 0 auto;
         margin: 0;
         padding: 0;
         border: none;
-        justify-content: center;
+        justify-content: flex-end;
         min-width: 0;
+        margin-left: auto;
     }
 
     .header-nav ul {

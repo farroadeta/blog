@@ -1454,12 +1454,17 @@ article img {
     border-radius: 50%;
     overflow: hidden;
     flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--background-color);
 }
 
 .icity-card-avatar img {
     width: 100%;
     height: 100%;
-    object-fit: cover;
+    object-fit: contain;
+    object-position: center;
 }
 
 .icity-card-user {
@@ -1662,12 +1667,17 @@ article img {
     border-radius: 50%;
     overflow: hidden;
     flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--background-color);
 }
 
 .archive-card-avatar img {
     width: 100%;
     height: 100%;
-    object-fit: cover;
+    object-fit: contain;
+    object-position: center;
 }
 
 .archive-card-user {

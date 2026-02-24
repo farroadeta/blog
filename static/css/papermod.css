@@ -17,6 +17,25 @@
     --transition: all 0.3s ease;
 }
 
+/* 全局滚动优化 */
+html {
+    scroll-behavior: auto;
+    -webkit-overflow-scrolling: touch;
+}
+
+/* 移动端禁用平滑滚动 */
+@media (max-width: 768px) {
+    html {
+        scroll-behavior: auto !important;
+    }
+    
+    * {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+}
+
 /* 纸质磨砂纹理背景 */
 html, body {
     background-color: var(--background-color);

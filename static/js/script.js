@@ -59,8 +59,10 @@ function initThemeToggle() {
     updateAllThemeIcons(currentTheme);
 }
 
-// 平滑滚动功能
+// 平滑滚动功能 - 移动端禁用
 function initSmoothScroll() {
+    if (window.innerWidth <= 768) return; // 移动端禁用
+    
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
         anchor.addEventListener('click', function(e) {
             e.preventDefault();
@@ -88,27 +90,29 @@ function initPostCardHover() {
     });
 }
 
-// 导航栏滚动效果
+// 导航栏滚动效果 - 使用 requestAnimationFrame 优化性能
 function initNavbarScroll() {
     const header = document.querySelector('.header');
     if (!header) return;
 
-    let lastScrollY = window.scrollY;
+    let ticking = false;
     window.addEventListener('scroll', () => {
-        const currentScrollY = window.scrollY;
-        
-        if (currentScrollY > 100) {
-            header.style.boxShadow = '0 2px 10px rgba(0, 0, 0, 0.1)';
-            header.style.background = 'rgba(255, 255, 255, 0.95)';
-            header.style.backdropFilter = 'blur(10px)';
-        } else {
-            header.style.boxShadow = 'none';
-            header.style.background = 'transparent';
-            header.style.backdropFilter = 'none';
+        if (!ticking) {
+            window.requestAnimationFrame(() => {
+                const currentScrollY = window.scrollY;
+                
+                if (currentScrollY > 100) {
+                    header.style.boxShadow = '0 2px 10px rgba(0, 0, 0, 0.1)';
+                    header.style.background = 'rgba(255, 255, 255, 0.95)';
+                } else {
+                    header.style.boxShadow = 'none';
+                    header.style.background = 'transparent';
+                }
+                ticking = false;
+            });
+            ticking = true;
         }
-
-        lastScrollY = currentScrollY;
-    });
+    }, { passive: true });
 }
 
 // 图片懒加载
@@ -202,12 +206,14 @@ document.addEventListener('DOMContentLoaded', () => {
     initLazyLoad();
     initMobileMenu();
 
-    // 页面加载动画
-    document.body.style.opacity = '0';
-    document.body.style.transition = 'opacity 0.5s ease';
-    setTimeout(() => {
-        document.body.style.opacity = '1';
-    }, 100);
+    // 页面加载动画 - 移动端禁用
+    if (window.innerWidth > 768) {
+        document.body.style.opacity = '0';
+        document.body.style.transition = 'opacity 0.5s ease';
+        setTimeout(() => {
+            document.body.style.opacity = '1';
+        }, 100);
+    }
 });
 
 // 窗口 resize 事件处理

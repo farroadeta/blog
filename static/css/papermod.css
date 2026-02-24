@@ -76,6 +76,11 @@ html, body {
     html, body {
         background-color: var(--background-color);
     }
+    
+    .header {
+        background-color: #1a1a1a;
+        border-bottom: 1px solid #3d3d3d;
+    }
 }
 
 /* data-theme 暗色模式 */
@@ -94,6 +99,11 @@ html, body {
 [data-theme="dark"] html, 
 [data-theme="dark"] body {
     background-color: var(--background-color);
+}
+
+[data-theme="dark"] .header {
+    background-color: #1a1a1a;
+    border-bottom: 1px solid #3d3d3d;
 }
 
 /* 全局图片样式 - 防止溢出 */

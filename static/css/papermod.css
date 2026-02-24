@@ -867,29 +867,41 @@ article img {
         height: 20px;
     }
 
-    /* 移动端：导航显示在顶部 */
+    /* 移动端：导航显示在顶部栏中间 */
     .header-container {
-        flex-wrap: wrap;
+        flex-wrap: nowrap;
+        justify-content: space-between;
+    }
+
+    .header-title {
+        flex-shrink: 0;
     }
 
     .header-nav {
-        display: block;
-        width: 100%;
-        order: 3;
-        margin-top: 0.5rem;
-        padding-top: 0.5rem;
-        border-top: 1px solid var(--border-color);
+        display: flex;
+        width: auto;
+        order: 0;
+        margin: 0;
+        padding: 0;
+        border: none;
+        flex: 1;
+        justify-content: center;
     }
 
     .header-nav ul {
         flex-direction: row;
         justify-content: center;
-        gap: 1.5rem;
+        gap: 1rem;
     }
 
     .header-nav a {
-        padding: 0.5rem 0.8rem;
-        font-size: 0.9rem;
+        padding: 0.3rem 0.6rem;
+        font-size: 0.85rem;
+        white-space: nowrap;
+    }
+
+    .header-right {
+        flex-shrink: 0;
     }
 
     /* 隐藏汉堡菜单和侧边栏 */

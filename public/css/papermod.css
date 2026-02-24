@@ -212,6 +212,18 @@ article img {
     color: var(--primary-color);
 }
 
+/* SVG Logo 样式 */
+.header-logo-svg {
+    height: 48px;
+    width: auto;
+    display: block;
+    transition: var(--transition);
+}
+
+.header-logo-link:hover .header-logo-svg {
+    transform: scale(1.02);
+}
+
 .header-nav ul {
     display: flex;
     gap: 1.5rem;

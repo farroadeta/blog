@@ -113,13 +113,13 @@ article img {
     margin: 1rem 0;
 }
 
-/* 头部样式 */
+/* 头部样式 - 使用 !important 防止被覆盖 */
 .header {
-    background-color: #ffffff;
+    background-color: #ffffff !important;
     border-bottom: 1px solid var(--border-color);
     position: relative;
     z-index: 100;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08) !important;
 }
 
 /* 桌面端使用 sticky */

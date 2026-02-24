@@ -90,27 +90,10 @@ function initPostCardHover() {
     });
 }
 
-// 导航栏滚动效果 - 只调整阴影，不改变背景色
+// 导航栏滚动效果 - 已禁用，保持固定样式
 function initNavbarScroll() {
-    const header = document.querySelector('.header');
-    if (!header) return;
-
-    let ticking = false;
-    window.addEventListener('scroll', () => {
-        if (!ticking) {
-            window.requestAnimationFrame(() => {
-                const currentScrollY = window.scrollY;
-                
-                if (currentScrollY > 100) {
-                    header.style.boxShadow = '0 2px 10px rgba(0, 0, 0, 0.1)';
-                } else {
-                    header.style.boxShadow = '0 2px 8px rgba(0, 0, 0, 0.08)';
-                }
-                ticking = false;
-            });
-            ticking = true;
-        }
-    }, { passive: true });
+    // 不再动态修改 header 样式，保持 CSS 中定义的固定样式
+    return;
 }
 
 // 图片懒加载

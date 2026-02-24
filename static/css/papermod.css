@@ -1393,3 +1393,173 @@ article img {
         font-size: 0.95rem;
     }
 }
+
+/* iCity 风格卡片布局 */
+.icity-card-list {
+    max-width: 600px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.icity-card {
+    background-color: var(--card-background);
+    border-radius: 12px;
+    padding: 1.25rem;
+    box-shadow: 0 1px 3px var(--shadow-color);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.icity-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px var(--shadow-color);
+}
+
+.icity-card-header {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-bottom: 0.75rem;
+}
+
+.icity-card-avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    overflow: hidden;
+    flex-shrink: 0;
+}
+
+.icity-card-avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.icity-card-user {
+    display: flex;
+    flex-direction: column;
+    gap: 0.15rem;
+}
+
+.icity-card-username {
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: var(--primary-color);
+}
+
+.icity-card-time {
+    font-size: 0.8rem;
+    color: var(--text-secondary);
+}
+
+.icity-card-body {
+    margin-bottom: 1rem;
+}
+
+.icity-card-title {
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin: 0 0 0.5rem 0;
+    line-height: 1.4;
+}
+
+.icity-card-title a {
+    color: var(--accent-color);
+    text-decoration: none;
+    transition: opacity 0.2s ease;
+}
+
+.icity-card-title a:hover {
+    opacity: 0.8;
+}
+
+.icity-card-content {
+    font-size: 0.95rem;
+    color: var(--text-color);
+    line-height: 1.6;
+    margin: 0;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.icity-card-footer {
+    display: flex;
+    justify-content: flex-start;
+    padding-top: 0.75rem;
+    border-top: 1px solid var(--border-color);
+}
+
+.icity-card-actions {
+    display: flex;
+    gap: 1.5rem;
+}
+
+.icity-action {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    cursor: pointer;
+    color: var(--text-secondary);
+    transition: all 0.2s ease;
+}
+
+.icity-action:hover {
+    background-color: var(--background-color);
+    color: var(--accent-color);
+}
+
+.icity-action svg {
+    width: 18px;
+    height: 18px;
+}
+
+/* 移动端 iCity 卡片适配 */
+@media (max-width: 768px) {
+    .icity-card-list {
+        padding: 0 0.5rem;
+    }
+    
+    .icity-card {
+        padding: 1rem;
+        border-radius: 10px;
+    }
+    
+    .icity-card-avatar {
+        width: 36px;
+        height: 36px;
+    }
+    
+    .icity-card-username {
+        font-size: 0.9rem;
+    }
+    
+    .icity-card-time {
+        font-size: 0.75rem;
+    }
+    
+    .icity-card-title {
+        font-size: 1rem;
+    }
+    
+    .icity-card-content {
+        font-size: 0.9rem;
+        -webkit-line-clamp: 2;
+    }
+    
+    .icity-action {
+        width: 28px;
+        height: 28px;
+    }
+    
+    .icity-action svg {
+        width: 16px;
+        height: 16px;
+    }
+}

@@ -698,3 +698,416 @@ footer a:hover {
         color: #b0b0b0;
     }
 }
+
+/* ==================== 人物页面样式 ==================== */
+
+/* 人物列表网格 */
+.character-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 24px;
+    margin-top: 30px;
+}
+
+/* 人物卡片 */
+.character-card {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    background-color: #fff;
+    border-radius: 12px;
+    padding: 20px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    text-decoration: none;
+    color: inherit;
+}
+
+.character-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+}
+
+.character-avatar {
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+    overflow: hidden;
+    flex-shrink: 0;
+    border: 2px solid #f0f0f0;
+}
+
+.character-avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.character-info {
+    flex: 1;
+    min-width: 0;
+}
+
+.character-name {
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 6px;
+}
+
+.character-signature {
+    font-size: 0.85rem;
+    color: #666;
+    margin-bottom: 8px;
+    line-height: 1.4;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+}
+
+.character-count {
+    font-size: 0.8rem;
+    color: #999;
+    background-color: #f5f5f5;
+    padding: 3px 10px;
+    border-radius: 12px;
+    display: inline-block;
+}
+
+.character-count-badge {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background-color: #333;
+    color: #fff;
+    font-size: 0.85rem;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    margin-left: auto;
+}
+
+/* 人物档案页面 */
+.character-profile {
+    padding: 20px 0;
+    margin-bottom: 20px;
+}
+
+.character-profile-header {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+}
+
+.character-profile-avatar {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    overflow: hidden;
+    border: 3px solid #f0f0f0;
+    flex-shrink: 0;
+}
+
+.character-profile-avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.character-profile-info {
+    flex: 1;
+}
+
+.character-profile-name {
+    font-size: 1.8rem;
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 10px;
+}
+
+.character-profile-signature {
+    font-size: 1rem;
+    color: #666;
+    font-style: italic;
+}
+
+.character-posts-title {
+    font-size: 1.4rem;
+    color: #333;
+    margin-bottom: 20px;
+    padding-left: 10px;
+    border-left: 4px solid #007bff;
+}
+
+.character-back {
+    margin-top: 40px;
+    text-align: center;
+}
+
+.back-link {
+    display: inline-block;
+    color: #666;
+    text-decoration: none;
+    font-size: 0.95rem;
+    padding: 10px 20px;
+    border-radius: 20px;
+    background-color: #f5f5f5;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.back-link:hover {
+    background-color: #e0e0e0;
+    color: #333;
+}
+
+/* ==================== 时间轴样式 ==================== */
+
+.timeline {
+    position: relative;
+    padding-left: 20px;
+}
+
+.timeline::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 2px;
+    background: linear-gradient(to bottom, #007bff, #00b4ff);
+    border-radius: 1px;
+}
+
+.timeline-item {
+    position: relative;
+    margin-bottom: 30px;
+    padding-left: 30px;
+}
+
+.timeline-item::before {
+    content: '';
+    position: absolute;
+    left: -26px;
+    top: 8px;
+    width: 12px;
+    height: 12px;
+    background-color: #007bff;
+    border-radius: 50%;
+    border: 3px solid #fff;
+    box-shadow: 0 0 0 2px #007bff;
+}
+
+.timeline-date {
+    font-size: 0.9rem;
+    color: #666;
+    font-weight: 500;
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.timeline-date::before {
+    content: '📅';
+    font-size: 0.85rem;
+}
+
+.timeline-card {
+    background-color: #fff;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+    overflow: hidden;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.timeline-card:hover {
+    transform: translateX(5px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+.timeline-card .archive-card {
+    box-shadow: none;
+    border-radius: 0;
+}
+
+.timeline-card .archive-card-body {
+    padding: 4px 20px 16px 20px;
+}
+
+.timeline-card .archive-card-title {
+    margin: 0;
+    padding: 0;
+    line-height: 1.4;
+}
+
+.timeline-card .archive-card-title a {
+    display: block;
+    padding: 4px 0;
+}
+
+/* 响应式人物页面 */
+@media (max-width: 768px) {
+    .character-grid {
+        grid-template-columns: 1fr;
+        gap: 16px;
+    }
+    
+    .character-card {
+        padding: 16px;
+    }
+    
+    .character-avatar {
+        width: 60px;
+        height: 60px;
+    }
+    
+    .character-profile {
+        padding: 24px;
+    }
+    
+    .character-profile-header {
+        flex-direction: column;
+        text-align: center;
+    }
+    
+    .character-profile-avatar {
+        width: 80px;
+        height: 80px;
+    }
+    
+    .character-profile-name {
+        font-size: 1.5rem;
+    }
+    
+    .timeline {
+        padding-left: 15px;
+    }
+    
+    .timeline-item {
+        padding-left: 20px;
+    }
+    
+    .timeline-item::before {
+        left: -21px;
+        width: 10px;
+        height: 10px;
+    }
+}
+
+/* 暗色模式人物页面 */
+@media (prefers-color-scheme: dark) {
+    .character-card {
+        background-color: #2d2d2d;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+    }
+    
+    .character-card:hover {
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+    }
+    
+    .character-avatar {
+        border-color: #3d3d3d;
+    }
+    
+    .character-name {
+        color: #e0e0e0;
+    }
+    
+    .character-signature {
+        color: #b0b0b0;
+    }
+    
+    .character-count {
+        color: #808080;
+        background-color: #3d3d3d;
+    }
+    
+    .character-count-badge {
+        background-color: #e0e0e0;
+        color: #333;
+    }
+    
+    .character-profile {
+        background-color: transparent;
+        box-shadow: none;
+    }
+    
+    .character-profile-avatar {
+        border-color: #3d3d3d;
+    }
+    
+    .character-profile-name {
+        color: #e0e0e0;
+    }
+    
+    .character-profile-signature {
+        color: #b0b0b0;
+    }
+    
+    .character-posts-title {
+        color: #e0e0e0;
+        border-left-color: #00b4ff;
+    }
+    
+    .back-link {
+        color: #b0b0b0;
+        background-color: #3d3d3d;
+    }
+    
+    .back-link:hover {
+        background-color: #4d4d4d;
+        color: #e0e0e0;
+    }
+    
+    /* 暗色模式时间轴 */
+    .timeline::before {
+        background: linear-gradient(to bottom, #00b4ff, #007bff);
+    }
+    
+    .timeline-item::before {
+        background-color: #00b4ff;
+        border-color: #2d2d2d;
+        box-shadow: 0 0 0 2px #00b4ff;
+    }
+    
+    .timeline-date {
+        color: #b0b0b0;
+    }
+    
+    .timeline-card {
+        background-color: #2d2d2d;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+    }
+    
+    .timeline-card:hover {
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    }
+}
+
+/* ==================== 首页卡片签名样式 ==================== */
+.icity-card-signature {
+    font-size: 0.7rem;
+    color: #999;
+}
+
+/* ==================== 首页卡片日期样式 ==================== */
+.icity-card-date {
+    font-size: 0.7rem;
+    color: #bbb;
+    margin-top: 0;
+    display: inline-block;
+}
+
+@media (prefers-color-scheme: dark) {
+    .icity-card-signature {
+        color: #808080;
+    }
+    
+    .icity-card-date {
+        color: #666;
+    }
+}

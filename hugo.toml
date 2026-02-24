@@ -11,15 +11,25 @@ enableEmoji = true
     author = "我的名字"
     description = "一个基于 Hugo 的个人博客"
     subtitle = "Farroadeta"
-    
+
+[params.authorSignatures]
+    qiwa = "月瘦梦肥，此为心乡"
+    shangren = "时间就是金钱，我的朋友"
+    dilixuejia = "世界那么大，我想去看看"
+    xiaowangzi = "真正重要的东西，用眼睛是看不见的"
+    huli = "If you tame me,we'll need each other."
+    meigui = "我是独一无二的玫瑰"
+    she = "我有一切的谜语"
+    jiugui = "喝酒是为了忘记"
+
 [params.social]
     github = "https://github.com"
     twitter = "https://twitter.com"
-    
+
 [params.features]
     toc = true
     code_copy = true
-    
+
 [[menus.main]]
     identifier = "home"
     name = "首页"
@@ -31,12 +41,6 @@ enableEmoji = true
     name = "归档"
     url = "/posts"
     weight = 2
-
-[[menus.main]]
-    identifier = "tags"
-    name = "标签"
-    url = "/tags"
-    weight = 3
 
 [module]
     [module.hugoVersion]

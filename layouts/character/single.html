@@ -1,0 +1,71 @@
+{{ define "main" }}
+    {{ $authorName := .Title }}
+    {{ $avatar := printf "images/author/%s.png" $authorName }}
+    {{ $authorKey := "qiwa" }}
+    {{ if eq $authorName "商人" }}{{ $authorKey = "shangren" }}
+    {{ else if eq $authorName "地理学家" }}{{ $authorKey = "dilixuejia" }}
+    {{ else if eq $authorName "小王子" }}{{ $authorKey = "xiaowangzi" }}
+    {{ else if eq $authorName "狐狸" }}{{ $authorKey = "huli" }}
+    {{ else if eq $authorName "玫瑰" }}{{ $authorKey = "meigui" }}
+    {{ else if eq $authorName "蛇" }}{{ $authorKey = "she" }}
+    {{ else if eq $authorName "酒鬼" }}{{ $authorKey = "jiugui" }}
+    {{ end }}
+    {{ $signature := index .Site.Params.authorSignatures $authorKey | default .Site.Params.authorSignatures.qiwa }}
+
+    <div class="list-container">
+        <div class="character-profile">
+            <div class="character-profile-header">
+                <div class="character-profile-avatar">
+                    <img src="{{ $avatar | relURL }}" alt="{{ $authorName }}">
+                </div>
+                <div class="character-profile-info">
+                    <h1 class="character-profile-name">{{ $authorName }}</h1>
+                    <p class="character-profile-signature">{{ $signature }}</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="timeline">
+            {{ range where .Site.RegularPages "Section" "posts" }}
+            {{ $pageAuthor := .Params.author | default "七哇夸" }}
+            {{ if eq $pageAuthor $authorName }}
+            {{ $images := slice }}
+            {{ with .Params.cover }}
+                {{ $images = $images | append . }}
+            {{ end }}
+            {{ $imgMatches := findRE "<img[^>]+src=\"([^\"]+)\"" .Content 3 }}
+            {{ range $imgMatches }}
+                {{ $src := replaceRE ".*src=\"([^\"]+)\".*" "$1" . }}
+                {{ if not (in $images $src) }}
+                    {{ $images = $images | append $src }}
+                {{ end }}
+            {{ end }}
+            <div class="timeline-item">
+                <div class="timeline-date">{{ .Date.Format "2006年01月02日" }}</div>
+                <div class="timeline-card">
+                    <article class="archive-card">
+                        <div class="archive-card-body">
+                            <h3 class="archive-card-title"><a href="{{ .RelPermalink }}">{{ .Title | default .File.BaseFileName }}</a></h3>
+                            <p class="archive-card-content">{{ .Plain | truncate 150 }}</p>
+                            {{ if gt (len $images) 0 }}
+                            <div class="archive-card-images" data-count="{{ len $images }}">
+                                {{ range first 3 $images }}
+                                <div class="archive-image-item">
+                                    <img src="{{ . }}" alt="图片" loading="lazy">
+                                </div>
+                                {{ end }}
+                            </div>
+                            {{ end }}
+                        </div>
+                    </article>
+                </div>
+            </div>
+            {{ end }}
+            {{ end }}
+        </div>
+
+        <div class="character-back">
+            <a href="{{ "/character" | relURL }}" class="back-link">← 返回人物列表</a>
+        </div>
+    </div>
+{{ end }}

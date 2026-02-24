@@ -3,14 +3,46 @@
   "items": [
     {{- range $index, $page := $pages }}
     {{- if $index }},{{ end }}
+    {{- $images := slice }}
+    {{- with $page.Params.cover }}
+        {{- $images = $images | append . }}
+    {{- end }}
+    {{- $content := $page.Content }}
+    {{- $imgMatches := findRE "&lt;img[^&gt;]+src=\"([^\"]+)\"" $content 3 }}
+    {{- range $imgMatches }}
+        {{- $src := replaceRE ".*src=\"([^\"]+)\".*" "$1" . }}
+        {{- if not (in $images $src) }}
+            {{- $images = $images | append $src }}
+        {{- end }}
+    {{- end }}
+    {{- $author := $page.Params.author | default "七哇夸" }}
+    {{- $avatar := printf "images/author/%s.png" $author | relURL }}
+    {{- $authorKey := "qiwa" }}
+    {{- if eq $author "商人" }}{{ $authorKey = "shangren" }}
+    {{- else if eq $author "地理学家" }}{{ $authorKey = "dilixuejia" }}
+    {{- else if eq $author "小王子" }}{{ $authorKey = "xiaowangzi" }}
+    {{- else if eq $author "狐狸" }}{{ $authorKey = "huli" }}
+    {{- else if eq $author "玫瑰" }}{{ $authorKey = "meigui" }}
+    {{- else if eq $author "蛇" }}{{ $authorKey = "she" }}
+    {{- else if eq $author "酒鬼" }}{{ $authorKey = "jiugui" }}
+    {{- end }}
+    {{- $signature := index $.Site.Params.authorSignatures $authorKey | default $.Site.Params.authorSignatures.qiwa }}
+    {{- $relImages := slice }}
+    {{- range $images }}
+        {{- $relImages = $relImages | append (. | relURL) }}
+    {{- end }}
     {
       "title": {{ $page.Title | jsonify }},
       "permalink": {{ $page.Permalink | jsonify }},
       "url": {{ $page.RelPermalink | jsonify }},
       "summary": {{ $page.Summary | plainify | jsonify }},
       "content": {{ $page.Plain | jsonify }},
-      "date": {{ $page.Date.Format "2006-01-02" | jsonify }},
-      "tags": [{{ range $i, $tag := $page.Params.tags }}{{ if $i }},{{ end }}{{ $tag | jsonify }}{{ end }}]
+      "date": {{ $page.Date.Format "2006年01月02日" | jsonify }},
+      "tags": [{{ range $i, $tag := $page.Params.tags }}{{ if $i }},{{ end }}{{ $tag | jsonify }}{{ end }}],
+      "author": {{ $author | jsonify }},
+      "avatar": {{ $avatar | jsonify }},
+      "signature": {{ $signature | jsonify }},
+      "images": {{ $relImages | jsonify }}
     }
     {{- end }}
   ]

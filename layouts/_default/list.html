@@ -1,6 +1,16 @@
 {{ define "main" }}
     <div class="list-container">
-        <h1 class="list-title">{{ if eq .RelPermalink "/posts/" }}归档{{ else }}{{ .Title }}{{ end }}</h1>
+        <h1 id="list-title" class="list-title">
+        {{ if eq .RelPermalink "/posts/" }}
+            归档
+        {{ else if hasPrefix .RelPermalink "/posts/" }}
+            {{ $pathParts := split (trim .RelPermalink "/") "/" }}
+            {{ $lastPart := index (last 1 $pathParts) 0 }}
+            {{ $lastPart }}
+        {{ else }}
+            {{ .Title }}
+        {{ end }}
+    </h1>
         {{ with .Description }}
         <p class="list-description">{{ . }}</p>
         {{ end }}
@@ -8,16 +18,10 @@
         {{ if eq .RelPermalink "/posts/" }}
         
         <div id="archive-breadcrumb" class="archive-breadcrumb">
-            <span id="archive-back-btn" style="display: none; margin-right: 1rem;">
-                <a href="#" onclick="goBack(); return false;" class="archive-back-link">
-                    <svg style="width: 16px; height: 16px; display: inline-block; vertical-align: middle; margin-right: 4px;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <path d="M19 12H5M12 19l-7-7 7-7"></path>
-                    </svg>
-                    返回上级
-                </a>
-            </span>
-            <a href="#" onclick="navigateTo(''); return false;" class="archive-breadcrumb-link">归档</a>
-            <span id="breadcrumb-path"></span>
+            <div class="archive-breadcrumb-path-container">
+                <a href="#" onclick="navigateTo(''); return false;" class="archive-breadcrumb-link">归档</a>
+                <span id="breadcrumb-path"></span>
+            </div>
         </div>
         
         <div id="archive-content"></div>
@@ -43,9 +47,7 @@
         {{ $imgMatches := findRE "<img[^>]+src=\"([^\"]+)\"" .Content 3 }}
         {{ range $imgMatches }}
             {{ $src := replaceRE ".*src=\"([^\"]+)\".*" "$1" . }}
-            {{ if not (in $images $src) }}
-                {{ $images = $images | append $src }}
-            {{ end }}
+            {{ $images = $images | append $src }}
         {{ end }}
         {{ $author := .Params.author | default "七哇夸" }}
         {{ $avatar := printf "images/author/%s.png" $author }}
@@ -136,15 +138,18 @@
             var content = document.getElementById('archive-content');
             var breadcrumb = document.getElementById('archive-breadcrumb');
             var breadcrumbPath = document.getElementById('breadcrumb-path');
-            var backBtn = document.getElementById('archive-back-btn');
+            var listTitle = document.getElementById('list-title');
             
             var currentParts = getPathParts(currentPath);
             
             if (currentParts.length > 0) {
+                listTitle.textContent = currentParts[currentParts.length - 1];
+            } else {
+                listTitle.textContent = '归档';
+            }
+            
+            if (currentParts.length > 0) {
                 breadcrumb.style.display = 'flex';
-                breadcrumb.style.alignItems = 'center';
-                backBtn.style.display = 'inline-flex';
-                backBtn.style.alignItems = 'center';
                 var builtPath = '';
                 var html = '';
                 currentParts.forEach(function(part, i) {
@@ -159,7 +164,6 @@
                 breadcrumbPath.innerHTML = html;
             } else {
                 breadcrumb.style.display = 'none';
-                backBtn.style.display = 'none';
             }
             
             var folders = getFolders(currentPath);
@@ -168,7 +172,7 @@
             var html = '';
             
             if (folders.length > 0) {
-                html += '<div class="folder-card-grid" style="max-width: 900px; margin: 0 auto;">';
+                html += '<div class="folder-card-grid">';
                 folders.forEach(function(folder) {
                     var fullPath = currentPath ? currentPath + '/' + folder : folder;
                     html += '<a href="#" onclick="navigateTo(\'' + fullPath + '\'); return false;" class="folder-card">';
@@ -182,7 +186,7 @@
             }
             
             if (files.length > 0) {
-                html += '<div class="icity-card-list" style="max-width: 900px; margin: 1.5rem auto 0;">';
+                html += '<div class="icity-card-list">';
                 
                 files.forEach(function(file) {
                     var title = file.title;
@@ -203,7 +207,7 @@
                         avatarPath = '/' + avatarPath;
                     }
                     
-                    html += '<article class="icity-card" data-images="' + JSON.stringify(file.images) + '">';
+                    html += '<article class="icity-card">';
                     html += '<div class="icity-card-header">';
                     html += '<div class="icity-card-avatar">';
                     html += '<img src="' + avatarPath + '" alt="avatar">';
@@ -260,9 +264,7 @@
             {{ $imgMatches := findRE "<img[^>]+src=\"([^\"]+)\"" .Content 3 }}
             {{ range $imgMatches }}
                 {{ $src := replaceRE ".*src=\"([^\"]+)\".*" "$1" . }}
-                {{ if not (in $images $src) }}
-                    {{ $images = $images | append $src }}
-                {{ end }}
+                {{ $images = $images | append $src }}
             {{ end }}
             {{ $imageCount := len $images }}
             {{ $author := .Params.author | default "七哇夸" }}
@@ -277,7 +279,7 @@
             {{ else if eq $author "酒鬼" }}{{ $authorKey = "jiugui" }}
             {{ end }}
             {{ $signature := index $.Site.Params.authorSignatures $authorKey | default $.Site.Params.authorSignatures.qiwa }}
-            <article class="icity-card" data-images="{{ $images | jsonify }}">
+            <article class="icity-card">
                 <div class="icity-card-header">
                     <div class="icity-card-avatar">
                         <img src="{{ $avatar | relURL }}" alt="avatar">
@@ -312,7 +314,7 @@
                             {{ $path = replace $path "posts/" "" }}
                             {{ $path = trim $path "/" }}
                             {{ if $path }}
-                                {{ replace $path "/" "/" }}
+                                {{ $path }}
                             {{ end }}
                         {{ end }}
                     </span>

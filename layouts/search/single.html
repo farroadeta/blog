@@ -11,7 +11,7 @@
         </button>
     </div>
     <div id="search-stats" class="search-stats"></div>
-    <div id="search-results" class="search-results"></div>
+    <div id="search-results" class="icity-card-list" style="max-width: 900px; margin: 1.5rem auto 0;"></div>
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.6.2"></script>
@@ -73,18 +73,41 @@
             const item = result.item;
             const highlightedTitle = highlightText(item.title, result.matches, 'title');
             const highlightedSummary = highlightText(item.summary || item.content?.substring(0, 200) || '', result.matches, 'content');
-            const date = item.date ? new Date(item.date).toLocaleDateString('zh-CN') : '';
+            const images = item.images || [];
+            const imageCount = images.length;
+            
+            let imagesHtml = '';
+            if (imageCount > 0) {
+                imagesHtml = '<div class="icity-card-images" data-count="' + imageCount + '">';
+                images.slice(0, 3).forEach(img => {
+                    imagesHtml += '<div class="icity-image-item"><img src="' + img + '" alt="图片" loading="lazy"></div>';
+                });
+                imagesHtml += '</div>';
+            }
             
             return `
-                <article class="search-result-item">
-                    <h2 class="search-result-title">
-                        <a href="${item.permalink || item.url}">${highlightedTitle}</a>
-                    </h2>
-                    <div class="search-result-meta">
-                        ${date ? `<span class="search-result-date">${date}</span>` : ''}
-                        ${item.tags ? `<span class="search-result-tags">${item.tags.map(tag => `<span class="tag">${tag}</span>`).join('')}</span>` : ''}
+                <article class="icity-card" data-images='${JSON.stringify(images)}'>
+                    <div class="icity-card-header">
+                        <div class="icity-card-avatar">
+                            <img src="${item.avatar}" alt="avatar">
+                        </div>
+                        <div class="icity-card-user">
+                            <a href="/character/${encodeURIComponent(item.author)}" class="icity-card-username-link">
+                                <span class="icity-card-username">${item.author}</span>
+                            </a>
+                            <span class="icity-card-signature">${item.signature}</span>
+                        </div>
                     </div>
-                    <p class="search-result-summary">${highlightedSummary}...</p>
+                    <div class="icity-card-body">
+                        <h3 class="icity-card-title">
+                            <a href="${item.permalink || item.url}">${highlightedTitle}</a>
+                        </h3>
+                        <p class="icity-card-content">${highlightedSummary}...</p>
+                        ${imagesHtml}
+                    </div>
+                    <div class="icity-card-footer">
+                        <span class="icity-card-date">${item.date}</span>
+                    </div>
                 </article>
             `;
         }).join('');

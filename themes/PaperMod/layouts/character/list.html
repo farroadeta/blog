@@ -1,0 +1,41 @@
+{{ define "main" }}
+    <div class="list-container">
+        <h1 class="list-title">人物</h1>
+        <p class="list-description">每一个都是七哇夸，不是吗？</p>
+        
+        <div class="character-grid">
+            {{ $pages := .Site.RegularPages }}
+            {{ $authors := dict }}
+            
+            {{ range $pages }}
+                {{ $author := .Params.author | default "七哇夸" }}
+                {{ $count := index $authors $author | default 0 }}
+                {{ $authors = merge $authors (dict $author (add $count 1)) }}
+            {{ end }}
+            
+            {{ range $author, $count := $authors }}
+            {{ $avatar := printf "images/author/%s.png" $author }}
+            {{ $authorKey := "qiwa" }}
+            {{ if eq $author "商人" }}{{ $authorKey = "shangren" }}
+            {{ else if eq $author "地理学家" }}{{ $authorKey = "dilixuejia" }}
+            {{ else if eq $author "小王子" }}{{ $authorKey = "xiaowangzi" }}
+            {{ else if eq $author "狐狸" }}{{ $authorKey = "huli" }}
+            {{ else if eq $author "玫瑰" }}{{ $authorKey = "meigui" }}
+            {{ else if eq $author "蛇" }}{{ $authorKey = "she" }}
+            {{ else if eq $author "酒鬼" }}{{ $authorKey = "jiugui" }}
+            {{ end }}
+            {{ $signature := index $.Site.Params.authorSignatures $authorKey | default $.Site.Params.authorSignatures.qiwa }}
+            <a href="{{ "/character/" | relURL }}{{ $author | urlize }}" class="character-card">
+                <div class="character-avatar">
+                    <img src="{{ $avatar | relURL }}" alt="{{ $author }}">
+                </div>
+                <div class="character-info">
+                    <h3 class="character-name">{{ $author }}</h3>
+                    <p class="character-signature">{{ $signature }}</p>
+                </div>
+                <div class="character-count-badge">{{ $count }}</div>
+            </a>
+            {{ end }}
+        </div>
+    </div>
+{{ end }}

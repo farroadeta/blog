@@ -2,7 +2,7 @@
 title = '我的第一篇博客'
 date = 2026-02-23T16:00:00+08:00
 lastmodified = ""
-author = "我的名字"
+author = "七哇夸"
 license = "CC BY-NC-SA 4.0"
 license_url = "https://creativecommons.org/licenses/by-nc-sa/4.0/"
 cover = ""

@@ -1,7 +1,9 @@
 ---
-share_link: https://share.note.sx/jfzzl99b#LAx2JbcmTugt8HFYhr64oI+XSix8yZDO1A1Io27Fht4
-share_updated: 2026-02-14T18:15:28+08:00
+title: "利用Trae在github里下载东西"
+date: 2026-02-24T00:37:37+08:00
+author: "七哇夸"
 ---
+
 > github里有两种下载下载方式：
 > 1. 直接下载软件
 > 2. 通过某些代码构建下载

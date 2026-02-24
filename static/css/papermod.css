@@ -26,8 +26,15 @@ html, body {
     background-size: 
         100% 100%,
         400px 400px;
-    background-attachment: fixed;
+    background-attachment: scroll;
     font-family: var(--font-sans);
+}
+
+/* 桌面端使用 fixed 背景 */
+@media (min-width: 769px) {
+    html, body {
+        background-attachment: fixed;
+    }
 }
 
 /* 暗色模式变量 */
@@ -52,6 +59,12 @@ html, body {
         background-size: 
             100% 100%,
             400px 400px;
+        background-attachment: scroll;
+    }
+}
+
+@media (prefers-color-scheme: dark) and (min-width: 769px) {
+    html, body {
         background-attachment: fixed;
     }
 }
@@ -78,7 +91,14 @@ html, body {
     background-size: 
         100% 100%,
         400px 400px;
-    background-attachment: fixed;
+    background-attachment: scroll;
+}
+
+@media (min-width: 769px) {
+    [data-theme="dark"] html, 
+    [data-theme="dark"] body {
+        background-attachment: fixed;
+    }
 }
 
 /* 全局图片样式 - 防止溢出 */
@@ -102,10 +122,17 @@ article img {
 .header {
     background-color: rgba(255, 255, 255, 0.8);
     border-bottom: 1px solid var(--border-color);
-    position: sticky;
-    top: 0;
+    position: relative;
     z-index: 100;
     backdrop-filter: blur(8px);
+}
+
+/* 桌面端使用 sticky */
+@media (min-width: 769px) {
+    .header {
+        position: sticky;
+        top: 0;
+    }
 }
 
 /* 暗色模式头部样式 */

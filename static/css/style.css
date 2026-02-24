@@ -24,9 +24,16 @@ header {
     background-color: #fff;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     padding: 20px 0;
-    position: sticky;
-    top: 0;
+    position: relative;
     z-index: 100;
+}
+
+/* 桌面端使用 sticky */
+@media (min-width: 769px) {
+    header {
+        position: sticky;
+        top: 0;
+    }
 }
 
 .site-title {

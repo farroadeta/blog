@@ -27,7 +27,7 @@
         <div class="post-list-container">
             <h2 class="post-list-title">最近</h2>
             <div class="icity-card-list">
-                {{ range first 10 (where .Site.RegularPages "Type" "ne" "search").ByDate.Reverse }}
+                {{ range first 10 (where .Site.RegularPages "Layout" "ne" "search").ByDate.Reverse }}
                 {{ $images := slice }}
                 {{ with .Params.cover }}
                     {{ $images = $images | append . }}

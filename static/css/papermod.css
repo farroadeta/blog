@@ -867,60 +867,35 @@ article img {
         height: 20px;
     }
 
-    /* 隐藏桌面导航，显示汉堡菜单 */
+    /* 移动端：导航显示在顶部 */
+    .header-container {
+        flex-wrap: wrap;
+    }
+
     .header-nav {
-        display: none;
-    }
-
-    .mobile-menu-toggle {
         display: block;
+        width: 100%;
+        order: 3;
+        margin-top: 0.5rem;
+        padding-top: 0.5rem;
+        border-top: 1px solid var(--border-color);
     }
 
-    .mobile-menu {
-        position: fixed;
-        top: 0;
-        right: -300px;
-        width: 280px;
-        height: 100vh;
-        background-color: var(--background-color);
-        box-shadow: -5px 0 15px rgba(0, 0, 0, 0.1);
-        transition: var(--transition);
-        z-index: 100;
-        padding: 60px 20px 20px;
-        display: flex;
-        flex-direction: column;
+    .header-nav ul {
+        flex-direction: row;
+        justify-content: center;
         gap: 1.5rem;
     }
 
-    .mobile-menu.active {
-        right: 0;
+    .header-nav a {
+        padding: 0.5rem 0.8rem;
+        font-size: 0.9rem;
     }
 
-    .mobile-menu ul {
-        list-style: none;
-        display: flex;
-        flex-direction: column;
-        gap: 1rem;
-    }
-
-    .mobile-menu a {
-        color: var(--text-color);
-        text-decoration: none;
-        font-weight: 500;
-        padding: 0.8rem 1rem;
-        border-radius: var(--border-radius);
-        transition: var(--transition);
-        display: block;
-    }
-
-    .mobile-menu a:hover {
-        background-color: var(--card-background);
-        color: var(--accent-color);
-    }
-
-    .mobile-menu .theme-toggle {
-        margin-top: auto;
-        align-self: flex-start;
+    /* 隐藏汉堡菜单和侧边栏 */
+    .mobile-menu-toggle,
+    .mobile-menu {
+        display: none !important;
     }
 
     .hero {

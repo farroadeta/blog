@@ -25,7 +25,7 @@
     </script>
     <section class="post-list">
         <div class="post-list-container">
-            <h2 class="post-list-title">最近文章</h2>
+            <h2 class="post-list-title">最近</h2>
             <div class="post-linear-list">
                 {{ range first 5 .Site.RegularPages.ByDate.Reverse }}
                 <article class="post-linear-item" data-cover="{{ with .Params.cover }}{{ . }}{{ end }}">

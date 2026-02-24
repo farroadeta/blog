@@ -863,6 +863,12 @@ article img {
         display: none;
     }
 
+    /* 移动端 Qjournal logo 优化 */
+    .header-logo-text {
+        font-size: 16px;
+        margin-left: 4px;
+    }
+
     .header-right {
         gap: 0.5rem;
     }
@@ -1146,6 +1152,16 @@ article img {
 }
 
 @media (max-width: 480px) {
+    /* 小屏幕 Qjournal logo 进一步缩小 */
+    .header-logo-text {
+        font-size: 14px;
+        margin-left: 2px;
+    }
+
+    .header-container {
+        padding: 0.5rem 0.6rem;
+    }
+
     .hero {
         padding: 2rem 1rem;
     }

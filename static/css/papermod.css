@@ -115,11 +115,11 @@ article img {
 
 /* 头部样式 */
 .header {
-    background-color: rgba(255, 255, 255, 0.8);
+    background-color: #ffffff;
     border-bottom: 1px solid var(--border-color);
     position: relative;
     z-index: 100;
-    backdrop-filter: blur(8px);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
 }
 
 /* 桌面端使用 sticky */
@@ -130,15 +130,15 @@ article img {
     }
 }
 
-/* 暗色模式头部样式 */
+/* 暗色模式头部样式 - 保持白色 */
 @media (prefers-color-scheme: dark) {
     .header {
-        background-color: rgba(30, 30, 30, 0.8);
+        background-color: #ffffff;
     }
 }
 
 [data-theme="dark"] .header {
-    background-color: rgba(30, 30, 30, 0.8) !important;
+    background-color: #ffffff !important;
 }
 
 .header-container {

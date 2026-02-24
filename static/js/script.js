@@ -90,7 +90,7 @@ function initPostCardHover() {
     });
 }
 
-// 导航栏滚动效果 - 使用 requestAnimationFrame 优化性能
+// 导航栏滚动效果 - 只调整阴影，不改变背景色
 function initNavbarScroll() {
     const header = document.querySelector('.header');
     if (!header) return;
@@ -103,10 +103,8 @@ function initNavbarScroll() {
                 
                 if (currentScrollY > 100) {
                     header.style.boxShadow = '0 2px 10px rgba(0, 0, 0, 0.1)';
-                    header.style.background = 'rgba(255, 255, 255, 0.95)';
                 } else {
-                    header.style.boxShadow = 'none';
-                    header.style.background = 'transparent';
+                    header.style.boxShadow = '0 2px 8px rgba(0, 0, 0, 0.08)';
                 }
                 ticking = false;
             });

@@ -867,11 +867,11 @@ article img {
         height: 20px;
     }
 
-    /* 移动端：导航显示在顶部栏右侧 */
+    /* 移动端：导航显示在顶部栏右侧，紧挨主题按钮 */
     .header-container {
         display: flex;
         flex-wrap: nowrap;
-        justify-content: flex-start;
+        justify-content: space-between;
         align-items: center;
         gap: 0.3rem;
         padding: 0.3rem 0.5rem;
@@ -895,40 +895,41 @@ article img {
         display: none;
     }
 
-    .header-nav {
+    /* 导航在 header-right 内部 */
+    .header-right {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        gap: 0.3rem;
+        flex: 0 0 auto;
+    }
+
+    .header-right .header-nav {
         display: flex !important;
-        flex: 1 1 auto;
+        flex: 0 0 auto;
         margin: 0;
         padding: 0;
         border: none;
-        justify-content: flex-end;
-        min-width: 0;
     }
 
-    .header-nav ul {
+    .header-right .header-nav ul {
         display: flex;
         flex-direction: row;
         gap: 0.3rem;
         margin: 0;
         padding: 0;
         flex-wrap: nowrap;
-        justify-content: flex-end;
     }
 
-    .header-nav li {
+    .header-right .header-nav li {
         margin: 0;
         padding: 0;
     }
 
-    .header-nav a {
+    .header-right .header-nav a {
         padding: 0.2rem 0.3rem;
         font-size: 0.75rem;
         white-space: nowrap;
-    }
-
-    .header-right {
-        flex: 0 0 auto;
-        margin-left: 0.3rem;
     }
 
     .theme-toggle {

@@ -867,11 +867,11 @@ article img {
         height: 20px;
     }
 
-    /* 移动端：导航显示在顶部栏中间（同一行） */
+    /* 移动端：导航显示在顶部栏右侧 */
     .header-container {
         display: flex;
         flex-wrap: nowrap;
-        justify-content: space-between;
+        justify-content: flex-start;
         align-items: center;
         gap: 0.3rem;
         padding: 0.3rem 0.5rem;
@@ -897,13 +897,12 @@ article img {
 
     .header-nav {
         display: flex !important;
-        flex: 0 0 auto;
+        flex: 1 1 auto;
         margin: 0;
         padding: 0;
         border: none;
         justify-content: flex-end;
         min-width: 0;
-        margin-left: auto;
     }
 
     .header-nav ul {
@@ -913,6 +912,7 @@ article img {
         margin: 0;
         padding: 0;
         flex-wrap: nowrap;
+        justify-content: flex-end;
     }
 
     .header-nav li {
@@ -928,6 +928,7 @@ article img {
 
     .header-right {
         flex: 0 0 auto;
+        margin-left: 0.3rem;
     }
 
     .theme-toggle {

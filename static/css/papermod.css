@@ -144,7 +144,7 @@ article img {
 .header-container {
     max-width: 1200px;
     margin: 0 auto;
-    padding: 0.1rem 0.8rem;
+    padding: 0 0.8rem;
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -175,8 +175,8 @@ article img {
 }
 
 .header-logo {
-    width: 36px;
-    height: 36px;
+    width: 48px;
+    height: 48px;
     overflow: hidden;
     display: flex;
     align-items: center;
@@ -197,11 +197,11 @@ article img {
 .header-name {
     display: flex;
     flex-direction: column;
-    gap: 0.1rem;
+    gap: 0.2rem;
 }
 
 .header-site-title {
-    font-size: 1rem;
+    font-size: 1.2rem;
     font-weight: 700;
     color: var(--primary-color);
     transition: var(--transition);
@@ -212,7 +212,7 @@ article img {
 }
 
 .header-subtitle {
-    font-size: 0.7rem;
+    font-size: 0.8rem;
     color: var(--text-secondary);
     transition: var(--transition);
 }

@@ -1454,18 +1454,17 @@ article img {
     border-radius: 50%;
     overflow: hidden;
     flex-shrink: 0;
-    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     background-color: var(--background-color);
 }
 
 .icity-card-avatar img {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
+    width: 90%;
+    height: 90%;
+    object-fit: contain;
+    object-position: center;
 }
 
 .icity-card-user {
@@ -1668,18 +1667,17 @@ article img {
     border-radius: 50%;
     overflow: hidden;
     flex-shrink: 0;
-    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     background-color: var(--background-color);
 }
 
 .archive-card-avatar img {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
+    width: 90%;
+    height: 90%;
+    object-fit: contain;
+    object-position: center;
 }
 
 .archive-card-user {

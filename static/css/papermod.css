@@ -931,18 +931,33 @@ article img {
     }
 
     .header-right .header-nav a {
-        padding: 0.2rem 0.3rem;
+        padding: 0;
         font-size: 0.75rem;
         white-space: nowrap;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 24px;
+        height: 24px;
+    }
+
+    .header-right .header-nav a svg {
+        width: 20px;
+        height: 20px;
     }
 
     .theme-toggle {
-        padding: 0.2rem;
+        padding: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 24px;
+        height: 24px;
     }
 
     .theme-toggle svg {
-        width: 18px;
-        height: 18px;
+        width: 20px;
+        height: 20px;
     }
 
     /* 隐藏汉堡菜单和侧边栏 */

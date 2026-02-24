@@ -11,7 +11,7 @@
     --text-secondary: #6b7280;
     --border-color: #e5e5e5;
     --shadow-color: rgba(0, 0, 0, 0.05);
-    --font-sans: "SimSun", "Songti SC", "STSong", Georgia, serif;
+    --font-sans: "Microsoft YaHei", "PingFang SC", "Hiragino Sans GB", "Heiti SC", sans-serif;
     --font-mono: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, Courier, monospace;
     --border-radius: 8px;
     --transition: all 0.3s ease;
@@ -410,7 +410,7 @@ article img {
     font-size: 1.2rem;
     font-weight: 700;
     line-height: 1.2;
-    font-family: "SimSun", "Songti SC", "STSong", serif;
+    font-family: var(--font-sans);
     margin: 0;
     display: inline-block;
 }
@@ -435,7 +435,7 @@ article img {
     line-height: 1.4;
     color: var(--text-color);
     font-size: 0.9rem;
-    font-family: "SimSun", "Songti SC", "STSong", serif;
+    font-family: var(--font-sans);
     margin: 6px 0;
     display: -webkit-box;
     -webkit-line-clamp: 2;
@@ -456,7 +456,7 @@ article img {
 .post-linear-date {
     font-size: 0.8rem;
     color: var(--text-secondary);
-    font-family: "SimSun", "Songti SC", "STSong", serif;
+    font-family: var(--font-sans);
     white-space: nowrap;
 }
 
@@ -477,7 +477,7 @@ article img {
     font-size: 0.7rem;
     text-decoration: none;
     transition: all 0.3s ease;
-    font-family: "SimSun", "Songti SC", "STSong", serif;
+    font-family: var(--font-sans);
     letter-spacing: 0.3px;
 }
 
@@ -543,7 +543,7 @@ article img {
     color: var(--primary-color);
     margin: 0 0 0.5rem;
     text-align: center;
-    font-family: "SimSun", "Songti SC", "STSong", serif;
+    font-family: var(--font-sans);
 }
 
 .post-date-main {
@@ -551,7 +551,7 @@ article img {
     color: var(--text-secondary);
     text-align: center;
     margin: 0 0 1.5rem;
-    font-family: "SimSun", "Songti SC", "STSong", serif;
+    font-family: var(--font-sans);
 }
 
 .post-content h1 {
@@ -559,7 +559,7 @@ article img {
     font-weight: 700;
     color: var(--primary-color);
     margin: 2rem 0 1rem;
-    font-family: "SimSun", "Songti SC", "STSong", serif;
+    font-family: var(--font-sans);
 }
 
 .post-content h2 {

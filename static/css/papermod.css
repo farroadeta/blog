@@ -78,8 +78,11 @@ html, body {
     }
     
     .header {
-        background-color: #1a1a1a;
+        background-color: #1a1a1a !important;
         border-bottom: 1px solid #3d3d3d;
+        backdrop-filter: none !important;
+        -webkit-backdrop-filter: none !important;
+        box-shadow: none !important;
     }
 }
 
@@ -102,8 +105,11 @@ html, body {
 }
 
 [data-theme="dark"] .header {
-    background-color: #1a1a1a;
+    background-color: #1a1a1a !important;
     border-bottom: 1px solid #3d3d3d;
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+    box-shadow: none !important;
 }
 
 /* 全局图片样式 - 防止溢出 */

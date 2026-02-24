@@ -856,8 +856,8 @@ article img {
 @media (max-width: 768px) {
     /* 移动端：限制顶部栏高度 */
     .header {
-        height: 52px;
-        min-height: 52px;
+        height: 60px;
+        min-height: 60px;
         display: flex;
         align-items: center;
     }
@@ -1151,8 +1151,8 @@ article img {
 @media (max-width: 480px) {
     /* 小屏幕：进一步限制顶部栏高度 */
     .header {
-        height: 46px;
-        min-height: 46px;
+        height: 60px;
+        min-height: 60px;
     }
 
     /* 小屏幕 Qjournal logo 进一步缩小 */

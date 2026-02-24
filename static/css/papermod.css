@@ -53,24 +53,10 @@ html {
     }
 }
 
-/* 纸质磨砂纹理背景 */
+/* 纯色背景 */
 html, body {
     background-color: var(--background-color);
-    background-image: 
-        radial-gradient(ellipse at 50% 50%, rgba(255, 255, 255, 0.3) 0%, transparent 70%),
-        url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.45' numOctaves='5' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3CfeComponentTransfer%3E%3CfeFuncA type='table' tableValues='0 0 0 0 0 0.08'/%3E%3C/feComponentTransfer%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
-    background-size: 
-        100% 100%,
-        400px 400px;
-    background-attachment: scroll;
     font-family: var(--font-sans);
-}
-
-/* 桌面端使用 fixed 背景 */
-@media (min-width: 769px) {
-    html, body {
-        background-attachment: fixed;
-    }
 }
 
 /* 暗色模式变量 */
@@ -89,19 +75,6 @@ html, body {
     
     html, body {
         background-color: var(--background-color);
-        background-image: 
-            radial-gradient(ellipse at 50% 50%, rgba(0, 0, 0, 0.4) 0%, transparent 70%),
-            url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.45' numOctaves='5' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3CfeComponentTransfer%3E%3CfeFuncA type='table' tableValues='0 0 0 0 0 0.06'/%3E%3C/feComponentTransfer%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
-        background-size: 
-            100% 100%,
-            400px 400px;
-        background-attachment: scroll;
-    }
-}
-
-@media (prefers-color-scheme: dark) and (min-width: 769px) {
-    html, body {
-        background-attachment: fixed;
     }
 }
 
@@ -121,20 +94,6 @@ html, body {
 [data-theme="dark"] html, 
 [data-theme="dark"] body {
     background-color: var(--background-color);
-    background-image: 
-        radial-gradient(ellipse at 50% 50%, rgba(0, 0, 0, 0.4) 0%, transparent 70%),
-        url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.45' numOctaves='5' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3CfeComponentTransfer%3E%3CfeFuncA type='table' tableValues='0 0 0 0 0 0.06'/%3E%3C/feComponentTransfer%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
-    background-size: 
-        100% 100%,
-        400px 400px;
-    background-attachment: scroll;
-}
-
-@media (min-width: 769px) {
-    [data-theme="dark"] html, 
-    [data-theme="dark"] body {
-        background-attachment: fixed;
-    }
 }
 
 /* 全局图片样式 - 防止溢出 */

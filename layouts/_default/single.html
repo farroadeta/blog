@@ -1,7 +1,9 @@
 {{ define "main" }}
     <article class="post">
         <div class="post-content">
-            <h1 class="post-title-main">{{ .Title | default .File.BaseFileName }}</h1>
+            {{ if .Title }}
+            <h1 class="post-title-main">{{ .Title }}</h1>
+            {{ end }}
             <p class="post-date-main">{{ .Date.Format "2006年01月02日" }}</p>
             {{ .Content }}
         </div>

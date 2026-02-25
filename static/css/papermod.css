@@ -479,6 +479,27 @@ article img {
     text-align: center;
     color: var(--primary-color);
     font-family: "SimHei", "Microsoft YaHei", "PingFang SC", "Hiragino Sans GB", sans-serif;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+}
+
+.post-list-title::before,
+.post-list-title::after {
+    content: '';
+    flex: 1;
+    max-width: 120px;
+    height: 1px;
+    background: linear-gradient(to right, transparent, var(--border-color), transparent);
+}
+
+.post-list-title::before {
+    background: linear-gradient(to right, transparent, var(--border-color));
+}
+
+.post-list-title::after {
+    background: linear-gradient(to left, transparent, var(--border-color));
 }
 
 .post-linear-list {

@@ -190,14 +190,7 @@
                 
                 files.forEach(function(file) {
                     var title = file.title;
-                    if (!title) {
-                        var urlParts = file.url.split('/');
-                        title = urlParts[urlParts.length - 2] || 'Untitled';
-                        try {
-                            title = decodeURIComponent(title);
-                        } catch(e) {
-                        }
-                    }
+                    var hasTitle = title && title !== 'null' && title !== '';
                     
                     var content = file.content || '';
                     var imageCount = file.images ? file.images.length : 0;
@@ -221,9 +214,11 @@
                     html += '</div>';
                     
                     html += '<div class="icity-card-body">';
-                    html += '<h3 class="icity-card-title">';
-                    html += '<a href="' + file.url + '">' + title + '</a>';
-                    html += '</h3>';
+                    if (hasTitle) {
+                        html += '<h3 class="icity-card-title">';
+                        html += '<a href="' + file.url + '">' + title + '</a>';
+                        html += '</h3>';
+                    }
                     html += '<p class="icity-card-content">' + content + '</p>';
                     
                     if (imageCount > 0) {
@@ -292,9 +287,11 @@
                     </div>
                 </div>
                 <div class="icity-card-body">
+                    {{ if .Title }}
                     <h3 class="icity-card-title">
-                        <a href="{{ .RelPermalink }}">{{ with .File }}{{ .BaseFileName }}{{ else }}{{ .Title }}{{ end }}</a>
+                        <a href="{{ .RelPermalink }}">{{ .Title }}</a>
                     </h3>
+                    {{ end }}
                     <p class="icity-card-content">{{ .Plain | truncate 200 }}</p>
                     {{ if gt $imageCount 0 }}
                     <div class="icity-card-images" data-count="{{ $imageCount }}">

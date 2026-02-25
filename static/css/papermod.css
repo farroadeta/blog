@@ -783,6 +783,14 @@ article img {
     border-top: 1px solid var(--border-color);
 }
 
+/* 隐藏空的 post-footer */
+.post-footer:empty {
+    display: none;
+    margin: 0;
+    padding: 0;
+    border: none;
+}
+
 .post-tags {
     display: flex;
     flex-wrap: wrap;

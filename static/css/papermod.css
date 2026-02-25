@@ -642,7 +642,7 @@ article img {
 .post {
     max-width: 800px;
     margin: 2rem auto;
-    background-color: #ffffff;
+    background-color: var(--card-background);
     border-radius: 12px;
     padding: 2rem;
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08), 0 2px 8px rgba(0, 0, 0, 0.04);
@@ -1842,6 +1842,7 @@ article img {
     -webkit-line-clamp: 5;
     -webkit-box-orient: vertical;
     overflow: hidden;
+    white-space: pre-line;
 }
 
 .icity-card-footer {

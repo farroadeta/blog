@@ -67,9 +67,9 @@
                     </div>
                     <div class="icity-card-body">
                         <h3 class="icity-card-title">
-                            <a href="{{ .RelPermalink }}">{{ with .File }}{{ .BaseFileName }}{{ else }}{{ .Title }}{{ end }}</a>
+                            <a href="{{ .RelPermalink }}">{{ .Title | default .File.BaseFileName }}</a>
                         </h3>
-                        <p class="icity-card-content">{{ .Plain | truncate 200 }}</p>
+                        <p class="icity-card-content">{{ .RawContent | plainify | htmlEscape | replaceRE "\r\n" "<br>" | replaceRE "\n" "<br>" | safeHTML | truncate 200 }}</p>
                         {{ if gt $imageCount 0 }}
                         <div class="icity-card-images" data-count="{{ $imageCount }}">
                             {{ range first 3 $images }}

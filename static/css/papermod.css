@@ -1725,13 +1725,12 @@ article img {
     }
 }
 
-/* iCity 风格卡片布局 */
+/* iCity 风格卡片布局 - Masonry 瀑布流 */
 .icity-card-list {
     max-width: 900px;
     margin: 0 auto;
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 1.25rem;
+    column-count: 2;
+    column-gap: 1.25rem;
 }
 
 .icity-card {
@@ -1741,6 +1740,8 @@ article img {
     box-shadow: 0 2px 8px var(--shadow-color);
     transition: transform 0.2s ease, box-shadow 0.2s ease;
     position: relative;
+    break-inside: avoid;
+    margin-bottom: 1.25rem;
 }
 
 
@@ -1830,7 +1831,7 @@ article img {
     line-height: 1.6;
     margin: 0;
     display: -webkit-box;
-    -webkit-line-clamp: 3;
+    -webkit-line-clamp: 5;
     -webkit-box-orient: vertical;
     overflow: hidden;
 }
@@ -2065,7 +2066,7 @@ article img {
     line-height: 1.6;
     margin: 0;
     display: -webkit-box;
-    -webkit-line-clamp: 3;
+    -webkit-line-clamp: 5;
     -webkit-box-orient: vertical;
     overflow: hidden;
 }
@@ -2125,8 +2126,8 @@ article img {
 @media (max-width: 768px) {
     .icity-card-list {
         padding: 0 0.5rem;
-        gap: 1rem;
-        grid-template-columns: 1fr;
+        column-count: 1;
+        column-gap: 0;
         max-width: 700px;
     }
     

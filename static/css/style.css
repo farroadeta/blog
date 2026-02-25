@@ -244,6 +244,35 @@ main {
     .post-content .audio-body audio {
         height: 40px;
     }
+    
+    /* 主页卡片移动端适配 */
+    .container {
+        padding: 0 15px;
+    }
+    
+    .post-list {
+        gap: 20px;
+    }
+    
+    .post-card {
+        padding: 20px;
+        overflow-wrap: break-word;
+        word-wrap: break-word;
+        word-break: break-word;
+    }
+    
+    .post-card-title {
+        font-size: 1.2rem;
+    }
+    
+    .post-card-excerpt {
+        font-size: 0.9rem;
+    }
+    
+    .post-card-meta {
+        flex-wrap: wrap;
+        gap: 10px;
+    }
 }
 
 .post-title {

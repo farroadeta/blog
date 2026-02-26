@@ -31,6 +31,15 @@
     {{- range $images }}
         {{- $relImages = $relImages | append (. | relURL) }}
     {{- end }}
+    {{- $normalizedPath := replace $page.File.Dir "\\" "/" }}
+    {{- $pathParts := split $normalizedPath "/" }}
+    {{- $filteredParts := slice }}
+    {{- range $pathParts }}
+        {{- if and (ne . "posts") (ne . "") }}
+            {{- $filteredParts = $filteredParts | append . }}
+        {{- end }}
+    {{- end }}
+    {{- $pathStr := delimit $filteredParts " / " }}
     {
       "title": {{ $page.Title | jsonify }},
       "permalink": {{ $page.Permalink | jsonify }},
@@ -42,7 +51,8 @@
       "author": {{ $author | jsonify }},
       "avatar": {{ $avatar | jsonify }},
       "signature": {{ $signature | jsonify }},
-      "images": {{ $relImages | jsonify }}
+      "images": {{ $relImages | jsonify }},
+      "path": {{ $pathStr | jsonify }}
     }
     {{- end }}
   ]

@@ -1,4 +1,4 @@
-baseURL = 'https://blog.qwk.dpdns.org'
+baseURL = 'https://example.com'
 languageCode = 'zh-cn'
 title = '七哇夸'
 copyright = '七哇夸'
@@ -14,7 +14,7 @@ enableEmoji = true
 
 [params.authorSignatures]
     qiwa = "月瘦梦肥，此为心乡"
-    shangren = "一共是五亿一百六十二万二千七百三十一颗星星"
+    shangren = "时间就是金钱，我的朋友"
     dilixuejia = "我们不记载花，因为花是转瞬即逝的"
     xiaowangzi = "真正重要的东西，用眼睛是看不见的"
     huli = "If you tame me,we'll need each other."

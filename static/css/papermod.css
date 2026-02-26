@@ -27,7 +27,7 @@ html {
 @media (max-width: 768px) {
     html {
         scroll-behavior: auto !important;
-        font-size: 14px;
+        font-size: 16px;
     }
     
     * {
@@ -1853,15 +1853,24 @@ article img {
     border-top: 1px solid var(--border-color);
 }
 
+.icity-card-date {
+    font-size: 0.8rem;
+    color: var(--text-secondary);
+}
+
 .icity-card-path {
     font-size: 0.7rem;
     color: #bbb;
-    display: inline-block;
+    background-color: #f5f5f5;
+    padding: 2px 10px;
+    border-radius: 12px;
+    white-space: nowrap;
 }
 
 @media (prefers-color-scheme: dark) {
     .icity-card-path {
-        color: #666;
+        color: #808080;
+        background-color: #3d3d3d;
     }
 }
 
@@ -2165,6 +2174,7 @@ article img {
     
     .icity-card-title {
         font-size: 1rem;
+        margin: 0.25rem 0;
     }
     
     .icity-card-content {
@@ -2218,6 +2228,274 @@ article img {
     .archive-card-images {
         gap: 3px;
         border-radius: 6px;
+    }
+}
+
+/* 重构后的文章页面样式 */
+.post-single {
+    max-width: 560px;
+    margin: 2rem auto;
+    background-color: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08), 0 2px 8px rgba(0, 0, 0, 0.04);
+    overflow: hidden;
+}
+
+.post-single-banner {
+    width: 100%;
+    height: 320px;
+    overflow: hidden;
+    position: relative;
+    border-radius: 12px 12px 0 0;
+}
+
+.post-single-banner::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 120px;
+    background: linear-gradient(to bottom, transparent, #ffffff);
+    pointer-events: none;
+}
+
+.post-single-banner img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s ease;
+}
+
+.post-single-banner:hover img {
+    transform: scale(1.02);
+}
+
+.post-single-content {
+    padding: 2rem;
+    color: var(--text-color);
+    line-height: 1.8;
+    border-radius: 12px;
+}
+
+.post-single.has-banner .post-single-content {
+    border-radius: 0 0 12px 12px;
+}
+
+.post-single-title {
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--primary-color);
+    margin: 0 0 0.5rem;
+    text-align: center;
+    font-family: var(--font-sans);
+}
+
+.post-single-date {
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+    text-align: center;
+    margin: 0 0 1.5rem;
+    font-family: var(--font-sans);
+}
+
+.post-single-content h1 {
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: var(--primary-color);
+    margin: 2rem 0 1rem;
+    font-family: var(--font-sans);
+}
+
+.post-single-content h2 {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: var(--primary-color);
+    margin: 2rem 0 1rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid var(--border-color);
+    font-family: "SimHei", "Microsoft YaHei", "PingFang SC", "Hiragino Sans GB", sans-serif;
+}
+
+.post-single-content h3 {
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: var(--primary-color);
+    margin: 1.5rem 0 1rem;
+}
+
+.post-single-content p {
+    margin-bottom: 1.5rem;
+}
+
+.post-single-content ul,
+.post-single-content ol {
+    margin: 1.5rem 0;
+    padding-left: 2rem;
+}
+
+.post-single-content li {
+    margin-bottom: 0.5rem;
+}
+
+.post-single-content code {
+    background-color: var(--background-color);
+    padding: 0.2rem 0.4rem;
+    border-radius: 4px;
+    font-family: var(--font-mono);
+    font-size: 0.9rem;
+    color: var(--accent-color);
+}
+
+.post-single-content pre {
+    background-color: var(--background-color);
+    padding: 1rem;
+    border-radius: var(--border-radius);
+    overflow-x: auto;
+    margin: 1.5rem 0;
+    border: 1px solid var(--border-color);
+}
+
+.post-single-content pre code {
+    background: none;
+    padding: 0;
+    color: var(--text-color);
+}
+
+.post-single-content blockquote {
+    border-left: 4px solid var(--accent-color);
+    padding-left: 1rem;
+    color: var(--text-secondary);
+    margin: 1.5rem 0;
+    font-style: italic;
+}
+
+/* 重构后的文章导航 */
+.post-nav {
+    max-width: 560px;
+}
+
+/* 暗色主题支持 */
+[data-theme="dark"] .post-single {
+    background-color: #2d2d2d;
+}
+
+[data-theme="dark"] .post-single-banner::after {
+    background: linear-gradient(to bottom, transparent, #2d2d2d);
+}
+
+/* 移动端适配 */
+@media (max-width: 768px) {
+    .post-single {
+        margin: 1rem 0;
+        border-radius: 12px;
+    }
+    
+    .post-single-banner {
+        height: 220px;
+        border-radius: 12px 12px 0 0;
+    }
+    
+    .post-single-banner::after {
+        height: 80px;
+    }
+    
+    .post-single-content {
+        padding: 1.2rem;
+    }
+    
+    .post-single-title {
+        font-size: 1.4rem;
+    }
+    
+    .post-single-content h1 {
+        font-size: 1.3rem;
+        margin: 1.5rem 0 0.8rem;
+    }
+    
+    .post-single-content h2 {
+        font-size: 1.15rem;
+        margin: 1.5rem 0 0.8rem;
+    }
+    
+    .post-single-content h3 {
+        font-size: 1rem;
+        margin: 1.2rem 0 0.6rem;
+    }
+    
+    .post-single-content p {
+        font-size: 0.95rem;
+        line-height: 1.7;
+        margin-bottom: 1rem;
+    }
+    
+    .post-single-content li {
+        font-size: 0.95rem;
+    }
+}
+
+/* Audio 播放器美化样式 - 简约版 */
+audio {
+    width: 100%;
+    margin: 1.5rem 0;
+    border-radius: 8px;
+    border: 1px solid var(--border-color);
+    background-color: transparent !important;
+}
+
+/* Webkit 浏览器音频控件样式 - 强制透明 */
+audio::-webkit-media-controls-panel {
+    background-color: transparent !important;
+}
+
+audio::-webkit-media-controls-enclosure {
+    background-color: transparent !important;
+}
+
+audio::-webkit-media-controls {
+    background-color: transparent !important;
+}
+
+audio::-webkit-media-controls-current-time-display,
+audio::-webkit-media-controls-time-remaining-display {
+    color: var(--text-secondary);
+    font-family: var(--font-sans);
+}
+
+/* Firefox 浏览器 */
+@-moz-document url-prefix() {
+    audio {
+        background-color: transparent !important;
+    }
+}
+
+/* 暗色主题适配 */
+[data-theme="dark"] audio,
+[data-theme="dark"] .post-single audio,
+[data-theme="dark"] .post-content audio {
+    border-color: #555;
+    filter: invert(1) hue-rotate(180deg);
+}
+
+[data-theme="dark"] audio::-webkit-media-controls-panel,
+[data-theme="dark"] audio::-webkit-media-controls-enclosure,
+[data-theme="dark"] audio::-webkit-media-controls {
+    background-color: transparent !important;
+}
+
+/* 系统暗色主题适配 */
+@media (prefers-color-scheme: dark) {
+    audio,
+    .post-single audio,
+    .post-content audio {
+        border-color: #555;
+        filter: invert(1) hue-rotate(180deg);
+    }
+    
+    audio::-webkit-media-controls-panel,
+    audio::-webkit-media-controls-enclosure,
+    audio::-webkit-media-controls {
+        background-color: transparent !important;
     }
 }
 

@@ -46,7 +46,7 @@
                     <article class="archive-card">
                         <div class="archive-card-body">
                             <h3 class="archive-card-title"><a href="{{ .RelPermalink }}">{{ .Title | default .File.BaseFileName }}</a></h3>
-                            <p class="archive-card-content">{{ .RawContent | plainify | htmlEscape | replaceRE "\r\n" "<br>" | replaceRE "\n" "<br>" | safeHTML | truncate 150 }}</p>
+                            <p class="archive-card-content">{{ .Plain | truncate 150 }}</p>
                             {{ if gt (len $images) 0 }}
                             <div class="archive-card-images" data-count="{{ len $images }}">
                                 {{ range first 3 $images }}

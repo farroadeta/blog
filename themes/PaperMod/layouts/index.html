@@ -53,11 +53,13 @@
                 {{ else if eq $author "酒鬼" }}{{ $authorKey = "jiugui" }}
                 {{ end }}
                 {{ $signature := index $.Site.Params.authorSignatures $authorKey | default $.Site.Params.authorSignatures.qiwa }}
-                <article class="icity-card" data-images="{{ $images | jsonify }}">
+                <article class="icity-card" data-images="{{ $images | jsonify }}" data-url="{{ .RelPermalink }}">
                     <div class="icity-card-header">
-                        <div class="icity-card-avatar">
-                            <img src="{{ $avatar | relURL }}" alt="avatar">
-                        </div>
+                        <a href="{{ "/character/" | relURL }}{{ $author | urlize }}" class="icity-card-avatar-link" title="查看{{ $author }}的详情">
+                            <div class="icity-card-avatar">
+                                <img src="{{ $avatar | relURL }}" alt="{{ $author }}的头像">
+                            </div>
+                        </a>
                         <div class="icity-card-user">
                             <a href="{{ "/character/" | relURL }}{{ $author | urlize }}" class="icity-card-username-link">
                                 <span class="icity-card-username">{{ $author }}</span>
@@ -100,4 +102,24 @@
             </div>
         </div>
     </section>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const cards = document.querySelectorAll('.icity-card');
+            
+            cards.forEach(card => {
+                card.addEventListener('click', function(e) {
+                    const url = card.getAttribute('data-url');
+                    if (url) {
+                        const clickedElement = e.target;
+                        const isLink = clickedElement.closest('a');
+                        const isImage = clickedElement.closest('.icity-card-images');
+                        
+                        if (!isLink && !isImage) {
+                            window.location.href = url;
+                        }
+                    }
+                });
+            });
+        });
+    </script>
 {{ end }}

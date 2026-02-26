@@ -199,11 +199,13 @@
                         avatarPath = '/' + avatarPath;
                     }
                     
-                    html += '<article class="icity-card">';
+                    html += '<article class="icity-card" data-url="' + file.url + '">';
                     html += '<div class="icity-card-header">';
+                    html += '<a href="/character/' + encodeURIComponent(file.author) + '" class="icity-card-avatar-link" title="查看' + file.author + '的详情">';
                     html += '<div class="icity-card-avatar">';
-                    html += '<img src="' + avatarPath + '" alt="avatar">';
+                    html += '<img src="' + avatarPath + '" alt="' + file.author + '的头像">';
                     html += '</div>';
+                    html += '</a>';
                     html += '<div class="icity-card-user">';
                     html += '<a href="/character/' + encodeURIComponent(file.author) + '" class="icity-card-username-link">';
                     html += '<span class="icity-card-username">' + file.author + '</span>';
@@ -242,6 +244,22 @@
             }
             
             content.innerHTML = html;
+            
+            var cards = content.querySelectorAll('.icity-card');
+            cards.forEach(function(card) {
+                card.addEventListener('click', function(e) {
+                    const url = card.getAttribute('data-url');
+                    if (url) {
+                        const clickedElement = e.target;
+                        const isLink = clickedElement.closest('a');
+                        const isImage = clickedElement.closest('.icity-card-images');
+                        
+                        if (!isLink && !isImage) {
+                            window.location.href = url;
+                        }
+                    }
+                });
+            });
         }
         
         renderArchive();

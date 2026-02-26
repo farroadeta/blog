@@ -13,22 +13,4 @@
             {{ .Content }}
         </div>
     </article>
-    <div class="post-nav">
-        {{ with .PrevInSection }}
-        <div class="post-nav-prev">
-            <a href="{{ .RelPermalink }}">
-                <span class="post-nav-label">Previous</span>
-                <span class="post-nav-title">{{ .Title }}</span>
-            </a>
-        </div>
-        {{ end }}
-        {{ with .NextInSection }}
-        <div class="post-nav-next">
-            <a href="{{ .RelPermalink }}">
-                <span class="post-nav-label">Next</span>
-                <span class="post-nav-title">{{ .Title }}</span>
-            </a>
-        </div>
-        {{ end }}
-    </div>
 {{ end }}

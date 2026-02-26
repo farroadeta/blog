@@ -262,3 +262,42 @@ function initScrollToTop() {
 
 // 初始化滚动到顶部按钮
 document.addEventListener('DOMContentLoaded', initScrollToTop);
+
+// 网格背景视差效果
+function initGridParallax() {
+    const body = document.body;
+    let ticking = false;
+    let lastScrollY = 0;
+    
+    window.addEventListener('scroll', () => {
+        if (!ticking) {
+            window.requestAnimationFrame(() => {
+                const scrollY = window.scrollY;
+                const scrollDirection = scrollY > lastScrollY ? 'down' : 'up';
+                
+                // 添加滚动类以触发CSS动画
+                if (scrollY > 50) {
+                    body.classList.add('scrolling');
+                } else {
+                    body.classList.remove('scrolling');
+                }
+                
+                // 根据滚动方向调整视差效果
+                if (window.innerWidth > 768) {
+                    const gridOffset = Math.min(scrollY * 0.05, 10);
+                    const glowOffset = Math.min(scrollY * 0.08, 15);
+                    
+                    body.style.setProperty('--grid-offset', `${gridOffset}px`);
+                    body.style.setProperty('--glow-offset', `${glowOffset}px`);
+                }
+                
+                lastScrollY = scrollY;
+                ticking = false;
+            });
+            ticking = true;
+        }
+    }, { passive: true });
+}
+
+// 初始化网格视差
+document.addEventListener('DOMContentLoaded', initGridParallax);

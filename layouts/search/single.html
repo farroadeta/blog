@@ -305,11 +305,13 @@
             }
             
             return `
-                <article class="icity-card" data-images='${JSON.stringify(images)}'>
+                <article class="icity-card" data-images='${JSON.stringify(images)}' data-url="${item.permalink || item.url}">
                     <div class="icity-card-header">
-                        <div class="icity-card-avatar">
-                            <img src="${item.avatar}" alt="avatar">
-                        </div>
+                        <a href="/character/${encodeURIComponent(item.author)}" class="icity-card-avatar-link" title="查看${item.author}的详情">
+                            <div class="icity-card-avatar">
+                                <img src="${item.avatar}" alt="${item.author}的头像">
+                            </div>
+                        </a>
                         <div class="icity-card-user">
                             <a href="/character/${encodeURIComponent(item.author)}" class="icity-card-username-link">
                                 <span class="icity-card-username">${item.author}</span>
@@ -419,6 +421,23 @@
             isAdvancedOpen = false;
             advancedPanel.style.display = 'none';
             toggleAdvanced.classList.remove('active');
+        }
+    });
+
+    // 卡片点击跳转功能
+    document.addEventListener('click', function(e) {
+        const card = e.target.closest('.icity-card');
+        if (card) {
+            const url = card.getAttribute('data-url');
+            if (url) {
+                const clickedElement = e.target;
+                const isLink = clickedElement.closest('a');
+                const isImage = clickedElement.closest('.icity-card-images');
+                
+                if (!isLink && !isImage) {
+                    window.location.href = url;
+                }
+            }
         }
     });
 

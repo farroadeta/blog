@@ -1,0 +1,237 @@
+/* ==================== 个人设计风格强化版 ==================== */
+
+:root {
+    --accent-color-light: #5dade2;
+    --accent-color-dark: #2980b9;
+    --text-strong: #0d1117;
+    --border-subtle: rgba(0, 0, 0, 0.06);
+    --shadow-soft: 0 1px 2px rgba(0, 0, 0, 0.04), 0 2px 4px rgba(0, 0, 0, 0.03);
+    --shadow-medium: 0 4px 8px rgba(0, 0, 0, 0.06), 0 8px 16px rgba(0, 0, 0, 0.04);
+    --shadow-strong: 0 8px 24px rgba(0, 0, 0, 0.08), 0 16px 32px rgba(0, 0, 0, 0.06);
+    --transition-normal: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    --transition-slow: 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* ==================== 1. 视觉层次强化 ==================== */
+
+.hitokoto-text {
+    font-weight: 800 !important;
+    letter-spacing: 0.08em !important;
+    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+    position: relative;
+    display: inline-block;
+}
+
+.hitokoto-text::before,
+.hitokoto-text::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 1.5rem;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--accent-color));
+    opacity: 0.6;
+}
+
+.hitokoto-text::before { left: -2rem; }
+.hitokoto-text::after { right: -2rem; background: linear-gradient(90deg, var(--accent-color), transparent); }
+
+.hitokoto-from {
+    position: relative;
+    display: inline-block;
+    padding: 0.5rem 1.5rem;
+}
+
+.hitokoto-from::before,
+.hitokoto-from::after {
+    content: '—';
+    position: absolute;
+    opacity: 0.4;
+}
+
+.hitokoto-from::before { left: 0; }
+.hitokoto-from::after { right: 0; }
+
+.post-list-title {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.post-list-title::before {
+    content: '';
+    width: 4px;
+    height: 2rem;
+    background: linear-gradient(180deg, var(--accent-color), var(--accent-color-dark));
+    border-radius: 2px;
+}
+
+.post-list-title::after {
+    content: '';
+    width: 3rem;
+    height: 1px;
+    background: linear-gradient(90deg, var(--retro-line-color), transparent);
+}
+
+/* ==================== 2. 个人特色细节 ==================== */
+
+.icity-card {
+    position: relative;
+    overflow: visible;
+}
+
+.icity-card::before,
+.icity-card::after {
+    content: '';
+    position: absolute;
+    width: 24px;
+    height: 24px;
+    opacity: 0;
+    transition: opacity var(--transition-normal);
+    pointer-events: none;
+}
+
+.icity-card::before {
+    top: 8px;
+    left: 8px;
+    border-left: 2px solid var(--accent-color);
+    border-top: 2px solid var(--accent-color);
+}
+
+.icity-card::after {
+    bottom: 8px;
+    right: 8px;
+    border-right: 2px solid var(--accent-color);
+    border-bottom: 2px solid var(--accent-color);
+}
+
+.icity-card:hover::before,
+.icity-card:hover::after {
+    opacity: 0.6;
+}
+
+.icity-card-avatar {
+    position: relative;
+}
+
+.icity-card-avatar::before {
+    content: '';
+    position: absolute;
+    inset: -4px;
+    border-radius: inherit;
+    background: linear-gradient(135deg, var(--accent-color), var(--accent-color-light));
+    opacity: 0;
+    transition: opacity var(--transition-normal);
+    z-index: -1;
+}
+
+.icity-card-avatar:hover::before {
+    opacity: 0.3;
+    animation: avatarGlow 2s ease-in-out infinite;
+}
+
+@keyframes avatarGlow {
+    0%, 100% { opacity: 0.3; transform: scale(1); }
+    50% { opacity: 0.5; transform: scale(1.02); }
+}
+
+.icity-card-signature {
+    position: relative;
+    padding-left: 1rem;
+    font-style: italic;
+}
+
+.icity-card-signature::before {
+    content: '"';
+    position: absolute;
+    left: 0;
+    top: -0.3rem;
+    font-size: 1.5rem;
+    font-family: Georgia, serif;
+    color: var(--accent-color);
+    opacity: 0.4;
+    line-height: 1;
+}
+
+.folder-card {
+    position: relative;
+    overflow: hidden;
+}
+
+.folder-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(52, 152, 219, 0.05), transparent);
+    transition: left var(--transition-slow);
+}
+
+.folder-card:hover::before {
+    left: 100%;
+}
+
+.folder-card-icon {
+    transition: transform var(--transition-normal);
+}
+
+.folder-card:hover .folder-card-icon {
+    transform: rotate(-10deg) scale(1.1);
+}
+
+/* ==================== 3. 动态效果优化 ==================== */
+
+.icity-card {
+    opacity: 0;
+    transform: translateY(20px);
+    animation: cardEnter var(--transition-slow) ease-out forwards;
+}
+
+.icity-card:nth-child(1) { animation-delay: 0.05s; }
+.icity-card:nth-child(2) { animation-delay: 0.1s; }
+.icity-card:nth-child(3) { animation-delay: 0.15s; }
+.icity-card:nth-child(4) { animation-delay: 0.2s; }
+.icity-card:nth-child(5) { animation-delay: 0.25s; }
+.icity-card:nth-child(6) { animation-delay: 0.3s; }
+.icity-card:nth-child(7) { animation-delay: 0.35s; }
+.icity-card:nth-child(8) { animation-delay: 0.4s; }
+.icity-card:nth-child(9) { animation-delay: 0.45s; }
+.icity-card:nth-child(10) { animation-delay: 0.5s; }
+
+@keyframes cardEnter {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.icity-card:hover {
+    transform: translateY(-6px) scale(1.01);
+    box-shadow: var(--shadow-strong);
+}
+
+.icity-card:hover .icity-card-title a {
+    color: var(--accent-color-dark);
+}
+
+.icity-card-images {
+    position: relative;
+}
+
+.icity-image-item {
+    overflow: hidden;
+}
+
+.icity-image-item img {
+    transition: transform var(--transition-slow);
+}
+
+.icity-card:hover .icity-image-item img {
+    transform: scale(1.05);
+}
+
+.icity-card

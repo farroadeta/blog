@@ -14,9 +14,9 @@ enableEmoji = true
 
 [params.authorSignatures]
     qiwa = "月瘦梦肥，此为心乡"
-    shangren = "时间就是金钱，我的朋友"
+    shangren = "一共是五亿零一百六十二万二千七百三十一颗星星"
     dilixuejia = "我们不记载花，因为花是转瞬即逝的"
-    xiaowangzi = "真正重要的东西，用眼睛是看不见的"
+    xiaowangzi = "有一天我看了四十四次日落"
     huli = "If you tame me,we'll need each other."
     meigui = "我是独一无二的玫瑰"
     she = "我有一切的谜语"
@@ -61,5 +61,5 @@ enableEmoji = true
     home = ["HTML", "JSON"]
 
 [permalinks]
-    posts = "/:year/:month/:day/:slug/"
+    posts = "/posts/:year/:month/:day/:slug/"
     character = "/character/:slug/"

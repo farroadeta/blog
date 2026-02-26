@@ -66,9 +66,11 @@
                         </div>
                     </div>
                     <div class="icity-card-body">
+                        {{ if and .Title (ne .Title "no") }}
                         <h3 class="icity-card-title">
-                            <a href="{{ .RelPermalink }}">{{ .Title | default .File.BaseFileName }}</a>
+                            <a href="{{ .RelPermalink }}">{{ .Title }}</a>
                         </h3>
+                        {{ end }}
                         <p class="icity-card-content">{{ .Plain | truncate 200 }}</p>
                         {{ if gt $imageCount 0 }}
                         <div class="icity-card-images" data-count="{{ $imageCount }}">

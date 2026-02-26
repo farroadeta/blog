@@ -291,7 +291,7 @@
                 </div>
                 <div class="icity-card-body">
                     <h3 class="icity-card-title">
-                        <a href="{{ .RelPermalink }}">{{ .Title | default .File.BaseFileName }}</a>
+                        <a href="{{ .RelPermalink }}">{{ with .File }}{{ .BaseFileName }}{{ else }}{{ .Title }}{{ end }}</a>
                     </h3>
                     <p class="icity-card-content">{{ .Plain | truncate 200 }}</p>
                     {{ if gt $imageCount 0 }}

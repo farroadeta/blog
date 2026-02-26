@@ -6,7 +6,9 @@
         </div>
         {{ end }}
         <div class="post-single-content">
+            {{ if and .Title (ne .Title "no") }}
             <h1 class="post-single-title">{{ .Title }}</h1>
+            {{ end }}
             <p class="post-single-date">{{ .Date.Format "2006年01月02日" }}</p>
             {{ .Content }}
         </div>

@@ -29,7 +29,9 @@
         <script>
         var allData = {{ $allData := slice }}
         {{ range .Site.RegularPages }}
-        {{ if hasPrefix .RelPermalink "/posts/" }}
+        {{ $permalink := .RelPermalink }}
+        {{ $containsPosts := findRE "/posts/" $permalink }}
+        {{ if $containsPosts }}
         {{ $path := "" }}
         {{ with .File }}
             {{ $path = replace .Dir "\\" "/" }}
@@ -190,7 +192,7 @@
                 
                 files.forEach(function(file) {
                     var title = file.title;
-                    var hasTitle = title && title !== 'null' && title !== '';
+                    var hasTitle = title && title !== 'null' && title !== '' && title !== 'no';
                     
                     var content = file.content || '';
                     var imageCount = file.images ? file.images.length : 0;
@@ -287,7 +289,7 @@
                     </div>
                 </div>
                 <div class="icity-card-body">
-                    {{ if .Title }}
+                    {{ if and .Title (ne .Title "no") }}
                     <h3 class="icity-card-title">
                         <a href="{{ .RelPermalink }}">{{ .Title }}</a>
                     </h3>

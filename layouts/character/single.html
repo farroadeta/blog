@@ -40,26 +40,14 @@
                     {{ $images = $images | append $src }}
                 {{ end }}
             {{ end }}
-            {{ $normalizedPath := replace .File.Dir "\\" "/" }}
-            {{ $pathParts := split $normalizedPath "/" }}
-            {{ $filteredParts := slice }}
-            {{ range $pathParts }}
-                {{ if and (ne . "posts") (ne . "") }}
-                    {{ $filteredParts = $filteredParts | append . }}
-                {{ end }}
-            {{ end }}
-            {{ $pathStr := delimit $filteredParts " / " }}
             <div class="timeline-item">
-                <div class="timeline-header">
-                    <div class="timeline-date">{{ .Date.Format "2006年01月02日" }}</div>
-                    {{ if $pathStr }}
-                    <div class="timeline-path">{{ $pathStr }}</div>
-                    {{ end }}
-                </div>
+                <div class="timeline-date">{{ .Date.Format "2006年01月02日" }}</div>
                 <div class="timeline-card">
                     <article class="archive-card">
                         <div class="archive-card-body">
-                            <h3 class="archive-card-title"><a href="{{ .RelPermalink }}">{{ .Title | default .File.BaseFileName }}</a></h3>
+                            {{ if and .Title (ne .Title "no") }}
+                            <h3 class="archive-card-title"><a href="{{ .RelPermalink }}">{{ .Title }}</a></h3>
+                            {{ end }}
                             <p class="archive-card-content">{{ .Plain | truncate 150 }}</p>
                             {{ if gt (len $images) 0 }}
                             <div class="archive-card-images" data-count="{{ len $images }}">

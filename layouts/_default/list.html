@@ -26,12 +26,8 @@
         
         <div id="archive-content"></div>
         
-        <script>
-        var allData = {{ $allData := slice }}
+        {{ $allData := slice }}
         {{ range .Site.RegularPages }}
-        {{ $permalink := .RelPermalink }}
-        {{ $containsPosts := findRE "/posts/" $permalink }}
-        {{ if $containsPosts }}
         {{ $path := "" }}
         {{ with .File }}
             {{ $path = replace .Dir "\\" "/" }}
@@ -40,7 +36,7 @@
         {{ end }}
         {{ $pathParts := split $path "/" }}
         {{ $folderName := index $pathParts 0 }}
-        {{ if and $folderName (ne $folderName "posts") }}
+        {{ if and $folderName (ne $folderName "posts") (ne $folderName "character") }}
         {{ $content := .Plain | truncate 200 }}
         {{ $images := slice }}
         {{ with .Params.cover }}
@@ -66,8 +62,9 @@
         {{ $allData = $allData | append (dict "path" $path "folder" $folderName "title" .Title "date" (.Date.Format "2006年01月02日") "url" .RelPermalink "content" $content "images" $images "author" $author "avatar" $avatar "signature" $signature) }}
         {{ end }}
         {{ end }}
-        {{ end }}
-        {{ $allData | jsonify | safeJS }};
+        
+        <script>
+        var allData = {{ $allData | jsonify | safeJS }};
         
         var currentPath = '';
         

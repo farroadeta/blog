@@ -165,6 +165,28 @@ html, body {
     box-shadow: none !important;
 }
 
+/* 暗色模式：每日一言优化 */
+[data-theme="dark"] .hitokoto-text {
+    color: #e6e6e6;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+[data-theme="dark"] .hitokoto-from {
+    color: #b0b0b0;
+}
+
+/* 系统暗色主题：每日一言优化 */
+@media (prefers-color-scheme: dark) {
+    .hitokoto-text {
+        color: #e6e6e6;
+        text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+    }
+    
+    .hitokoto-from {
+        color: #b0b0b0;
+    }
+}
+
 /* 全局图片样式 - 防止溢出 */
 img {
     max-width: 100%;
@@ -1191,6 +1213,27 @@ article img {
         font-size: 1rem;
     }
 
+    /* 移动端：每日一言优化 */
+    .hitokoto-content {
+        padding: 0 1rem 1.5rem;
+        max-width: 100%;
+    }
+    
+    .hitokoto-text {
+        font-size: 1.4rem;
+        line-height: 1.6;
+        margin-bottom: 0.8rem;
+    }
+    
+    .hitokoto-from {
+        font-size: 0.8rem !important;
+    }
+    
+    .hero-image {
+        max-width: 100%;
+        margin: 0 auto 1.5rem;
+    }
+
     .post-linear-item {
         height: auto;
         min-height: 80px;
@@ -1409,6 +1452,20 @@ article img {
 
     .hero-title {
         font-size: 1.8rem;
+    }
+
+    /* 小屏幕：每日一言优化 */
+    .hitokoto-content {
+        padding: 0 0.8rem 1.2rem;
+    }
+    
+    .hitokoto-text {
+        font-size: 1.2rem;
+        line-height: 1.5;
+    }
+    
+    .hitokoto-from {
+        font-size: 0.75rem !important;
     }
 
     .post-list {
@@ -2245,6 +2302,8 @@ article img {
     border-radius: 12px;
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08), 0 2px 8px rgba(0, 0, 0, 0.04);
     overflow: hidden;
+    padding: 0;
+    border: none;
 }
 
 .post-single-banner {
@@ -2253,6 +2312,8 @@ article img {
     overflow: hidden;
     position: relative;
     border-radius: 12px 12px 0 0;
+    margin: 0;
+    padding: 0;
 }
 
 .post-single-banner::after {
@@ -2271,6 +2332,10 @@ article img {
     height: 100%;
     object-fit: cover;
     transition: transform 0.5s ease;
+    border-radius: 12px 12px 0 0;
+    margin: 0;
+    padding: 0;
+    display: block;
 }
 
 .post-single-banner:hover img {
@@ -2384,10 +2449,25 @@ article img {
 /* 暗色主题支持 */
 [data-theme="dark"] .post-single {
     background-color: #2d2d2d;
+    border: none;
+    padding: 0;
 }
 
 [data-theme="dark"] .post-single-banner::after {
     background: linear-gradient(to bottom, transparent, #2d2d2d);
+}
+
+/* 系统暗色主题适配 */
+@media (prefers-color-scheme: dark) {
+    .post-single {
+        background-color: #2d2d2d;
+        border: none;
+        padding: 0;
+    }
+    
+    .post-single-banner::after {
+        background: linear-gradient(to bottom, transparent, #2d2d2d);
+    }
 }
 
 /* 移动端适配 */
@@ -2395,11 +2475,15 @@ article img {
     .post-single {
         margin: 1rem 0;
         border-radius: 12px;
+        padding: 0;
+        border: none;
     }
     
     .post-single-banner {
         height: 220px;
         border-radius: 12px 12px 0 0;
+        margin: 0;
+        padding: 0;
     }
     
     .post-single-banner::after {

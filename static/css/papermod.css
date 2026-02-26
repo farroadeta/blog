@@ -1838,6 +1838,7 @@ article img {
     color: var(--text-color);
     line-height: 1.6;
     margin: 0;
+    margin-top: -4px;
     display: -webkit-box;
     -webkit-line-clamp: 5;
     -webkit-box-orient: vertical;
@@ -1872,6 +1873,11 @@ article img {
         color: #808080;
         background-color: #3d3d3d;
     }
+}
+
+[data-theme="dark"] .icity-card-path {
+    color: #808080;
+    background-color: #3d3d3d;
 }
 
 .icity-card-actions {
@@ -2292,7 +2298,7 @@ article img {
 }
 
 .post-single-date {
-    font-size: 0.9rem;
+    font-size: 0.75rem;
     color: var(--text-secondary);
     text-align: center;
     margin: 0 0 1.5rem;
@@ -2406,6 +2412,10 @@ article img {
     
     .post-single-title {
         font-size: 1.4rem;
+    }
+    
+    .post-single-date {
+        font-size: 0.7rem;
     }
     
     .post-single-content h1 {

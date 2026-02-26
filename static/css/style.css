@@ -1348,7 +1348,7 @@ footer a:hover {
 
 .timeline-card .archive-card-title a {
     display: block;
-    padding: 4px 0;
+    padding: 2px 0;
 }
 
 /* 响应式人物页面 */
@@ -1449,7 +1449,18 @@ footer a:hover {
     .character-profile-signature {
         color: #b0b0b0;
     }
-    
+}
+
+/* data-theme 暗色模式 - 人物页 */
+[data-theme="dark"] .character-profile-name {
+    color: #e0e0e0;
+}
+
+[data-theme="dark"] .character-profile-signature {
+    color: #b0b0b0;
+}
+
+@media (prefers-color-scheme: dark) {
     .character-posts-title {
         color: #e0e0e0;
         border-left-color: #00b4ff;
@@ -1493,6 +1504,12 @@ footer a:hover {
     .timeline-card:hover {
         box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
     }
+}
+
+/* data-theme 暗色模式 */
+[data-theme="dark"] .timeline-path {
+    color: #808080;
+    background-color: #3d3d3d;
 }
 
 /* ==================== 首页卡片签名样式 ==================== */

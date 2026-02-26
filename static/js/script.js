@@ -96,28 +96,44 @@ function initNavbarScroll() {
     return;
 }
 
-// 图片懒加载
+// 图片懒加载和响应式处理
 function initLazyLoad() {
-    const images = document.querySelectorAll('img[data-src]');
+    const images = document.querySelectorAll('article img, .post-content img, .post-single-content img');
     
     if ('IntersectionObserver' in window) {
         const imageObserver = new IntersectionObserver((entries, observer) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
                     const img = entry.target;
-                    img.src = img.dataset.src;
-                    img.classList.remove('lazy');
-                    imageObserver.unobserve(img);
+                    // 添加加载完成类
+                    img.classList.add('loaded');
+                    img.classList.add('lazy-loaded');
+                    observer.unobserve(img);
                 }
             });
+        }, {
+            root: null,
+            rootMargin: '50px 0px',
+            threshold: 0.01
         });
 
-        images.forEach(img => imageObserver.observe(img));
+        images.forEach(img => {
+            // 为所有图片添加懒加载类
+            img.classList.add('lazy-image');
+            // 确保图片有正确的属性
+            if (!img.hasAttribute('loading')) {
+                img.setAttribute('loading', 'lazy');
+            }
+            imageObserver.observe(img);
+        });
     } else {
         // 降级方案
         images.forEach(img => {
-            img.src = img.dataset.src;
-            img.classList.remove('lazy');
+            img.classList.add('loaded');
+            img.classList.add('lazy-loaded');
+            if (!img.hasAttribute('loading')) {
+                img.setAttribute('loading', 'lazy');
+            }
         });
     }
 }
@@ -214,36 +230,10 @@ window.addEventListener('resize', () => {
     }, 250);
 });
 
-// 滚动到顶部按钮 - 移动端禁用
+// 滚动到顶部按钮
 function initScrollToTop() {
-    // 移动端不创建按钮
-    if (window.innerWidth <= 768) return;
-    
-    const scrollToTopBtn = document.createElement('button');
-    scrollToTopBtn.className = 'scroll-to-top';
-    scrollToTopBtn.innerHTML = `
-        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <polyline points="18 15 12 9 6 15"></polyline>
-        </svg>
-    `;
-    document.body.appendChild(scrollToTopBtn);
-
-    // 初始隐藏
-    scrollToTopBtn.style.opacity = '0';
-    scrollToTopBtn.style.visibility = 'hidden';
-    scrollToTopBtn.style.transition = 'all 0.3s ease';
-    scrollToTopBtn.style.position = 'fixed';
-    scrollToTopBtn.style.bottom = '2rem';
-    scrollToTopBtn.style.right = '2rem';
-    scrollToTopBtn.style.width = '40px';
-    scrollToTopBtn.style.height = '40px';
-    scrollToTopBtn.style.borderRadius = '50%';
-    scrollToTopBtn.style.backgroundColor = 'var(--accent-color)';
-    scrollToTopBtn.style.color = 'white';
-    scrollToTopBtn.style.border = 'none';
-    scrollToTopBtn.style.cursor = 'pointer';
-    scrollToTopBtn.style.zIndex = '999';
-    scrollToTopBtn.style.boxShadow = '0 2px 10px rgba(0, 0, 0, 0.2)';
+    const scrollToTopBtn = document.getElementById('back-to-top');
+    if (!scrollToTopBtn) return;
 
     // 滚动显示/隐藏 - 使用 requestAnimationFrame
     let ticking = false;
@@ -251,11 +241,9 @@ function initScrollToTop() {
         if (!ticking) {
             window.requestAnimationFrame(() => {
                 if (window.scrollY > 300) {
-                    scrollToTopBtn.style.opacity = '1';
-                    scrollToTopBtn.style.visibility = 'visible';
+                    scrollToTopBtn.classList.add('visible');
                 } else {
-                    scrollToTopBtn.style.opacity = '0';
-                    scrollToTopBtn.style.visibility = 'hidden';
+                    scrollToTopBtn.classList.remove('visible');
                 }
                 ticking = false;
             });

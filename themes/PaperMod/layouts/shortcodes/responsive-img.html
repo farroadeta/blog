@@ -1,0 +1,56 @@
+{{- /*
+响应式图片短代码
+使用方法: {{< responsive-img src="images/photo.jpg" alt="描述" class="可选的CSS类" >}}
+*/ -}}
+{{- $src := .Get "src" -}}
+{{- $alt := .Get "alt" | default "" -}}
+{{- $class := .Get "class" | default "" -}}
+{{- $image := resources.Get $src -}}
+
+{{- if not $image -}}
+  {{- errorf "找不到图片: %s" $src -}}
+  <img src="{{ $src }}" alt="{{ $alt }}" class="{{ $class }}">
+{{- else -}}
+  {{- $small := $image.Resize "400x" -}}
+  {{- $medium := $image.Resize "800x" -}}
+  {{- $large := $image.Resize "1200x" -}}
+  {{- $smallWebp := $image.Resize "400x webp" -}}
+  {{- $mediumWebp := $image.Resize "800x webp" -}}
+  {{- $largeWebp := $image.Resize "1200x webp" -}}
+
+  <picture>
+    <!-- WebP 格式 -->
+    <source 
+      media="(max-width: 600px)" 
+      srcset="{{ $smallWebp.RelPermalink }}" 
+      type="image/webp"
+    >
+    <source 
+      media="(max-width: 1200px)" 
+      srcset="{{ $mediumWebp.RelPermalink }}" 
+      type="image/webp"
+    >
+    <source 
+      srcset="{{ $largeWebp.RelPermalink }}" 
+      type="image/webp"
+    >
+    
+    <!-- 原始格式 -->
+    <source 
+      media="(max-width: 600px)" 
+      srcset="{{ $small.RelPermalink }}"
+    >
+    <source 
+      media="(max-width: 1200px)" 
+      srcset="{{ $medium.RelPermalink }}"
+    >
+    <img 
+      src="{{ $small.RelPermalink }}" 
+      srcset="{{ $small.RelPermalink }} 400w, {{ $medium.RelPermalink }} 800w, {{ $large.RelPermalink }} 1200w" 
+      sizes="(max-width: 600px) 400px, (max-width: 1200px) 800px, 1200px" 
+      alt="{{ $alt }}" 
+      class="{{ $class }} responsive-image"
+      loading="lazy"
+    >
+  </picture>
+{{- end -}}

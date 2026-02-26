@@ -1,0 +1,8 @@
+{{- /*
+自动处理文章内容中的图片，转换为响应式图片
+使用方法: {{ partial "responsive-images" .Content }}
+*/ -}}
+{{- $content := . -}}
+
+{{- /* 暂时禁用自动图片转换，先让网站正常运行 */ -}}
+{{- return $content -}}

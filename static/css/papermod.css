@@ -19,7 +19,7 @@
 
 /* 全局滚动优化 */
 html {
-    scroll-behavior: auto;
+    scroll-behavior: smooth;
     -webkit-overflow-scrolling: touch;
 }
 
@@ -42,9 +42,14 @@ html {
         background-color: var(--background-color) !important;
     }
     
-    /* 移除阴影效果 */
-    .header, .post-card, .folder-card, .hero {
+    /* 移除部分阴影效果，但保留header的阴影 */
+    .post-card, .folder-card, .hero {
         box-shadow: none !important;
+    }
+    
+    /* 增强移动端header的阴影质感 */
+    .header {
+        box-shadow: 0 2px 12px rgba(0, 0, 0, 0.1) !important;
     }
     
     /* 禁用 backdrop-filter */
@@ -135,7 +140,7 @@ html, body {
         border-bottom: 1px solid #3d3d3d;
         backdrop-filter: none !important;
         -webkit-backdrop-filter: none !important;
-        box-shadow: none !important;
+        box-shadow: 0 2px 12px rgba(0, 0, 0, 0.3) !important;
     }
 }
 
@@ -162,7 +167,7 @@ html, body {
     border-bottom: 1px solid #3d3d3d;
     backdrop-filter: none !important;
     -webkit-backdrop-filter: none !important;
-    box-shadow: none !important;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.3) !important;
 }
 
 /* 暗色模式：每日一言优化 */
@@ -1125,6 +1130,22 @@ article img {
     .header-right-new {
         margin: 0 !important;
         gap: 0.5rem;
+        flex: 1;
+    }
+    
+    .header-left {
+        justify-content: flex-start;
+        padding-left: 0.75rem;
+    }
+    
+    .header-right-new {
+        justify-content: flex-end;
+        padding-right: 0.75rem;
+    }
+    
+    .header-center {
+        flex: 0 0 auto;
+        padding: 0;
     }
 
     .header-right {
@@ -1578,6 +1599,82 @@ article img {
     color: white;
 }
 
+/* 响应式图片样式 */
+.responsive-image {
+    max-width: 100%;
+    height: auto;
+    display: block;
+    margin: 1rem 0;
+    border-radius: 8px;
+}
+
+/* 图片懒加载样式 */
+img.lazy-image,
+.responsive-image {
+    opacity: 0.8;
+    transition: opacity 0.5s ease, transform 0.5s ease;
+}
+
+img.lazy-loaded,
+.responsive-image.loaded {
+    opacity: 1;
+    transform: scale(1);
+}
+
+/* 文章内容中的图片默认应用懒加载 */
+.post-content img,
+.post-single-content img,
+article img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+    margin: 1rem 0;
+    border-radius: 8px;
+    opacity: 0.8;
+    transition: opacity 0.5s ease, transform 0.5s ease;
+}
+
+.post-content img.loaded,
+.post-single-content img.loaded,
+article img.loaded {
+    opacity: 1;
+    transform: scale(1);
+}
+
+/* 回到顶部按钮 */
+.back-to-top {
+    position: fixed;
+    bottom: 2rem;
+    right: 2rem;
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background-color: var(--card-background);
+    color: var(--primary-color);
+    border: 1px solid var(--border-color);
+    box-shadow: 0 2px 8px var(--shadow-color);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: var(--transition);
+    opacity: 0;
+    visibility: hidden;
+    z-index: 99;
+}
+
+.back-to-top:hover {
+    background-color: var(--accent-color);
+    color: white;
+    transform: translateY(-4px);
+    box-shadow: 0 4px 12px rgba(0, 123, 255, 0.2);
+}
+
+.back-to-top.visible {
+    opacity: 1;
+    visibility: visible;
+}
+
 /* 无障碍支持 */
 @media (prefers-reduced-motion: reduce) {
     * {
@@ -1802,18 +1899,22 @@ article img {
     background-color: var(--card-background);
     border-radius: 12px;
     padding: 1rem;
-    box-shadow: 0 2px 8px var(--shadow-color);
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    box-shadow: 
+        0 1px 3px rgba(0, 0, 0, 0.08),
+        0 4px 6px rgba(0, 0, 0, 0.05),
+        0 10px 15px rgba(0, 0, 0, 0.03);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
     position: relative;
     break-inside: avoid;
     margin-bottom: 1.25rem;
 }
 
-
-
 .icity-card:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 4px 12px var(--shadow-color);
+    transform: translateY(-4px) scale(1.02);
+    box-shadow: 
+        0 4px 8px rgba(0, 0, 0, 0.12),
+        0 8px 16px rgba(0, 0, 0, 0.08),
+        0 16px 24px rgba(0, 0, 0, 0.06);
 }
 
 .icity-card-header {
@@ -1897,7 +1998,7 @@ article img {
     margin: 0;
     margin-top: -4px;
     display: -webkit-box;
-    -webkit-line-clamp: 5;
+    -webkit-line-clamp: 8;
     -webkit-box-orient: vertical;
     overflow: hidden;
     white-space: pre-line;
@@ -2121,7 +2222,7 @@ article img {
 }
 
 .archive-card-body {
-    margin-bottom: 0.5rem;
+    margin-bottom: 0.25rem;
 }
 
 .archive-card-title {
@@ -2147,7 +2248,7 @@ article img {
     line-height: 1.6;
     margin: 0;
     display: -webkit-box;
-    -webkit-line-clamp: 5;
+    -webkit-line-clamp: 8;
     -webkit-box-orient: vertical;
     overflow: hidden;
 }
@@ -2284,7 +2385,7 @@ article img {
     
     .archive-card-content {
         font-size: 0.9rem;
-        -webkit-line-clamp: 3;
+        -webkit-line-clamp: 6;
         line-height: 1.5;
     }
     

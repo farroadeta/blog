@@ -59,3 +59,7 @@ enableEmoji = true
 
 [outputs]
     home = ["HTML", "JSON"]
+
+[permalinks]
+    posts = "/:year/:month/:day/:slug/"
+    character = "/character/:slug/"

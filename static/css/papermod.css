@@ -1,5 +1,22 @@
 /* PaperMod 主题核心样式 */
 
+/* 字体加载 */
+@font-face {
+    font-family: 'Source Han Sans CN';
+    src: url('../fonts/source-han-sans-cn/SourceHanSansCN-Regular.otf') format('opentype');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Source Han Sans CN';
+    src: url('../fonts/source-han-sans-cn/SourceHanSansCN-Bold.otf') format('opentype');
+    font-weight: bold;
+    font-style: normal;
+    font-display: swap;
+}
+
 /* 全局变量 */
 :root {
     --primary-color: #37352f;
@@ -11,7 +28,8 @@
     --text-secondary: #6b7280;
     --border-color: #e5e5e5;
     --shadow-color: rgba(0, 0, 0, 0.05);
-    --font-sans: "Microsoft YaHei", "PingFang SC", "Hiragino Sans GB", "Heiti SC", sans-serif;
+    --font-sans: 'Source Han Sans CN', "Microsoft YaHei", "PingFang SC", "Hiragino Sans GB", "Heiti SC", sans-serif;
+    --font-serif: "SimSun", "Songti SC", "STSong", serif;
     --font-mono: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, Courier, monospace;
     --border-radius: 8px;
     --transition: all 0.3s ease;
@@ -505,7 +523,7 @@ article img {
     margin-bottom: 40px;
     text-align: center;
     color: var(--primary-color);
-    font-family: "SimHei", "Microsoft YaHei", "PingFang SC", "Hiragino Sans GB", sans-serif;
+    font-family: var(--font-sans);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -748,7 +766,7 @@ article img {
     margin: 2rem 0 1rem;
     padding-bottom: 0.5rem;
     border-bottom: 1px solid var(--border-color);
-    font-family: "SimHei", "Microsoft YaHei", "PingFang SC", "Hiragino Sans GB", sans-serif;
+    font-family: var(--font-sans);
 }
 
 .post-content h3 {
@@ -1351,7 +1369,7 @@ article img {
 
     .post-content h2 {
         font-size: 1.3rem;
-        font-family: "SimHei", "Microsoft YaHei", "PingFang SC", "Hiragino Sans GB", sans-serif;
+        font-family: var(--font-sans);
     }
 
     .post-content h3 {
@@ -1495,7 +1513,7 @@ article img {
 
     .post-list-title {
         font-size: 1.5rem;
-        font-family: "SimHei", "Microsoft YaHei", "PingFang SC", "Hiragino Sans GB", sans-serif;
+        font-family: var(--font-sans);
     }
 
     .post {
@@ -2486,7 +2504,7 @@ article img.loaded {
     margin: 2rem 0 1rem;
     padding-bottom: 0.5rem;
     border-bottom: 1px solid var(--border-color);
-    font-family: "SimHei", "Microsoft YaHei", "PingFang SC", "Hiragino Sans GB", sans-serif;
+    font-family: var(--font-sans);
 }
 
 .post-single-content h3 {

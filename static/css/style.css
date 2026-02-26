@@ -1351,6 +1351,16 @@ footer a:hover {
     padding: 2px 0;
 }
 
+.timeline-card .archive-card-content {
+    white-space: pre-line;
+    word-wrap: break-word;
+    word-break: break-word;
+    overflow-wrap: break-word;
+    -webkit-box-orient: horizontal;
+    -webkit-line-clamp: unset;
+    display: block;
+}
+
 /* 响应式人物页面 */
 @media (max-width: 768px) {
     .character-grid {

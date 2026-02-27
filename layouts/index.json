@@ -16,7 +16,11 @@
         {{- end }}
     {{- end }}
     {{- $author := $page.Params.author | default "七哇夸" }}
-    {{- $avatar := printf "images/author/%s.png" $author | relURL }}
+    {{- $avatarExt := ".png" }}
+    {{- if or (eq $author "玫瑰") (eq $author "蛇") }}
+        {{- $avatarExt = ".jpg" }}
+    {{- end }}
+    {{- $avatar := printf "images/author/%s%s" $author $avatarExt | relURL }}
     {{- $authorKey := "qiwa" }}
     {{- if eq $author "商人" }}{{ $authorKey = "shangren" }}
     {{- else if eq $author "地理学家" }}{{ $authorKey = "dilixuejia" }}

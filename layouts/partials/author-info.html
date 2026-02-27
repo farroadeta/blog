@@ -1,0 +1,18 @@
+{{- $author := .author }}
+{{- $avatarExt := ".png" }}
+{{- if or (eq $author "玫瑰") (eq $author "蛇") }}
+    {{- $avatarExt = ".jpg" }}
+{{- end }}
+{{- $avatar := printf "images/author/%s%s" $author $avatarExt }}
+{{- $authorKey := "qiwa" }}
+{{- if eq $author "商人" }}{{ $authorKey = "shangren" }}
+{{- else if eq $author "地理学家" }}{{ $authorKey = "dilixuejia" }}
+{{- else if eq $author "小王子" }}{{ $authorKey = "xiaowangzi" }}
+{{- else if eq $author "狐狸" }}{{ $authorKey = "huli" }}
+{{- else if eq $author "玫瑰" }}{{ $authorKey = "meigui" }}
+{{- else if eq $author "蛇" }}{{ $authorKey = "she" }}
+{{- else if eq $author "酒鬼" }}{{ $authorKey = "jiugui" }}
+{{- end }}
+{{- $signature := index .siteParams.authorSignatures $authorKey | default .siteParams.authorSignatures.qiwa }}
+{{- $result := dict "avatar" $avatar "signature" $signature "authorKey" $authorKey }}
+{{- return $result }}

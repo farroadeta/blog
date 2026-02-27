@@ -1,0 +1,13 @@
+{{- $images := slice }}
+{{- with .Params.cover }}
+    {{- $images = $images | append . }}
+{{- end }}
+{{- $content := .Content }}
+{{- $imgMatches := findRE "&lt;img[^&gt;]+src=\"([^\"]+)\"" $content 3 }}
+{{- range $imgMatches }}
+    {{- $src := replaceRE ".*src=\"([^\"]+)\".*" "$1" . }}
+    {{- if not (in $images $src) }}
+        {{- $images = $images | append $src }}
+    {{- end }}
+{{- end }}
+{{- return $images }}

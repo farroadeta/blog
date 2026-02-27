@@ -6,6 +6,7 @@ theme = 'PaperMod'
 pagination.pagerSize = 9
 hasCJKLanguage = true
 enableEmoji = true
+timeZone = 'Asia/Shanghai'
 
 [params]
     author = "我的名字"

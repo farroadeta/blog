@@ -1,0 +1,38 @@
+{{- $bvid := .Get "bvid" -}}
+{{- $aid := .Get "aid" -}}
+{{- $cid := .Get "cid" -}}
+{{- $page := .Get "page" | default 1 -}}
+{{- $width := .Get "width" | default 650 -}}
+{{- $height := .Get "height" | default 400 -}}
+
+{{- if $bvid -}}
+    <div class="bilibili-video">
+        <iframe 
+            src="https://player.bilibili.com/player.html?bvid={{ $bvid }}&page={{ $page }}"
+            scrolling="no"
+            border="0"
+            frameborder="no"
+            framespacing="0"
+            allowfullscreen="true"
+            width="{{ $width }}"
+            height="{{ $height }}">
+        </iframe>
+    </div>
+{{- else if $aid -}}
+    <div class="bilibili-video">
+        <iframe 
+            src="https://player.bilibili.com/player.html?aid={{ $aid }}&cid={{ $cid }}&page={{ $page }}"
+            scrolling="no"
+            border="0"
+            frameborder="no"
+            framespacing="0"
+            allowfullscreen="true"
+            width="{{ $width }}"
+            height="{{ $height }}">
+        </iframe>
+    </div>
+{{- else -}}
+    <div class="bilibili-video-error">
+        <p>Error: Bilibili video ID not provided.</p>
+    </div>
+{{- end -}}

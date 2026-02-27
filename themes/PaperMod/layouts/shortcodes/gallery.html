@@ -1,0 +1,13 @@
+{{ $caption := .Get "caption" }}
+{{ $cols := .Get "cols" | default 3 }}
+
+<div class="gallery-container">
+  {{ if $caption }}
+  <div class="gallery-caption">
+    <h3>{{ $caption }}</h3>
+  </div>
+  {{ end }}
+  <div class="gallery-grid" style="grid-template-columns: repeat({{ $cols }}, 1fr); gap: 10px;">
+    {{ .Inner }}
+  </div>
+</div>

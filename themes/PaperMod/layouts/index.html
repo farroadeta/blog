@@ -28,25 +28,23 @@
             <h2 class="post-list-title">最近</h2>
             <div class="icity-card-list">
                 {{ range first 10 (where (where .Site.RegularPages "Type" "ne" "character") "Layout" "ne" "search").ByDate.Reverse }}
+                {{ $cover := .Params.cover }}
                 {{ $images := slice }}
-                {{ with .Params.cover }}
-                    {{ $images = $images | append . }}
-                {{ end }}
                 {{ $content := .Content }}
-                {{ $imgMatches := findRE "<img[^>]+src=\"([^\"]+)\"" $content 3 }}
+                {{ $imgMatches := findRE "<img[^>]+src=\"([^\"]+)\"" $content }}
                 {{ range $imgMatches }}
                     {{ $src := replaceRE ".*src=\"([^\"]+)\".*" "$1" . }}
                     {{ if not (in $images $src) }}
-                        {{ $images = $images | append $src }}
+                        {{ if or (not $cover) (ne $src $cover) }}
+                            {{ if lt (len $images) 3 }}
+                                {{ $images = $images | append $src }}
+                            {{ end }}
+                        {{ end }}
                     {{ end }}
                 {{ end }}
                 {{ $imageCount := len $images }}
                 {{ $author := .Params.author | default "七哇夸" }}
-                {{ $avatarExt := ".png" }}
-                {{ if or (eq $author "玫瑰") (eq $author "蛇") }}
-                    {{ $avatarExt = ".jpg" }}
-                {{ end }}
-                {{ $avatar := printf "images/author/%s%s" $author $avatarExt }}
+                {{ $avatar := printf "images/author/%s.png" $author }}
                 {{ $authorKey := "qiwa" }}
                 {{ if eq $author "商人" }}{{ $authorKey = "shangren" }}
                 {{ else if eq $author "地理学家" }}{{ $authorKey = "dilixuejia" }}
@@ -57,7 +55,7 @@
                 {{ else if eq $author "酒鬼" }}{{ $authorKey = "jiugui" }}
                 {{ end }}
                 {{ $signature := index $.Site.Params.authorSignatures $authorKey | default $.Site.Params.authorSignatures.qiwa }}
-                <article class="icity-card" data-images="{{ $images | jsonify }}" data-url="{{ .RelPermalink }}">
+                <article class="icity-card{{ if $cover }} has-cover{{ end }}" data-images="{{ $images | jsonify }}" data-url="{{ .RelPermalink }}"{{ if $cover }} style="--card-cover-image: url('{{ $cover }}')"{{ end }}>
                     <div class="icity-card-header">
                         <a href="{{ "/character/" | relURL }}{{ $author | urlize }}" class="icity-card-avatar-link" title="查看{{ $author }}的详情">
                             <div class="icity-card-avatar">

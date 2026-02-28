@@ -1,0 +1,3 @@
+[submodule "themes/hugo-shortcodes"]
+	path = themes/hugo-shortcodes
+	url = https://github.com/santosh/hugo-shortcodes.git

@@ -2633,14 +2633,14 @@ article img.loaded {
     overflow: hidden;
 }
 
-/* 1张图片 - 正方形 */
+/* 1张图片 - 宽屏比例 */
 .icity-card-images[data-count="1"] {
     grid-template-columns: 1fr;
 }
 
 .icity-card-images[data-count="1"] .icity-image-item {
-    aspect-ratio: 1/1;
-    max-height: 180px;
+    aspect-ratio: 16/9;
+    max-height: 220px;
 }
 
 /* 2张图片 - 两列正方形 */

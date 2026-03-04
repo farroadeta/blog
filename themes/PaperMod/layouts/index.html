@@ -57,13 +57,13 @@
                 {{ $signature := index $.Site.Params.authorSignatures $authorKey | default $.Site.Params.authorSignatures.qiwa }}
                 <article class="icity-card{{ if $cover }} has-cover{{ end }}" data-images="{{ $images | jsonify }}" data-url="{{ .RelPermalink }}"{{ if $cover }} style="--card-cover-image: url('{{ $cover }}')"{{ end }}>
                     <div class="icity-card-header">
-                        <a href="{{ "/character/" | relURL }}{{ $author | urlize }}" class="icity-card-avatar-link" title="查看{{ $author }}的详情">
+                        <a href="{{ "/character/" | relURL }}{{ $author }}" class="icity-card-avatar-link" title="查看{{ $author }}的详情">
                             <div class="icity-card-avatar">
                                 <img src="{{ $avatar | relURL }}" alt="{{ $author }}的头像">
                             </div>
                         </a>
                         <div class="icity-card-user">
-                            <a href="{{ "/character/" | relURL }}{{ $author | urlize }}" class="icity-card-username-link">
+                            <a href="{{ "/character/" | relURL }}{{ $author }}" class="icity-card-username-link">
                                 <span class="icity-card-username">{{ $author }}</span>
                             </a>
                             <span class="icity-card-signature">{{ $signature }}</span>

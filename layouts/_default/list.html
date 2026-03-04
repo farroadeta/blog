@@ -38,14 +38,18 @@
         {{ $folderName := index $pathParts 0 }}
         {{ if and $folderName (ne $folderName "posts") (ne $folderName "character") }}
         {{ $content := .Plain | truncate 200 }}
+        {{ $cover := .Params.cover }}
         {{ $images := slice }}
-        {{ with .Params.cover }}
-            {{ $images = $images | append . }}
-        {{ end }}
-        {{ $imgMatches := findRE "<img[^>]+src=\"([^\"]+)\"" .Content 3 }}
+        {{ $imgMatches := findRE "<img[^>]+src=\"([^\"]+)\"" .Content }}
         {{ range $imgMatches }}
             {{ $src := replaceRE ".*src=\"([^\"]+)\".*" "$1" . }}
-            {{ $images = $images | append $src }}
+            {{ if not (in $images $src) }}
+                {{ if or (not $cover) (ne $src $cover) }}
+                    {{ if lt (len $images) 3 }}
+                        {{ $images = $images | append $src }}
+                    {{ end }}
+                {{ end }}
+            {{ end }}
         {{ end }}
         {{ $author := .Params.author | default "七哇夸" }}
         {{ $avatarExt := ".png" }}
@@ -63,7 +67,7 @@
         {{ else if eq $author "酒鬼" }}{{ $authorKey = "jiugui" }}
         {{ end }}
         {{ $signature := index $.Site.Params.authorSignatures $authorKey | default $.Site.Params.authorSignatures.qiwa }}
-        {{ $allData = $allData | append (dict "path" $path "folder" $folderName "title" .Title "date" (.Date.Format "2006年01月02日") "url" .RelPermalink "content" $content "images" $images "author" $author "avatar" $avatar "signature" $signature) }}
+        {{ $allData = $allData | append (dict "path" $path "folder" $folderName "title" .Title "date" (.Date.Format "2006年01月02日") "url" .RelPermalink "content" $content "images" $images "author" $author "avatar" $avatar "signature" $signature "cover" $cover) }}
         {{ end }}
         {{ end }}
         
@@ -203,15 +207,22 @@
                         avatarPath = '/' + avatarPath;
                     }
                     
-                    html += '<article class="icity-card" data-url="' + file.url + '">';
+                    var coverClass = '';
+                    var coverStyle = '';
+                    if (file.cover) {
+                        coverClass = ' has-cover';
+                        coverStyle = ' style="--card-cover-image: url(\'' + file.cover + '\')"';
+                    }
+                    
+                    html += '<article class="icity-card' + coverClass + '" data-url="' + file.url + '"' + coverStyle + '>';
                     html += '<div class="icity-card-header">';
-                    html += '<a href="/character/' + encodeURIComponent(file.author) + '" class="icity-card-avatar-link" title="查看' + file.author + '的详情">';
+                    html += '<a href="/character/' + file.author + '" class="icity-card-avatar-link" title="查看' + file.author + '的详情">';
                     html += '<div class="icity-card-avatar">';
                     html += '<img src="' + avatarPath + '" alt="' + file.author + '的头像">';
                     html += '</div>';
                     html += '</a>';
                     html += '<div class="icity-card-user">';
-                    html += '<a href="/character/' + encodeURIComponent(file.author) + '" class="icity-card-username-link">';
+                    html += '<a href="/character/' + file.author + '" class="icity-card-username-link">';
                     html += '<span class="icity-card-username">' + file.author + '</span>';
                     html += '</a>';
                     html += '<span class="icity-card-signature">' + file.signature + '</span>';
@@ -305,7 +316,7 @@
                         <img src="{{ $avatar | relURL }}" alt="avatar">
                     </div>
                     <div class="icity-card-user">
-                        <a href="{{ "/character/" | relURL }}{{ $author | urlize }}" class="icity-card-username-link">
+                        <a href="{{ "/character/" | relURL }}{{ $author }}" class="icity-card-username-link">
                             <span class="icity-card-username">{{ $author }}</span>
                         </a>
                         <span class="icity-card-signature">{{ $signature }}</span>

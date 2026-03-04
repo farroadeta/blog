@@ -234,4 +234,13 @@
     transform: scale(1.05);
 }
 
-.icity-card
+.icity-card-music {
+    margin-top: 0.75rem;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+.icity-card-music iframe {
+    display: block;
+}

@@ -43,6 +43,27 @@
                     {{ end }}
                 {{ end }}
                 {{ $imageCount := len $images }}
+                {{ $hasMusic := false }}
+                {{ $musicId := "" }}
+                {{ $musicPlatform := "netease" }}
+                {{ with .Params.music }}
+                    {{ $hasMusic = true }}
+                    {{ $musicId = .id }}
+                    {{ with .platform }}
+                        {{ $musicPlatform = . }}
+                    {{ end }}
+                {{ else }}
+                    {{ $musicMatch := findRE "{{&lt; music id=\"[^\"]+\"" .RawContent }}
+                    {{ $hasMusic = gt (len $musicMatch) 0 }}
+                    {{ if $hasMusic }}
+                        {{ $musicStr := index $musicMatch 0 }}
+                        {{ $musicId = replaceRE ".*id=\"([^\"]+)\".*" "$1" $musicStr }}
+                        {{ $platformMatch := findRE "platform=\"[^\"]+\"" .RawContent }}
+                        {{ if gt (len $platformMatch) 0 }}
+                            {{ $musicPlatform = replaceRE ".*platform=\"([^\"]+)\".*" "$1" (index $platformMatch 0) }}
+                        {{ end }}
+                    {{ end }}
+                {{ end }}
                 {{ $author := .Params.author | default "七哇夸" }}
                 {{ $avatar := printf "images/author/%s.png" $author }}
                 {{ $authorKey := "qiwa" }}
@@ -82,6 +103,40 @@
                             <div class="icity-image-item">
                                 <img src="{{ . }}" alt="图片" loading="lazy">
                             </div>
+                            {{ end }}
+                        </div>
+                        {{ end }}
+                        {{ if $hasMusic }}
+                        <div class="icity-card-music">
+                            {{ if eq $musicPlatform "netease" }}
+                            <iframe 
+                                frameborder="no" 
+                                border="0" 
+                                marginwidth="0" 
+                                marginheight="0" 
+                                width="100%" 
+                                height="86" 
+                                src="https://music.163.com/outchain/player?type=2&id={{ $musicId }}&auto=0&height=66">
+                            </iframe>
+                            {{ else if eq $musicPlatform "qq" }}
+                            <iframe 
+                                frameborder="no" 
+                                border="0" 
+                                marginwidth="0" 
+                                marginheight="0" 
+                                width="100%" 
+                                height="86" 
+                                src="https://y.qq.com/portal/player.html?id={{ $musicId }}">
+                            </iframe>
+                            {{ else if eq $musicPlatform "spotify" }}
+                            <iframe 
+                                src="https://open.spotify.com/embed/track/{{ $musicId }}" 
+                                width="100%" 
+                                height="86" 
+                                frameborder="0" 
+                                allowtransparency="true" 
+                                allow="encrypted-media">
+                            </iframe>
                             {{ end }}
                         </div>
                         {{ end }}

@@ -51,6 +51,27 @@
                 {{ end }}
             {{ end }}
         {{ end }}
+        {{ $hasMusic := false }}
+        {{ $musicId := "" }}
+        {{ $musicPlatform := "netease" }}
+        {{ with .Params.music }}
+            {{ $hasMusic = true }}
+            {{ $musicId = .id }}
+            {{ with .platform }}
+                {{ $musicPlatform = . }}
+            {{ end }}
+        {{ else }}
+            {{ $musicMatch := findRE "{{&lt; music id=\"[^\"]+\"" .RawContent }}
+            {{ $hasMusic = gt (len $musicMatch) 0 }}
+            {{ if $hasMusic }}
+                {{ $musicStr := index $musicMatch 0 }}
+                {{ $musicId = replaceRE ".*id=\"([^\"]+)\".*" "$1" $musicStr }}
+                {{ $platformMatch := findRE "platform=\"[^\"]+\"" .RawContent }}
+                {{ if gt (len $platformMatch) 0 }}
+                    {{ $musicPlatform = replaceRE ".*platform=\"([^\"]+)\".*" "$1" (index $platformMatch 0) }}
+                {{ end }}
+            {{ end }}
+        {{ end }}
         {{ $author := .Params.author | default "七哇夸" }}
         {{ $avatar := printf "images/author/%s.png" $author }}
         {{ $authorKey := "qiwa" }}
@@ -63,7 +84,7 @@
         {{ else if eq $author "酒鬼" }}{{ $authorKey = "jiugui" }}
         {{ end }}
         {{ $signature := index $.Site.Params.authorSignatures $authorKey | default $.Site.Params.authorSignatures.qiwa }}
-        {{ $allData = $allData | append (dict "path" $path "folder" $folderName "title" .Title "date" (.Date.Format "2006年01月02日") "url" .RelPermalink "content" $content "images" $images "author" $author "avatar" $avatar "signature" $signature "cover" $cover) }}
+        {{ $allData = $allData | append (dict "path" $path "folder" $folderName "title" .Title "date" (.Date.Format "2006年01月02日") "url" .RelPermalink "content" $content "images" $images "author" $author "avatar" $avatar "signature" $signature "cover" $cover "hasMusic" $hasMusic "musicId" $musicId "musicPlatform" $musicPlatform) }}
         {{ end }}
         {{ end }}
         
@@ -243,6 +264,18 @@
                         html += '</div>';
                     }
                     
+                    if (file.hasMusic) {
+                        html += '<div class="icity-card-music">';
+                        if (file.musicPlatform === 'netease') {
+                            html += '<iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width="100%" height="86" src="https://music.163.com/outchain/player?type=2&id=' + file.musicId + '&auto=0&height=66"></iframe>';
+                        } else if (file.musicPlatform === 'qq') {
+                            html += '<iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width="100%" height="86" src="https://y.qq.com/portal/player.html?id=' + file.musicId + '"></iframe>';
+                        } else if (file.musicPlatform === 'spotify') {
+                            html += '<iframe src="https://open.spotify.com/embed/track/' + file.musicId + '" width="100%" height="86" frameborder="0" allowtransparency="true" allow="encrypted-media"></iframe>';
+                        }
+                        html += '</div>';
+                    }
+                    
                     html += '</div>';
                     html += '<div class="icity-card-footer">';
                     html += '<span class="icity-card-date">' + file.date + '</span>';
@@ -264,8 +297,9 @@
                         const clickedElement = e.target;
                         const isLink = clickedElement.closest('a');
                         const isImage = clickedElement.closest('.icity-card-images');
+                        const isMusic = clickedElement.closest('.icity-card-music');
                         
-                        if (!isLink && !isImage) {
+                        if (!isLink && !isImage && !isMusic) {
                             window.location.href = url;
                         }
                     }
@@ -280,16 +314,41 @@
         
         <div class="icity-card-list">
             {{ range .Pages }}
+            {{ $cover := .Params.cover }}
             {{ $images := slice }}
-            {{ with .Params.cover }}
-                {{ $images = $images | append . }}
-            {{ end }}
-            {{ $imgMatches := findRE "<img[^>]+src=\"([^\"]+)\"" .Content 3 }}
+            {{ $imgMatches := findRE "<img[^>]+src=\"([^\"]+)\"" .Content }}
             {{ range $imgMatches }}
                 {{ $src := replaceRE ".*src=\"([^\"]+)\".*" "$1" . }}
-                {{ $images = $images | append $src }}
+                {{ if not (in $images $src) }}
+                    {{ if or (not $cover) (ne $src $cover) }}
+                        {{ if lt (len $images) 3 }}
+                            {{ $images = $images | append $src }}
+                        {{ end }}
+                    {{ end }}
+                {{ end }}
             {{ end }}
             {{ $imageCount := len $images }}
+            {{ $hasMusic := false }}
+            {{ $musicId := "" }}
+            {{ $musicPlatform := "netease" }}
+            {{ with .Params.music }}
+                {{ $hasMusic = true }}
+                {{ $musicId = .id }}
+                {{ with .platform }}
+                    {{ $musicPlatform = . }}
+                {{ end }}
+            {{ else }}
+                {{ $musicMatch := findRE "{{&lt; music id=\"[^\"]+\"" .RawContent }}
+                {{ $hasMusic = gt (len $musicMatch) 0 }}
+                {{ if $hasMusic }}
+                    {{ $musicStr := index $musicMatch 0 }}
+                    {{ $musicId = replaceRE ".*id=\"([^\"]+)\".*" "$1" $musicStr }}
+                    {{ $platformMatch := findRE "platform=\"[^\"]+\"" .RawContent }}
+                    {{ if gt (len $platformMatch) 0 }}
+                        {{ $musicPlatform = replaceRE ".*platform=\"([^\"]+)\".*" "$1" (index $platformMatch 0) }}
+                    {{ end }}
+                {{ end }}
+            {{ end }}
             {{ $author := .Params.author | default "七哇夸" }}
             {{ $avatar := printf "images/author/%s.png" $author }}
             {{ $authorKey := "qiwa" }}
@@ -302,11 +361,13 @@
             {{ else if eq $author "酒鬼" }}{{ $authorKey = "jiugui" }}
             {{ end }}
             {{ $signature := index $.Site.Params.authorSignatures $authorKey | default $.Site.Params.authorSignatures.qiwa }}
-            <article class="icity-card">
+            <article class="icity-card{{ if $cover }} has-cover{{ end }}"{{ if $cover }} style="--card-cover-image: url('{{ $cover }}')"{{ end }}>
                 <div class="icity-card-header">
-                    <div class="icity-card-avatar">
-                        <img src="{{ $avatar | relURL }}" alt="avatar">
-                    </div>
+                    <a href="{{ "/character/" | relURL }}{{ $author }}" class="icity-card-avatar-link" title="查看{{ $author }}的详情">
+                        <div class="icity-card-avatar">
+                            <img src="{{ $avatar | relURL }}" alt="{{ $author }}的头像">
+                        </div>
+                    </a>
                     <div class="icity-card-user">
                         <a href="{{ "/character/" | relURL }}{{ $author }}" class="icity-card-username-link">
                             <span class="icity-card-username">{{ $author }}</span>
@@ -327,6 +388,40 @@
                         <div class="icity-image-item">
                             <img src="{{ . }}" alt="图片" loading="lazy">
                         </div>
+                        {{ end }}
+                    </div>
+                    {{ end }}
+                    {{ if $hasMusic }}
+                    <div class="icity-card-music">
+                        {{ if eq $musicPlatform "netease" }}
+                        <iframe 
+                            frameborder="no" 
+                            border="0" 
+                            marginwidth="0" 
+                            marginheight="0" 
+                            width="100%" 
+                            height="86" 
+                            src="https://music.163.com/outchain/player?type=2&id={{ $musicId }}&auto=0&height=66">
+                        </iframe>
+                        {{ else if eq $musicPlatform "qq" }}
+                        <iframe 
+                            frameborder="no" 
+                            border="0" 
+                            marginwidth="0" 
+                            marginheight="0" 
+                            width="100%" 
+                            height="86" 
+                            src="https://y.qq.com/portal/player.html?id={{ $musicId }}">
+                        </iframe>
+                        {{ else if eq $musicPlatform "spotify" }}
+                        <iframe 
+                            src="https://open.spotify.com/embed/track/{{ $musicId }}" 
+                            width="100%" 
+                            height="86" 
+                            frameborder="0" 
+                            allowtransparency="true" 
+                            allow="encrypted-media">
+                        </iframe>
                         {{ end }}
                     </div>
                     {{ end }}

@@ -244,3 +244,35 @@
 .icity-card-music iframe {
     display: block;
 }
+
+/* 卡片视频样式 */
+.icity-card-video {
+    margin-top: 0.75rem;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    background-color: #000;
+}
+
+.icity-card-video video {
+    width: 100%;
+    height: auto;
+    max-height: 300px;
+    display: block;
+    border-radius: 8px;
+}
+
+/* B站视频播放器样式 */
+.icity-card-bilibili {
+    margin-top: 0.75rem;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    background-color: #000;
+}
+
+.icity-card-bilibili iframe {
+    display: block;
+    width: 100%;
+    border-radius: 8px;
+}

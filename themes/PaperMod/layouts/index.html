@@ -64,6 +64,18 @@
                         {{ end }}
                     {{ end }}
                 {{ end }}
+                {{ $videoMatch := findRE "<video[^>]+src=\"([^\"]+)\"" $content }}
+                {{ $hasVideo := gt (len $videoMatch) 0 }}
+                {{ $videoSrc := "" }}
+                {{ if $hasVideo }}
+                    {{ $videoSrc = replaceRE ".*src=\"([^\"]+)\".*" "$1" (index $videoMatch 0) }}
+                {{ end }}
+                {{ $bilibiliMatch := findRE "{{< bilibili bvid=\"([^\"]+)\"" .RawContent }}
+                {{ $hasBilibili := gt (len $bilibiliMatch) 0 }}
+                {{ $bvid := "" }}
+                {{ if $hasBilibili }}
+                    {{ $bvid = replaceRE ".*bvid=\"([^\"]+)\".*" "$1" (index $bilibiliMatch 0) }}
+                {{ end }}
                 {{ $author := .Params.author | default "七哇夸" }}
                 {{ $avatar := printf "images/author/%s.png" $author }}
                 {{ $authorKey := "qiwa" }}
@@ -106,6 +118,11 @@
                             {{ end }}
                         </div>
                         {{ end }}
+                        {{ if $hasVideo }}
+                        <div class="icity-card-video">
+                            <video src="{{ $videoSrc }}" controls preload="metadata" playsinline></video>
+                        </div>
+                        {{ end }}
                         {{ if $hasMusic }}
                         <div class="icity-card-music">
                             {{ if eq $musicPlatform "netease" }}
@@ -138,6 +155,20 @@
                                 allow="encrypted-media">
                             </iframe>
                             {{ end }}
+                        </div>
+                        {{ end }}
+                        {{ if $hasBilibili }}
+                        <div class="icity-card-bilibili">
+                            <iframe 
+                                src="https://player.bilibili.com/player.html?bvid={{ $bvid }}&page=1&high_quality=1&danmaku=0&autoplay=0"
+                                scrolling="no"
+                                border="0"
+                                frameborder="no"
+                                framespacing="0"
+                                allowfullscreen="true"
+                                width="100%"
+                                height="200">
+                            </iframe>
                         </div>
                         {{ end }}
                     </div>

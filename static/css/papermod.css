@@ -2391,6 +2391,8 @@ article video {
     background-position: center;
     background-blend-mode: overlay;
     background-color: rgba(255, 255, 255, 0.8);
+    background-repeat: no-repeat;
+    transition: background-image 0.5s ease, transform 0.3s ease;
 }
 
 .icity-card.has-cover:hover {
@@ -2697,6 +2699,7 @@ article video {
     height: 100%;
     object-fit: cover;
     transition: transform 0.3s ease;
+    opacity: 1;
 }
 
 .icity-card:hover .icity-image-item img {
@@ -2754,6 +2757,8 @@ article video {
     background-position: center;
     background-blend-mode: overlay;
     background-color: rgba(255, 255, 255, 0.85);
+    background-repeat: no-repeat;
+    transition: background-image 0.5s ease, transform 0.3s ease;
 }
 
 .archive-card.has-cover:hover {
@@ -2895,6 +2900,7 @@ article video {
     height: 100%;
     object-fit: cover;
     transition: transform 0.3s ease;
+    opacity: 1;
 }
 
 .archive-card:hover .archive-image-item img {

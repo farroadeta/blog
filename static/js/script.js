@@ -98,7 +98,7 @@ function initNavbarScroll() {
 
 // 图片懒加载和响应式处理
 function initLazyLoad() {
-    const images = document.querySelectorAll('article img, .post-content img, .post-single-content img');
+    const images = document.querySelectorAll('article img, .post-content img, .post-single-content img, .icity-card-images img, .archive-card-images img, .hero-image img, .character-avatar img, .character-profile-avatar img');
     
     if ('IntersectionObserver' in window) {
         const imageObserver = new IntersectionObserver((entries, observer) => {
@@ -113,7 +113,7 @@ function initLazyLoad() {
             });
         }, {
             root: null,
-            rootMargin: '50px 0px',
+            rootMargin: '100px 0px', // 提前100px开始加载，提升用户体验
             threshold: 0.01
         });
 

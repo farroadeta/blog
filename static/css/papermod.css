@@ -2101,6 +2101,20 @@ article img.loaded {
     transform: scale(1);
 }
 
+/* 文章内容中的视频样式 */
+.post-content video,
+.post-single-content video,
+article video {
+    max-width: 100%;
+    width: 100%;
+    height: auto;
+    display: block;
+    margin: 1rem 0;
+    border-radius: 8px;
+    background-color: #000;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
 /* 回到顶部按钮 */
 .back-to-top {
     position: fixed;

@@ -64,11 +64,17 @@
                         {{ end }}
                     {{ end }}
                 {{ end }}
-                {{ $videoMatch := findRE "<video[^>]+src=\"([^\"]+)\"" $content }}
+                {{ $videoMatch1 := findRE "<video[^>]+src=\"([^\"]+)\"" $content }}
+                {{ $videoMatch2 := findRE "{{< video src=\"([^\"]+)\"" .RawContent }}
+                {{ $videoMatch := union $videoMatch1 $videoMatch2 }}
                 {{ $hasVideo := gt (len $videoMatch) 0 }}
                 {{ $videoSrc := "" }}
                 {{ if $hasVideo }}
-                    {{ $videoSrc = replaceRE ".*src=\"([^\"]+)\".*" "$1" (index $videoMatch 0) }}
+                    {{ if gt (len $videoMatch1) 0 }}
+                        {{ $videoSrc = replaceRE ".*src=\"([^\"]+)\".*" "$1" (index $videoMatch1 0) }}
+                    {{ else }}
+                        {{ $videoSrc = replaceRE ".*src=\"([^\"]+)\".*" "$1" (index $videoMatch2 0) }}
+                    {{ end }}
                 {{ end }}
                 {{ $bilibiliMatch := findRE "{{< bilibili bvid=\"([^\"]+)\"" .RawContent }}
                 {{ $hasBilibili := gt (len $bilibiliMatch) 0 }}

@@ -2101,6 +2101,20 @@ article img.loaded {
     transform: scale(1);
 }
 
+/* 文章内容中的视频样式 */
+.post-content video,
+.post-single-content video,
+article video {
+    max-width: 100%;
+    width: 100%;
+    height: auto;
+    display: block;
+    margin: 1rem 0;
+    border-radius: 8px;
+    background-color: #000;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
 /* 回到顶部按钮 */
 .back-to-top {
     position: fixed;
@@ -2377,6 +2391,8 @@ article img.loaded {
     background-position: center;
     background-blend-mode: overlay;
     background-color: rgba(255, 255, 255, 0.8);
+    background-repeat: no-repeat;
+    transition: background-image 0.5s ease, transform 0.3s ease;
 }
 
 .icity-card.has-cover:hover {
@@ -2580,6 +2596,14 @@ article img.loaded {
         color: #e0e0e0;
         text-shadow: 0 1px 2px rgba(0, 0, 0, 0.8);
     }
+    
+    .archive-card.has-cover {
+        background-color: rgba(20, 20, 20, 0.85);
+    }
+    
+    .archive-card.has-cover:hover {
+        background-color: rgba(20, 20, 20, 0.85);
+    }
 }
 
 [data-theme="dark"] .icity-card-path {
@@ -2633,14 +2657,14 @@ article img.loaded {
     overflow: hidden;
 }
 
-/* 1张图片 - 正方形 */
+/* 1张图片 - 宽屏比例 */
 .icity-card-images[data-count="1"] {
     grid-template-columns: 1fr;
 }
 
 .icity-card-images[data-count="1"] .icity-image-item {
-    aspect-ratio: 1/1;
-    max-height: 180px;
+    aspect-ratio: 16/9;
+    max-height: 220px;
 }
 
 /* 2张图片 - 两列正方形 */
@@ -2675,6 +2699,7 @@ article img.loaded {
     height: 100%;
     object-fit: cover;
     transition: transform 0.3s ease;
+    opacity: 1;
 }
 
 .icity-card:hover .icity-image-item img {
@@ -2724,6 +2749,25 @@ article img.loaded {
         0 8px 16px rgba(0, 0, 0, 0.04),
         0 16px 32px rgba(0, 0, 0, 0.05),
         0 32px 64px rgba(0, 0, 0, 0.06);
+}
+
+.archive-card.has-cover {
+    background-image: var(--card-cover-image);
+    background-size: cover;
+    background-position: center;
+    background-blend-mode: overlay;
+    background-color: rgba(255, 255, 255, 0.85);
+    background-repeat: no-repeat;
+    transition: background-image 0.5s ease, transform 0.3s ease;
+}
+
+.archive-card.has-cover:hover {
+    background-color: rgba(255, 255, 255, 0.85);
+}
+
+.archive-card.has-cover .archive-card-body {
+    position: relative;
+    z-index: 1;
 }
 
 .archive-card-header {
@@ -2856,6 +2900,7 @@ article img.loaded {
     height: 100%;
     object-fit: cover;
     transition: transform 0.3s ease;
+    opacity: 1;
 }
 
 .archive-card:hover .archive-image-item img {

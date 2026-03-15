@@ -25,7 +25,7 @@
             {{ else if eq $author "酒鬼" }}{{ $authorKey = "jiugui" }}
             {{ end }}
             {{ $signature := index $.Site.Params.authorSignatures $authorKey | default $.Site.Params.authorSignatures.qiwa }}
-            <a href="{{ "/character/" | relURL }}{{ $author | urlize }}" class="character-card">
+            <a href="{{ "/character/" | relURL }}{{ $author }}" class="character-card">
                 <div class="character-avatar">
                     <img src="{{ $avatar | relURL }}" alt="{{ $author }}">
                 </div>

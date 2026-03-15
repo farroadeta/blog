@@ -1,0 +1,68 @@
+{{- $page := .page -}}
+{{- $cover := .cover -}}
+
+{{- $images := slice -}}
+{{- $imgMatches := findRE "<img[^>]+src=\"([^\"]+)\"" $page.Content -}}
+{{- range $imgMatches -}}
+    {{- $src := replaceRE ".*src=\"([^\"]+)\".*" "$1" . -}}
+    {{- if not (in $images $src) -}}
+        {{- if or (not $cover) (ne $src $cover) -}}
+            {{- if lt (len $images) 3 -}}
+                {{- $images = $images | append $src -}}
+            {{- end -}}
+        {{- end -}}
+    {{- end -}}
+{{- end -}}
+
+{{- $hasMusic := false -}}
+{{- $musicId := "" -}}
+{{- $musicPlatform := "netease" -}}
+{{- with $page.Params.music -}}
+    {{- $hasMusic = true -}}
+    {{- $musicId = .id -}}
+    {{- with .platform -}}
+        {{- $musicPlatform = . -}}
+    {{- end -}}
+{{- else -}}
+    {{- $musicMatch := findRE "{{&lt; music id=\"([^\"]+)\"" $page.RawContent -}}
+    {{- $hasMusic = gt (len $musicMatch) 0 -}}
+    {{- if $hasMusic -}}
+        {{- $musicStr := index $musicMatch 0 -}}
+        {{- $musicId = replaceRE ".*id=\"([^\"]+)\".*" "$1" $musicStr -}}
+        {{- $platformMatch := findRE "platform=\"([^\"]+)\"" $page.RawContent -}}
+        {{- if gt (len $platformMatch) 0 -}}
+            {{- $musicPlatform = replaceRE ".*platform=\"([^\"]+)\".*" "$1" (index $platformMatch 0) -}}
+        {{- end -}}
+    {{- end -}}
+{{- end -}}
+
+{{- $videoMatch1 := findRE "<video[^>]+src=\"([^\"]+)\"" $page.Content -}}
+{{- $videoMatch2 := findRE "{{< video src=\"([^\"]+)\"" $page.RawContent -}}
+{{- $videoMatch := union $videoMatch1 $videoMatch2 -}}
+{{- $hasVideo := gt (len $videoMatch) 0 -}}
+{{- $videoSrc := "" -}}
+{{- if $hasVideo -}}
+    {{- if gt (len $videoMatch1) 0 -}}
+        {{- $videoSrc = replaceRE ".*src=\"([^\"]+)\".*" "$1" (index $videoMatch1 0) -}}
+    {{- else -}}
+        {{- $videoSrc = replaceRE ".*src=\"([^\"]+)\".*" "$1" (index $videoMatch2 0) -}}
+    {{- end -}}
+{{- end -}}
+
+{{- $bilibiliMatch := findRE "{{< bilibili bvid=\"([^\"]+)\"" $page.RawContent -}}
+{{- $hasBilibili := gt (len $bilibiliMatch) 0 -}}
+{{- $bvid := "" -}}
+{{- if $hasBilibili -}}
+    {{- $bvid = replaceRE ".*bvid=\"([^\"]+)\".*" "$1" (index $bilibiliMatch 0) -}}
+{{- end -}}
+
+{{- return (dict 
+    "images" $images 
+    "hasMusic" $hasMusic 
+    "musicId" $musicId 
+    "musicPlatform" $musicPlatform 
+    "hasVideo" $hasVideo 
+    "videoSrc" $videoSrc 
+    "hasBilibili" $hasBilibili 
+    "bvid" $bvid
+) -}}

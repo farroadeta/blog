@@ -28,84 +28,21 @@
             <h2 class="post-list-title">最近</h2>
             <div class="icity-card-list">
                 {{ range first 10 (where (where .Site.RegularPages "Type" "ne" "character") "Layout" "ne" "search").ByDate.Reverse }}
-                {{ $cover := .Params.cover }}
-                {{ $images := slice }}
-                {{ $content := .Content }}
-                {{ $imgMatches := findRE "<img[^>]+src=\"([^\"]+)\"" $content }}
-                {{ range $imgMatches }}
-                    {{ $src := replaceRE ".*src=\"([^\"]+)\".*" "$1" . }}
-                    {{ if not (in $images $src) }}
-                        {{ if or (not $cover) (ne $src $cover) }}
-                            {{ if lt (len $images) 3 }}
-                                {{ $images = $images | append $src }}
-                            {{ end }}
-                        {{ end }}
-                    {{ end }}
-                {{ end }}
-                {{ $imageCount := len $images }}
-                {{ $hasMusic := false }}
-                {{ $musicId := "" }}
-                {{ $musicPlatform := "netease" }}
-                {{ with .Params.music }}
-                    {{ $hasMusic = true }}
-                    {{ $musicId = .id }}
-                    {{ with .platform }}
-                        {{ $musicPlatform = . }}
-                    {{ end }}
-                {{ else }}
-                    {{ $musicMatch := findRE "{{&lt; music id=\"[^\"]+\"" .RawContent }}
-                    {{ $hasMusic = gt (len $musicMatch) 0 }}
-                    {{ if $hasMusic }}
-                        {{ $musicStr := index $musicMatch 0 }}
-                        {{ $musicId = replaceRE ".*id=\"([^\"]+)\".*" "$1" $musicStr }}
-                        {{ $platformMatch := findRE "platform=\"[^\"]+\"" .RawContent }}
-                        {{ if gt (len $platformMatch) 0 }}
-                            {{ $musicPlatform = replaceRE ".*platform=\"([^\"]+)\".*" "$1" (index $platformMatch 0) }}
-                        {{ end }}
-                    {{ end }}
-                {{ end }}
-                {{ $videoMatch1 := findRE "<video[^>]+src=\"([^\"]+)\"" $content }}
-                {{ $videoMatch2 := findRE "{{< video src=\"([^\"]+)\"" .RawContent }}
-                {{ $videoMatch := union $videoMatch1 $videoMatch2 }}
-                {{ $hasVideo := gt (len $videoMatch) 0 }}
-                {{ $videoSrc := "" }}
-                {{ if $hasVideo }}
-                    {{ if gt (len $videoMatch1) 0 }}
-                        {{ $videoSrc = replaceRE ".*src=\"([^\"]+)\".*" "$1" (index $videoMatch1 0) }}
-                    {{ else }}
-                        {{ $videoSrc = replaceRE ".*src=\"([^\"]+)\".*" "$1" (index $videoMatch2 0) }}
-                    {{ end }}
-                {{ end }}
-                {{ $bilibiliMatch := findRE "{{< bilibili bvid=\"([^\"]+)\"" .RawContent }}
-                {{ $hasBilibili := gt (len $bilibiliMatch) 0 }}
-                {{ $bvid := "" }}
-                {{ if $hasBilibili }}
-                    {{ $bvid = replaceRE ".*bvid=\"([^\"]+)\".*" "$1" (index $bilibiliMatch 0) }}
-                {{ end }}
-                {{ $author := .Params.author | default "七哇夸" }}
-                {{ $avatar := printf "images/author/%s.png" $author }}
-                {{ $authorKey := "qiwa" }}
-                {{ if eq $author "商人" }}{{ $authorKey = "shangren" }}
-                {{ else if eq $author "地理学家" }}{{ $authorKey = "dilixuejia" }}
-                {{ else if eq $author "小王子" }}{{ $authorKey = "xiaowangzi" }}
-                {{ else if eq $author "狐狸" }}{{ $authorKey = "huli" }}
-                {{ else if eq $author "玫瑰" }}{{ $authorKey = "meigui" }}
-                {{ else if eq $author "蛇" }}{{ $authorKey = "she" }}
-                {{ else if eq $author "酒鬼" }}{{ $authorKey = "jiugui" }}
-                {{ end }}
-                {{ $signature := index $.Site.Params.authorSignatures $authorKey | default $.Site.Params.authorSignatures.qiwa }}
-                <article class="icity-card{{ if $cover }} has-cover{{ end }}" data-images="{{ $images | jsonify }}" data-url="{{ .RelPermalink }}"{{ if $cover }} style="--card-cover-image: url('{{ $cover }}')"{{ end }}>
+                {{ $media := partial "extract-media-content.html" (dict "page" . "cover" .Params.cover) }}
+                {{ $authorInfo := partial "author-info.html" . }}
+                {{ $imageCount := len $media.images }}
+                <article class="icity-card{{ if .Params.cover }} has-cover{{ end }}" data-images="{{ $media.images | jsonify }}" data-url="{{ .RelPermalink }}"{{ if .Params.cover }} style="--card-cover-image: url('{{ .Params.cover }}')"{{ end }}>
                     <div class="icity-card-header">
-                        <a href="{{ "/character/" | relURL }}{{ $author }}" class="icity-card-avatar-link" title="查看{{ $author }}的详情">
+                        <a href="{{ "/character/" | relURL }}{{ $authorInfo.author }}" class="icity-card-avatar-link" title="查看{{ $authorInfo.author }}的详情">
                             <div class="icity-card-avatar">
-                                <img src="{{ $avatar | relURL }}" alt="{{ $author }}的头像">
+                                <img src="{{ $authorInfo.avatar | relURL }}" alt="{{ $authorInfo.author }}的头像">
                             </div>
                         </a>
                         <div class="icity-card-user">
-                            <a href="{{ "/character/" | relURL }}{{ $author }}" class="icity-card-username-link">
-                                <span class="icity-card-username">{{ $author }}</span>
+                            <a href="{{ "/character/" | relURL }}{{ $authorInfo.author }}" class="icity-card-username-link">
+                                <span class="icity-card-username">{{ $authorInfo.author }}</span>
                             </a>
-                            <span class="icity-card-signature">{{ $signature }}</span>
+                            <span class="icity-card-signature">{{ $authorInfo.signature }}</span>
                         </div>
                     </div>
                     <div class="icity-card-body">
@@ -117,21 +54,21 @@
                         <p class="icity-card-content">{{ .Plain | truncate 200 }}</p>
                         {{ if gt $imageCount 0 }}
                         <div class="icity-card-images" data-count="{{ $imageCount }}">
-                            {{ range first 3 $images }}
+                            {{ range first 3 $media.images }}
                             <div class="icity-image-item">
                                 <img src="{{ . }}" alt="图片" loading="lazy">
                             </div>
                             {{ end }}
                         </div>
                         {{ end }}
-                        {{ if $hasVideo }}
+                        {{ if $media.hasVideo }}
                         <div class="icity-card-video">
-                            <video src="{{ $videoSrc }}" controls preload="metadata" playsinline></video>
+                            <video src="{{ $media.videoSrc }}" controls preload="metadata" playsinline></video>
                         </div>
                         {{ end }}
-                        {{ if $hasMusic }}
+                        {{ if $media.hasMusic }}
                         <div class="icity-card-music">
-                            {{ if eq $musicPlatform "netease" }}
+                            {{ if eq $media.musicPlatform "netease" }}
                             <iframe 
                                 frameborder="no" 
                                 border="0" 
@@ -139,9 +76,9 @@
                                 marginheight="0" 
                                 width="100%" 
                                 height="86" 
-                                src="https://music.163.com/outchain/player?type=2&id={{ $musicId }}&auto=0&height=66">
+                                src="https://music.163.com/outchain/player?type=2&id={{ $media.musicId }}&auto=0&height=66">
                             </iframe>
-                            {{ else if eq $musicPlatform "qq" }}
+                            {{ else if eq $media.musicPlatform "qq" }}
                             <iframe 
                                 frameborder="no" 
                                 border="0" 
@@ -149,11 +86,11 @@
                                 marginheight="0" 
                                 width="100%" 
                                 height="86" 
-                                src="https://y.qq.com/portal/player.html?id={{ $musicId }}">
+                                src="https://y.qq.com/portal/player.html?id={{ $media.musicId }}">
                             </iframe>
-                            {{ else if eq $musicPlatform "spotify" }}
+                            {{ else if eq $media.musicPlatform "spotify" }}
                             <iframe 
-                                src="https://open.spotify.com/embed/track/{{ $musicId }}" 
+                                src="https://open.spotify.com/embed/track/{{ $media.musicId }}" 
                                 width="100%" 
                                 height="86" 
                                 frameborder="0" 
@@ -163,10 +100,10 @@
                             {{ end }}
                         </div>
                         {{ end }}
-                        {{ if $hasBilibili }}
+                        {{ if $media.hasBilibili }}
                         <div class="icity-card-bilibili">
                             <iframe 
-                                src="https://player.bilibili.com/player.html?bvid={{ $bvid }}&page=1&high_quality=1&danmaku=0&autoplay=0"
+                                src="https://player.bilibili.com/player.html?bvid={{ $media.bvid }}&page=1&high_quality=1&danmaku=0&autoplay=0"
                                 scrolling="no"
                                 border="0"
                                 frameborder="no"

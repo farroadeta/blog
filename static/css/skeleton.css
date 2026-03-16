@@ -1,0 +1,300 @@
+/* ==================== 骨架屏加载样式 ==================== */
+
+/* 骨架屏容器 */
+.skeleton {
+    position: relative;
+    overflow: hidden;
+    background: linear-gradient(
+        90deg,
+        var(--color-background) 0%,
+        #e0e0e0 50%,
+        var(--color-background) 100%
+    );
+    background-size: 200% 100%;
+    animation: skeleton-loading 1.5s ease-in-out infinite;
+}
+
+/* 骨架屏动画 */
+@keyframes skeleton-loading {
+    0% {
+        background-position: 200% 0;
+    }
+    100% {
+        background-position: -200% 0;
+    }
+}
+
+/* 文章卡片骨架屏 */
+.skeleton-card {
+    background-color: var(--color-surface);
+    border-radius: 12px;
+    padding: 1.25rem;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    margin-bottom: 1.5rem;
+}
+
+.skeleton-card-header {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-bottom: 1rem;
+}
+
+.skeleton-avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 8px;
+    flex-shrink: 0;
+}
+
+.skeleton-user-info {
+    flex: 1;
+}
+
+.skeleton-username {
+    height: 16px;
+    width: 60%;
+    margin-bottom: 0.5rem;
+    border-radius: 4px;
+}
+
+.skeleton-time {
+    height: 12px;
+    width: 40%;
+    border-radius: 4px;
+}
+
+.skeleton-title {
+    height: 24px;
+    width: 80%;
+    margin-bottom: 1rem;
+    border-radius: 4px;
+}
+
+.skeleton-text {
+    height: 14px;
+    width: 100%;
+    margin-bottom: 0.5rem;
+    border-radius: 4px;
+}
+
+.skeleton-text:last-child {
+    width: 60%;
+}
+
+.skeleton-image {
+    width: 100%;
+    height: 200px;
+    margin-top: 1rem;
+    border-radius: 8px;
+}
+
+/* 文章页面骨架屏 */
+.skeleton-post {
+    max-width: 800px;
+    margin: 2rem auto;
+    background-color: var(--color-surface);
+    border-radius: 12px;
+    padding: 2rem;
+}
+
+.skeleton-post-banner {
+    width: 100%;
+    height: 320px;
+    margin-bottom: 2rem;
+    border-radius: 12px;
+}
+
+.skeleton-post-title {
+    height: 32px;
+    width: 70%;
+    margin: 0 auto 1rem;
+    border-radius: 4px;
+}
+
+.skeleton-post-meta {
+    height: 16px;
+    width: 30%;
+    margin: 0 auto 2rem;
+    border-radius: 4px;
+}
+
+.skeleton-post-content {
+    margin-top: 2rem;
+}
+
+.skeleton-post-content .skeleton-text {
+    height: 16px;
+    margin-bottom: 1rem;
+}
+
+/* 搜索结果骨架屏 */
+.skeleton-search-result {
+    background-color: var(--color-surface);
+    border-radius: 8px;
+    padding: 25px;
+    margin-bottom: 20px;
+}
+
+.skeleton-search-title {
+    height: 26px;
+    width: 60%;
+    margin-bottom: 15px;
+    border-radius: 4px;
+}
+
+.skeleton-search-meta {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 12px;
+}
+
+.skeleton-search-meta-item {
+    height: 14px;
+    width: 100px;
+    border-radius: 4px;
+}
+
+.skeleton-search-summary {
+    height: 14px;
+    width: 100%;
+    margin-bottom: 0.5rem;
+    border-radius: 4px;
+}
+
+/* 人物卡片骨架屏 */
+.skeleton-character-card {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    background-color: var(--color-surface);
+    border-radius: 12px;
+    padding: 20px;
+}
+
+.skeleton-character-avatar {
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+    flex-shrink: 0;
+}
+
+.skeleton-character-info {
+    flex: 1;
+}
+
+.skeleton-character-name {
+    height: 20px;
+    width: 50%;
+    margin-bottom: 0.5rem;
+    border-radius: 4px;
+}
+
+.skeleton-character-signature {
+    height: 14px;
+    width: 80%;
+    margin-bottom: 0.5rem;
+    border-radius: 4px;
+}
+
+.skeleton-character-count {
+    height: 16px;
+    width: 60px;
+    border-radius: 12px;
+}
+
+/* 首页骨架屏 */
+.skeleton-hero {
+    text-align: center;
+    padding: 6rem 2rem 3rem;
+    min-height: 80vh;
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+}
+
+.skeleton-hero-text {
+    height: 72px;
+    width: 80%;
+    max-width: 900px;
+    margin: 0 auto 1.5rem;
+    border-radius: 8px;
+}
+
+.skeleton-hero-from {
+    height: 20px;
+    width: 30%;
+    max-width: 300px;
+    margin: 0 auto;
+    border-radius: 4px;
+}
+
+/* 暗色模式骨架屏 */
+@media (prefers-color-scheme: dark),
+[data-theme="dark"] {
+    .skeleton {
+        background: linear-gradient(
+            90deg,
+            #2d2d2d 0%,
+            #3d3d3d 50%,
+            #2d2d2d 100%
+        );
+        background-size: 200% 100%;
+    }
+}
+
+/* 骨架屏淡出动画 */
+.skeleton-fade-out {
+    animation: skeleton-fadeOut 0.5s ease-out forwards;
+}
+
+@keyframes skeleton-fadeOut {
+    from {
+        opacity: 1;
+    }
+    to {
+        opacity: 0;
+        visibility: hidden;
+    }
+}
+
+/* 内容淡入动画 */
+.content-fade-in {
+    animation: content-fadeIn 0.5s ease-out forwards;
+}
+
+@keyframes content-fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* 响应式骨架屏 */
+@media (max-width: 768px) {
+    .skeleton-card {
+        padding: 1rem;
+    }
+    
+    .skeleton-post {
+        padding: 1.5rem;
+        margin: 1rem;
+    }
+    
+    .skeleton-post-banner {
+        height: 220px;
+    }
+    
+    .skeleton-hero {
+        padding: 2rem 1rem 1.5rem;
+        min-height: auto;
+    }
+    
+    .skeleton-hero-text {
+        height: 48px;
+    }
+}

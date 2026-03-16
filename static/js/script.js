@@ -1,5 +1,32 @@
 // PaperMod 主题脚本
 
+// ==================== SVG图标常量 ====================
+const ICONS = {
+    sun: `
+        <circle cx="12" cy="12" r="5"></circle>
+        <line x1="12" y1="1" x2="12" y2="3"></line>
+        <line x1="12" y1="21" x2="12" y2="23"></line>
+        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+        <line x1="1" y1="12" x2="3" y2="12"></line>
+        <line x1="21" y1="12" x2="23" y2="12"></line>
+        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+    `,
+    moon: `
+        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+    `,
+    menu: `
+        <line x1="3" y1="12" x2="21" y2="12"></line>
+        <line x1="3" y1="6" x2="21" y2="6"></line>
+        <line x1="3" y1="18" x2="21" y2="18"></line>
+    `,
+    close: `
+        <line x1="18" y1="6" x2="6" y2="18"></line>
+        <line x1="6" y1="6" x2="18" y2="18"></line>
+    `
+};
+
 // ==================== 工具函数 ====================
 
 // 防抖函数
@@ -45,23 +72,9 @@ function initThemeToggle() {
             if (!icon) return;
             
             if (theme === 'dark') {
-                // 更换为太阳图标
-                icon.innerHTML = `
-                    <circle cx="12" cy="12" r="5"></circle>
-                    <line x1="12" y1="1" x2="12" y2="3"></line>
-                    <line x1="12" y1="21" x2="12" y2="23"></line>
-                    <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
-                    <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
-                    <line x1="1" y1="12" x2="3" y2="12"></line>
-                    <line x1="21" y1="12" x2="23" y2="12"></line>
-                    <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
-                    <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
-                `;
+                icon.innerHTML = ICONS.sun;
             } else {
-                // 更换为月亮图标
-                icon.innerHTML = `
-                    <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
-                `;
+                icon.innerHTML = ICONS.moon;
             }
         });
     }
@@ -208,18 +221,9 @@ function initMobileMenu() {
         // 更新汉堡菜单图标
         const icon = mobileMenuToggle.querySelector('svg');
         if (mobileMenu.classList.contains('active')) {
-            // 更换为关闭图标
-            icon.innerHTML = `
-                <line x1="18" y1="6" x2="6" y2="18"></line>
-                <line x1="6" y1="6" x2="18" y2="18"></line>
-            `;
+            icon.innerHTML = ICONS.close;
         } else {
-            // 更换为菜单图标
-            icon.innerHTML = `
-                <line x1="3" y1="12" x2="21" y2="12"></line>
-                <line x1="3" y1="6" x2="21" y2="6"></line>
-                <line x1="3" y1="18" x2="21" y2="18"></line>
-            `;
+            icon.innerHTML = ICONS.menu;
         }
     });
 
@@ -228,11 +232,7 @@ function initMobileMenu() {
         if (!mobileMenu.contains(e.target) && !mobileMenuToggle.contains(e.target)) {
             mobileMenu.classList.remove('active');
             const icon = mobileMenuToggle.querySelector('svg');
-            icon.innerHTML = `
-                <line x1="3" y1="12" x2="21" y2="12"></line>
-                <line x1="3" y1="6" x2="21" y2="6"></line>
-                <line x1="3" y1="18" x2="21" y2="18"></line>
-            `;
+            icon.innerHTML = ICONS.menu;
         }
     });
 
@@ -242,12 +242,37 @@ function initMobileMenu() {
         link.addEventListener('click', () => {
             mobileMenu.classList.remove('active');
             const icon = mobileMenuToggle.querySelector('svg');
-            icon.innerHTML = `
-                <line x1="3" y1="12" x2="21" y2="12"></line>
-                <line x1="3" y1="6" x2="21" y2="6"></line>
-                <line x1="3" y1="18" x2="21" y2="18"></line>
-            `;
+            icon.innerHTML = ICONS.menu;
         });
+    });
+}
+
+// ==================== 悬浮菜单功能 ====================
+function initFloatingMenu() {
+    const floatingMenu = document.querySelector('.floating-menu');
+    const floatingMenuToggle = document.querySelector('.floating-menu-toggle');
+    
+    if (!floatingMenu || !floatingMenuToggle) return;
+    
+    // 切换菜单展开/收起
+    floatingMenuToggle.addEventListener('click', (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        floatingMenu.classList.toggle('active');
+    });
+    
+    // 点击菜单外部关闭菜单（使用事件委托）
+    document.addEventListener('click', (e) => {
+        if (!floatingMenu.contains(e.target)) {
+            floatingMenu.classList.remove('active');
+        }
+    });
+    
+    // 点击菜单项后关闭菜单
+    floatingMenu.addEventListener('click', (e) => {
+        if (e.target.closest('.floating-menu-item')) {
+            floatingMenu.classList.remove('active');
+        }
     });
 }
 
@@ -259,6 +284,7 @@ document.addEventListener('DOMContentLoaded', () => {
     initNavbarScroll();
     initLazyLoad();
     initMobileMenu();
+    initFloatingMenu();
 
     // 页面加载动画 - 移动端禁用
     if (window.innerWidth > 768) {
@@ -361,11 +387,7 @@ function initKeyboardNavigation() {
                 mobileMenu.classList.remove('active');
                 const icon = document.querySelector('.mobile-menu-toggle svg');
                 if (icon) {
-                    icon.innerHTML = `
-                        <line x1="3" y1="12" x2="21" y2="12"></line>
-                        <line x1="3" y1="6" x2="21" y2="6"></line>
-                        <line x1="3" y1="18" x2="21" y2="18"></line>
-                    `;
+                    icon.innerHTML = ICONS.menu;
                 }
             }
         }
@@ -605,3 +627,247 @@ function initPerformanceMonitoring() {
 
 // 初始化性能监控
 document.addEventListener('DOMContentLoaded', initPerformanceMonitoring);
+
+// ==================== 骨架屏加载 ====================
+
+function initSkeletonLoading() {
+    // 显示骨架屏
+    function showSkeleton() {
+        const skeletons = document.querySelectorAll('.skeleton-container');
+        skeletons.forEach(skeleton => {
+            skeleton.style.display = 'block';
+        });
+    }
+    
+    // 隐藏骨架屏
+    function hideSkeleton() {
+        const skeletons = document.querySelectorAll('.skeleton-container');
+        skeletons.forEach(skeleton => {
+            skeleton.classList.add('skeleton-fade-out');
+            setTimeout(() => {
+                skeleton.style.display = 'none';
+            }, 500);
+        });
+        
+        // 显示真实内容
+        const contents = document.querySelectorAll('.content-container');
+        contents.forEach(content => {
+            content.classList.add('content-fade-in');
+        });
+    }
+    
+    // 页面加载完成后隐藏骨架屏
+    window.addEventListener('load', () => {
+        setTimeout(hideSkeleton, 300); // 延迟300ms，让内容完全加载
+    });
+    
+    // 如果页面已经加载完成，立即隐藏骨架屏
+    if (document.readyState === 'complete') {
+        hideSkeleton();
+    }
+}
+
+// 初始化骨架屏
+document.addEventListener('DOMContentLoaded', initSkeletonLoading);
+
+// ==================== 画廊瀑布流布局 ====================
+
+function initGalleryMasonry() {
+    const gallery = document.querySelector('.gallery-masonry');
+    if (!gallery) return;
+    
+    const items = gallery.querySelectorAll('.gallery-item');
+    if (items.length === 0) return;
+    
+    let columnCount = 4;
+    let isLayouting = false;
+    let pendingLayout = false;
+    
+    // 根据屏幕宽度计算列数
+    function getColumnCount() {
+        const width = window.innerWidth;
+        if (width > 1400) return 5;
+        if (width > 1100) return 4;
+        if (width > 768) return 3;
+        if (width > 480) return 2;
+        return 2;
+    }
+    
+    // 获取图片实际高度（考虑懒加载）
+    function getItemHeight(item) {
+        const img = item.querySelector('.gallery-image');
+        if (!img) return 200;
+        
+        // 如果图片已加载，返回实际高度
+        if (img.complete && img.naturalHeight > 0) {
+            const aspectRatio = img.naturalHeight / img.naturalWidth;
+            const width = item.offsetWidth || (gallery.offsetWidth - 16 * (columnCount - 1)) / columnCount;
+            return width * aspectRatio;
+        }
+        
+        // 未加载时，返回预估高度
+        return 200;
+    }
+    
+    // 执行瀑布流布局
+    function layoutMasonry() {
+        if (isLayouting) {
+            pendingLayout = true;
+            return;
+        }
+        
+        isLayouting = true;
+        
+        const newColumnCount = getColumnCount();
+        const containerWidth = gallery.offsetWidth;
+        
+        // 计算边距和间距
+        let sidePadding, gap;
+        if (window.innerWidth > 1400) {
+            sidePadding = 120; // 超宽屏大边距
+            gap = 24;
+        } else if (window.innerWidth > 1100) {
+            sidePadding = 100; // 桌面边距
+            gap = 20;
+        } else if (window.innerWidth > 768) {
+            sidePadding = 60; // 平板边距
+            gap = 16;
+        } else if (window.innerWidth > 480) {
+            sidePadding = 32; // 大屏手机边距
+            gap = 12;
+        } else {
+            sidePadding = 16; // 小屏手机边距
+            gap = 8;
+        }
+        
+        // 可用宽度 = 总宽度 - 左右边距
+        const usableWidth = containerWidth - sidePadding * 2;
+        const columnWidth = (usableWidth - gap * (newColumnCount - 1)) / newColumnCount;
+        
+        // 如果列数变化，需要重新布局
+        const needsFullRelayout = newColumnCount !== columnCount;
+        columnCount = newColumnCount;
+        
+        // 创建列数组，存储每列当前高度
+        const columnHeights = new Array(columnCount).fill(0);
+        
+        // 设置容器样式
+        gallery.style.position = 'relative';
+        
+        // 遍历所有图片项
+        items.forEach((item, index) => {
+            // 找到最短的列
+            const minHeight = Math.min(...columnHeights);
+            const columnIndex = columnHeights.indexOf(minHeight);
+            
+            // 设置图片项位置 - 加上左边距
+            item.style.position = 'absolute';
+            item.style.width = `${columnWidth}px`;
+            item.style.left = `${sidePadding + columnIndex * (columnWidth + gap)}px`;
+            item.style.top = `${minHeight}px`;
+            
+            // 获取图片高度并更新列高度
+            const height = getItemHeight(item);
+            columnHeights[columnIndex] += height + gap;
+        });
+        
+        // 设置容器高度
+        const maxHeight = Math.max(...columnHeights);
+        gallery.style.height = `${maxHeight}px`;
+        
+        isLayouting = false;
+        
+        // 如果有待处理的布局请求
+        if (pendingLayout) {
+            pendingLayout = false;
+            requestAnimationFrame(layoutMasonry);
+        }
+    }
+    
+    // 图片加载处理
+    function handleImageLoad(img, item) {
+        img.classList.add('loaded');
+        item.classList.add('loaded');
+        
+        // 图片加载后重新布局
+        requestAnimationFrame(() => {
+            layoutMasonry();
+        });
+    }
+    
+    // 图片加载错误处理
+    function handleImageError(img, item) {
+        img.classList.add('error');
+        item.classList.add('loaded');
+    }
+    
+    // 初始化图片加载状态
+    function initImageLoading() {
+        items.forEach(item => {
+            const img = item.querySelector('.gallery-image');
+            if (!img) return;
+            
+            if (img.complete) {
+                if (img.naturalHeight > 0) {
+                    handleImageLoad(img, item);
+                } else {
+                    handleImageError(img, item);
+                }
+            } else {
+                img.addEventListener('load', () => handleImageLoad(img, item), { once: true });
+                img.addEventListener('error', () => handleImageError(img, item), { once: true });
+            }
+        });
+    }
+    
+    // 使用 IntersectionObserver 优化懒加载
+    if ('IntersectionObserver' in window) {
+        const imageObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const img = entry.target;
+                    if (img.dataset.src) {
+                        img.src = img.dataset.src;
+                        delete img.dataset.src;
+                    }
+                    imageObserver.unobserve(img);
+                }
+            });
+        }, {
+            rootMargin: '100px 0px',
+            threshold: 0.01
+        });
+        
+        items.forEach(item => {
+            const img = item.querySelector('.gallery-image');
+            if (img && !img.complete) {
+                imageObserver.observe(img);
+            }
+        });
+    }
+    
+    // 初始布局
+    layoutMasonry();
+    initImageLoading();
+    
+    // 窗口大小改变时重新布局（使用防抖）
+    let resizeTimer;
+    const handleResize = () => {
+        clearTimeout(resizeTimer);
+        resizeTimer = setTimeout(() => {
+            layoutMasonry();
+        }, 150);
+    };
+    
+    window.addEventListener('resize', handleResize, { passive: true });
+    
+    // 页面完全加载后再次布局
+    window.addEventListener('load', () => {
+        setTimeout(layoutMasonry, 100);
+    });
+}
+
+// 初始化瀑布流
+document.addEventListener('DOMContentLoaded', initGalleryMasonry);
+
+

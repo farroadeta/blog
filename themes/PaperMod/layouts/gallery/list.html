@@ -1,0 +1,56 @@
+{{ define "main" }}
+</div> 
+<div class="gallery-fullwidth">
+
+    
+    <!-- 图片瀑布流 -->
+    <div class="gallery-masonry" id="gallery-grid">
+        {{ $allImages := slice }}
+        {{ $seenUrls := slice }}
+        
+        {{ range .Site.RegularPages }}
+            {{ if hasPrefix .RelPermalink "/posts/" }}
+                {{ $category := "" }}
+                {{ with .File }}
+                    {{ $path := replace .Dir "\\" "/" }}
+                    {{ $pathParts := split $path "/" }}
+                    {{ if gt (len $pathParts) 2 }}
+                        {{ $category = index $pathParts 1 }}
+                    {{ end }}
+                {{ end }}
+                
+                {{ $title := .Title }}
+                {{ $date := .Date }}
+                {{ $postUrl := .RelPermalink }}
+                
+                {{ with .Params.cover }}
+                    {{ $allImages = $allImages | append (dict "url" . "title" $title "date" $date "category" $category "postUrl" $postUrl) }}
+                    {{ $seenUrls = $seenUrls | append . }}
+                {{ end }}
+                
+                {{ $imgMatches := findRE "<img[^>]+src=\"([^\"]+)\"" .Content }}
+                {{ range $imgMatches }}
+                    {{ $src := replaceRE ".*src=\"([^\"]+)\".*" "$1" . }}
+                    {{ if not (in $seenUrls $src) }}
+                        {{ $allImages = $allImages | append (dict "url" $src "title" $title "date" $date "category" $category "postUrl" $postUrl) }}
+                        {{ $seenUrls = $seenUrls | append $src }}
+                    {{ end }}
+                {{ end }}
+            {{ end }}
+        {{ end }}
+        
+        {{ range $index, $image := $allImages }}
+        <a href="{{ index $image "postUrl" }}" class="gallery-item" data-category="{{ index $image "category" }}" tabindex="0">
+            <img 
+                src="{{ index $image "url" }}" 
+                alt="{{ index $image "title" }}" 
+                loading="lazy" 
+                decoding="async"
+                class="gallery-image"
+            >
+        </a>
+        {{ end }}
+    </div>
+</div>
+<div class="container">
+{{ end }}

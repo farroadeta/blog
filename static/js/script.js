@@ -251,29 +251,150 @@ function initMobileMenu() {
 function initFloatingMenu() {
     const floatingMenu = document.querySelector('.floating-menu');
     const floatingMenuToggle = document.querySelector('.floating-menu-toggle');
+    const menuItems = floatingMenu?.querySelectorAll('.floating-menu-item');
     
     if (!floatingMenu || !floatingMenuToggle) return;
     
-    // 切换菜单展开/收起
+    let isAnimating = false;
+    
+    // 检测是否是移动端
+    function isMobile() {
+        return window.innerWidth <= 768;
+    }
+    
+    // 打开菜单
+    function openMenu() {
+        if (isAnimating || floatingMenu.classList.contains('active')) return;
+        isAnimating = true;
+        
+        floatingMenu.classList.add('active');
+        floatingMenuToggle.setAttribute('aria-expanded', 'true');
+        floatingMenuToggle.setAttribute('aria-label', '收起菜单');
+        
+        // 根据设备类型调整动画锁时间
+        const animationDuration = isMobile() ? 320 : 400;
+        setTimeout(() => {
+            isAnimating = false;
+            if (menuItems && menuItems.length > 0) {
+                menuItems[0].focus();
+            }
+        }, animationDuration);
+    }
+    
+    // 关闭菜单
+    function closeMenu() {
+        if (isAnimating || !floatingMenu.classList.contains('active')) return;
+        isAnimating = true;
+        
+        floatingMenu.classList.remove('active');
+        floatingMenuToggle.setAttribute('aria-expanded', 'false');
+        floatingMenuToggle.setAttribute('aria-label', '展开菜单');
+        
+        // 根据设备类型调整动画锁时间
+        const animationDuration = isMobile() ? 320 : 400;
+        setTimeout(() => {
+            isAnimating = false;
+            floatingMenuToggle.focus();
+        }, animationDuration);
+    }
+    
+    // 切换菜单状态
+    function toggleMenu() {
+        if (floatingMenu.classList.contains('active')) {
+            closeMenu();
+        } else {
+            openMenu();
+        }
+    }
+    
+    // 点击切换按钮
     floatingMenuToggle.addEventListener('click', (e) => {
         e.preventDefault();
         e.stopPropagation();
-        floatingMenu.classList.toggle('active');
+        toggleMenu();
     });
     
-    // 点击菜单外部关闭菜单（使用事件委托）
+    // 点击菜单外部关闭菜单
     document.addEventListener('click', (e) => {
-        if (!floatingMenu.contains(e.target)) {
-            floatingMenu.classList.remove('active');
+        if (!floatingMenu.contains(e.target) && floatingMenu.classList.contains('active')) {
+            closeMenu();
         }
     });
     
     // 点击菜单项后关闭菜单
     floatingMenu.addEventListener('click', (e) => {
         if (e.target.closest('.floating-menu-item')) {
-            floatingMenu.classList.remove('active');
+            closeMenu();
         }
     });
+    
+    // 键盘导航
+    floatingMenuToggle.addEventListener('keydown', (e) => {
+        switch (e.key) {
+            case 'Enter':
+            case ' ':
+            case 'ArrowUp':
+            case 'ArrowDown':
+                e.preventDefault();
+                if (!floatingMenu.classList.contains('active')) {
+                    openMenu();
+                }
+                break;
+            case 'Escape':
+                if (floatingMenu.classList.contains('active')) {
+                    e.preventDefault();
+                    closeMenu();
+                }
+                break;
+        }
+    });
+    
+    // 菜单项键盘导航
+    if (menuItems && menuItems.length > 0) {
+        menuItems.forEach((item, index) => {
+            item.addEventListener('keydown', (e) => {
+                const currentIndex = index;
+                const nextIndex = (index + 1) % menuItems.length;
+                const prevIndex = (index - 1 + menuItems.length) % menuItems.length;
+                
+                switch (e.key) {
+                    case 'ArrowDown':
+                        e.preventDefault();
+                        menuItems[nextIndex].focus();
+                        break;
+                    case 'ArrowUp':
+                        e.preventDefault();
+                        menuItems[prevIndex].focus();
+                        break;
+                    case 'Home':
+                        e.preventDefault();
+                        menuItems[0].focus();
+                        break;
+                    case 'End':
+                        e.preventDefault();
+                        menuItems[menuItems.length - 1].focus();
+                        break;
+                    case 'Escape':
+                        e.preventDefault();
+                        closeMenu();
+                        break;
+                    case 'Tab':
+                        if (e.shiftKey) {
+                            if (currentIndex === 0) {
+                                e.preventDefault();
+                                closeMenu();
+                            }
+                        } else {
+                            if (currentIndex === menuItems.length - 1) {
+                                e.preventDefault();
+                                closeMenu();
+                            }
+                        }
+                        break;
+                }
+            });
+        });
+    }
 }
 
 // 页面加载完成后初始化所有功能

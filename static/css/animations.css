@@ -1,0 +1,300 @@
+/* ==================== 动画效果 ==================== */
+
+/* ==================== 关键帧动画 ==================== */
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes slideDown {
+    from {
+        opacity: 0;
+        transform: translateY(-10px) scale(0.98);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+@keyframes cardEnter {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes avatarGlow {
+    0%, 100% { 
+        opacity: 0.3; 
+        transform: scale(1); 
+    }
+    50% { 
+        opacity: 0.5; 
+        transform: scale(1.02); 
+    }
+}
+
+/* ==================== 文章卡片动画 ==================== */
+
+.post-linear-item {
+    animation: fadeIn 0.5s ease forwards;
+}
+
+.post-linear-item:nth-child(2) {
+    animation-delay: 0.1s;
+}
+
+.post-linear-item:nth-child(3) {
+    animation-delay: 0.2s;
+}
+
+.post-linear-item:nth-child(4) {
+    animation-delay: 0.3s;
+}
+
+.post-linear-item:nth-child(5) {
+    animation-delay: 0.4s;
+}
+
+.post-linear-item:nth-child(6) {
+    animation-delay: 0.5s;
+}
+
+.post-linear-item:nth-child(7) {
+    animation-delay: 0.6s;
+}
+
+.post-linear-item:nth-child(8) {
+    animation-delay: 0.7s;
+}
+
+.post-linear-item:nth-child(9) {
+    animation-delay: 0.8s;
+}
+
+.post-linear-item:nth-child(10) {
+    animation-delay: 0.9s;
+}
+
+/* ==================== iCity卡片动画 ==================== */
+
+.icity-card {
+    opacity: 0;
+    transform: translateY(20px);
+    animation: cardEnter var(--transition-slow) ease-out forwards;
+}
+
+.icity-card:nth-child(1) { animation-delay: 0.05s; }
+.icity-card:nth-child(2) { animation-delay: 0.1s; }
+.icity-card:nth-child(3) { animation-delay: 0.15s; }
+.icity-card:nth-child(4) { animation-delay: 0.2s; }
+.icity-card:nth-child(5) { animation-delay: 0.25s; }
+.icity-card:nth-child(6) { animation-delay: 0.3s; }
+.icity-card:nth-child(7) { animation-delay: 0.35s; }
+.icity-card:nth-child(8) { animation-delay: 0.4s; }
+.icity-card:nth-child(9) { animation-delay: 0.45s; }
+.icity-card:nth-child(10) { animation-delay: 0.5s; }
+
+/* ==================== 悬停动画效果 ==================== */
+
+.icity-card:hover {
+    transform: translateY(-6px) scale(1.01);
+    box-shadow: var(--shadow-strong);
+}
+
+.icity-card:hover .icity-card-title a {
+    color: var(--color-accent-dark);
+}
+
+.icity-image-item img {
+    transition: transform var(--transition-slow);
+}
+
+.icity-card:hover .icity-image-item img {
+    transform: scale(1.05);
+}
+
+/* ==================== 头像动画效果 ==================== */
+
+.icity-card-avatar::before {
+    content: '';
+    position: absolute;
+    inset: -4px;
+    border-radius: inherit;
+    background: linear-gradient(135deg, var(--color-accent), var(--color-accent-light));
+    opacity: 0;
+    transition: opacity var(--transition-normal);
+    z-index: -1;
+}
+
+.icity-card-avatar:hover::before {
+    opacity: 0.3;
+    animation: avatarGlow 2s ease-in-out infinite;
+}
+
+/* ==================== 文件夹卡片动画 ==================== */
+
+.folder-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(52, 152, 219, 0.05), transparent);
+    transition: left var(--transition-slow);
+}
+
+.folder-card:hover::before {
+    left: 100%;
+}
+
+.folder-card-icon {
+    transition: transform var(--transition-normal);
+}
+
+.folder-card:hover .folder-card-icon {
+    transform: rotate(-10deg) scale(1.1);
+}
+
+/* ==================== 每日一言动画 ==================== */
+
+.hitokoto-text {
+    animation: fadeIn 1s ease-out forwards;
+    transition: all 0.3s ease;
+}
+
+.hitokoto-from {
+    animation: fadeIn 1.2s ease-out forwards;
+    transition: all 0.3s ease;
+}
+
+/* ==================== 个人特色细节动画 ==================== */
+
+.hitokoto-text::before,
+.hitokoto-text::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 1.5rem;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--color-accent));
+    opacity: 0.6;
+}
+
+.hitokoto-text::before { left: -2rem; }
+.hitokoto-text::after { 
+    right: -2rem; 
+    background: linear-gradient(90deg, var(--color-accent), transparent); 
+}
+
+.hitokoto-from::before,
+.hitokoto-from::after {
+    content: '—';
+    position: absolute;
+    opacity: 0.4;
+}
+
+.hitokoto-from::before { left: 0; }
+.hitokoto-from::after { right: 0; }
+
+.post-list-title::before {
+    content: '';
+    width: 4px;
+    height: 2rem;
+    background: linear-gradient(180deg, var(--color-accent), var(--color-accent-dark));
+    border-radius: 2px;
+}
+
+.post-list-title::after {
+    content: '';
+    width: 3rem;
+    height: 1px;
+    background: linear-gradient(90deg, var(--retro-line-color), transparent);
+}
+
+/* ==================== 卡片装饰动画 ==================== */
+
+.icity-card::before,
+.icity-card::after {
+    content: '';
+    position: absolute;
+    width: 24px;
+    height: 24px;
+    opacity: 0;
+    transition: opacity var(--transition-normal);
+    pointer-events: none;
+}
+
+.icity-card::before {
+    top: 8px;
+    left: 8px;
+    border-left: 2px solid var(--color-accent);
+    border-top: 2px solid var(--color-accent);
+}
+
+.icity-card::after {
+    bottom: 8px;
+    right: 8px;
+    border-right: 2px solid var(--color-accent);
+    border-bottom: 2px solid var(--color-accent);
+}
+
+.icity-card:hover::before,
+.icity-card:hover::after {
+    opacity: 0.6;
+}
+
+.icity-card-signature::before {
+    content: '"';
+    position: absolute;
+    left: 0;
+    top: -0.3rem;
+    font-size: 1.5rem;
+    font-family: Georgia, serif;
+    color: var(--color-accent);
+    opacity: 0.4;
+    line-height: 1;
+}
+
+/* ==================== 移动端动画优化 ==================== */
+
+@media (max-width: 768px) {
+    /* 移动端禁用复杂动画 */
+    * {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+    
+    .icity-card {
+        opacity: 1;
+        transform: translateY(0);
+        animation: none;
+    }
+    
+    .post-linear-item {
+        animation: none;
+    }
+    
+    .icity-card::before,
+    .icity-card::after,
+    .hero::before,
+    .hero::after,
+    .hero-container::before,
+    .hero-container::after,
+    .post-list-container::before,
+    .post-list-title::before,
+    .post-list-title::after {
+        display: none;
+    }
+}

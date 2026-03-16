@@ -1,0 +1,457 @@
+/* ==================== 主题样式 - 统一暗色模式定义 ==================== */
+
+/* 
+ * 使用CSS选择器组合同时支持系统暗色主题和手动切换
+ * 消除了重复定义，所有暗色模式样式统一管理
+ */
+
+@media (prefers-color-scheme: dark),
+[data-theme="dark"] {
+    :root {
+        /* 颜色系统 - 主色调 */
+        --color-primary: #e0e0e0;
+        --color-secondary: #b0b0b0;
+        --color-accent: #64b5f6;
+        --color-accent-light: #64b5f6;
+        --color-accent-dark: #64b5f6;
+        
+        /* 文本颜色 */
+        --color-text-primary: #ffffff;
+        --color-text-secondary: #d0d0d0;
+        --color-text-muted: #808080;
+        --color-text-strong: #ffffff;
+        
+        /* 背景颜色 */
+        --color-background: #121212;
+        --color-surface: rgba(30, 30, 30, 0.85);
+        --color-surface-dark: rgba(30, 30, 30, 0.85);
+        
+        /* 边框和阴影 */
+        --color-border: #333333;
+        --color-border-dark: #444444;
+        --shadow-color: rgba(0, 0, 0, 0.3);
+        --shadow-color-dark: rgba(0, 0, 0, 0.3);
+        
+        /* 复古风格元素 */
+        --retro-line-color: #444444;
+        --retro-grid-color: rgba(255, 255, 255, 0.03);
+        --retro-geometric-color: #64b5f6;
+        --grid-opacity: 0.75;
+        --glow-opacity: 1;
+    }
+    
+    html, body {
+        background-color: var(--color-background);
+    }
+    
+    body::after {
+        background: 
+            radial-gradient(circle at 20% 30%, rgba(100, 181, 246, 0.04) 0%, transparent 50%),
+            radial-gradient(circle at 80% 70%, rgba(100, 181, 246, 0.03) 0%, transparent 50%);
+    }
+    
+    /* 暗色主题网格优化 */
+    body::before {
+        opacity: 0.75;
+    }
+    
+    body:hover::before {
+        opacity: 0.9;
+    }
+    
+    /* ==================== 头部样式 ==================== */
+    
+    .header {
+        background-color: #1a1a1a !important;
+        backdrop-filter: none !important;
+        -webkit-backdrop-filter: none !important;
+        box-shadow: 0 2px 12px rgba(0, 0, 0, 0.3) !important;
+    }
+    
+    /* ==================== 每日一言优化 ==================== */
+    
+    .hitokoto-text {
+        color: #ffffff;
+        text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+    }
+    
+    .hitokoto-from {
+        color: #e0e0e0;
+    }
+    
+    /* ==================== 文章页面样式 ==================== */
+    
+    .post-single {
+        background-color: #2d2d2d;
+        border: none;
+        padding: 0;
+    }
+    
+    .post-single-banner::after {
+        background: linear-gradient(to bottom, transparent, #2d2d2d);
+    }
+    
+    /* ==================== iCity卡片样式 ==================== */
+    
+    .icity-card-path {
+        color: #808080;
+        background-color: #3d3d3d;
+    }
+    
+    .icity-card.has-cover {
+        background-color: rgba(20, 20, 20, 0.8);
+    }
+    
+    .icity-card.has-cover .icity-card-title a {
+        color: #e0e0e0;
+        text-shadow: 0 1px 2px rgba(0, 0, 0, 0.8);
+    }
+    
+    /* ==================== 归档卡片样式 ==================== */
+    
+    .archive-card.has-cover {
+        background-color: rgba(20, 20, 20, 0.85);
+    }
+    
+    .archive-card.has-cover:hover {
+        background-color: rgba(20, 20, 20, 0.85);
+    }
+    
+    /* ==================== 音频播放器样式 ==================== */
+    
+    audio,
+    .post-single audio,
+    .post-content audio {
+        border-color: #666;
+        background-color: #3a3a3a !important;
+        filter: none !important;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3) !important;
+    }
+    
+    audio::-webkit-media-controls-panel,
+    audio::-webkit-media-controls-enclosure,
+    audio::-webkit-media-controls {
+        background-color: #3a3a3a !important;
+    }
+    
+    audio::-webkit-media-controls-current-time-display,
+    audio::-webkit-media-controls-time-remaining-display {
+        color: #e0e0e0 !important;
+    }
+    
+    audio::-webkit-media-controls-play-button,
+    audio::-webkit-media-controls-pause-button,
+    audio::-webkit-media-controls-volume-slider,
+    audio::-webkit-media-controls-mute-button,
+    audio::-webkit-media-controls-toggle-closed-captions-button,
+    audio::-webkit-media-controls-fullscreen-button {
+        color: #ffffff !important;
+        -webkit-filter: brightness(1.2);
+        filter: brightness(1.2);
+    }
+    
+    /* ==================== 人物页面样式 ==================== */
+    
+    .character-profile-name {
+        color: #e0e0e0;
+    }
+    
+    .character-profile-signature {
+        color: #b0b0b0;
+    }
+    
+    .timeline-path {
+        color: #808080;
+        background-color: #3d3d3d;
+    }
+    
+    /* ==================== 搜索页面样式 ==================== */
+    
+    .search-title {
+        color: #e0e0e0;
+    }
+
+    #search-input {
+        background-color: #2d2d2d;
+        border-color: #3d3d3d;
+        color: #e0e0e0;
+    }
+
+    #search-input:focus {
+        border-color: #00b4ff;
+        box-shadow: 0 0 0 3px rgba(0, 180, 255, 0.1);
+    }
+
+    #search-input::placeholder {
+        color: #808080;
+    }
+
+    .search-clear {
+        color: #808080;
+    }
+
+    .search-clear:hover {
+        color: #b0b0b0;
+        background-color: #3d3d3d;
+    }
+
+    .search-stats {
+        color: #b0b0b0;
+    }
+
+    .search-stats strong {
+        color: #00b4ff;
+    }
+
+    .search-result-item {
+        background-color: #2d2d2d;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+    }
+
+    .search-result-title a {
+        color: #e0e0e0;
+    }
+
+    .search-result-title a:hover {
+        color: #00b4ff;
+    }
+
+    .search-result-title mark {
+        background-color: #856404;
+        color: #fff3cd;
+    }
+
+    .search-result-meta {
+        color: #808080;
+    }
+
+    .search-result-tags .tag {
+        background-color: #3d3d3d;
+        color: #b0b0b0;
+    }
+
+    .search-result-summary {
+        color: #b0b0b0;
+    }
+
+    .search-result-summary mark {
+        background-color: #856404;
+        color: #fff3cd;
+    }
+
+    .search-no-results {
+        color: #808080;
+    }
+
+    .search-hint {
+        color: #808080;
+    }
+
+    .search-hint kbd {
+        background-color: #3d3d3d;
+        border-color: #4d4d4d;
+        color: #b0b0b0;
+    }
+    
+    .advanced-search-panel {
+        box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+    }
+    
+    /* ==================== 其他组件样式 ==================== */
+    
+    .character-card {
+        background-color: #2d2d2d;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+    }
+    
+    .character-card:hover {
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+    }
+    
+    .character-avatar {
+        border-color: #3d3d3d;
+    }
+    
+    .character-name {
+        color: #e0e0e0;
+    }
+    
+    .character-signature {
+        color: #b0b0b0;
+    }
+    
+    .character-count {
+        color: #808080;
+        background-color: #3d3d3d;
+    }
+    
+    .character-count-badge {
+        background-color: #e0e0e0;
+        color: #333;
+    }
+    
+    .character-profile {
+        background-color: transparent;
+        box-shadow: none;
+    }
+    
+    .character-profile-avatar {
+        border-color: #3d3d3d;
+    }
+    
+    .character-posts-title {
+        color: #e0e0e0;
+        border-left-color: #00b4ff;
+    }
+    
+    .back-link {
+        color: #b0b0b0;
+        background-color: #3d3d3d;
+    }
+    
+    .back-link:hover {
+        background-color: #4d4d4d;
+        color: #e0e0e0;
+    }
+    
+    /* 暗色模式时间轴 */
+    .timeline::before {
+        background: linear-gradient(to bottom, #00b4ff, #007bff);
+    }
+    
+    .timeline-item::before {
+        background-color: #00b4ff;
+        border-color: #2d2d2d;
+        box-shadow: 0 0 0 2px #00b4ff;
+    }
+    
+    .timeline-date {
+        color: #b0b0b0;
+    }
+    
+    .timeline-card {
+        background-color: #2d2d2d;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+    }
+    
+    .timeline-card:hover {
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    }
+    
+    /* ==================== 站点标题和导航 ==================== */
+    
+    .site-title a {
+        color: #e0e0e0;
+    }
+
+    nav ul li a {
+        color: #b0b0b0;
+    }
+
+    nav ul li a:hover {
+        color: #00b4ff;
+    }
+
+    .hero {
+        background-color: #2d2d2d;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+    }
+
+    .hero h1 {
+        color: #e0e0e0;
+    }
+
+    .hero p {
+        color: #b0b0b0;
+    }
+
+    .latest-posts h2 {
+        color: #e0e0e0;
+    }
+
+    .post-card {
+        background-color: #2d2d2d;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+    }
+
+    .post-card-title a {
+        color: #e0e0e0;
+    }
+
+    .post-card-title a:hover {
+        color: #00b4ff;
+    }
+
+    .post-card-meta {
+        color: #808080;
+    }
+
+    .post-card-excerpt {
+        color: #b0b0b0;
+    }
+
+    .post-card-link {
+        color: #00b4ff;
+    }
+
+    .post-card-link:hover {
+        color: #0088cc;
+    }
+
+    .post {
+        background-color: #2d2d2d;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+    }
+
+    .post-title {
+        color: #e0e0e0;
+    }
+
+    .post-meta {
+        color: #808080;
+    }
+
+    .post-content {
+        color: #e0e0e0;
+    }
+
+    .post-content h2 {
+        color: #e0e0e0;
+    }
+
+    .post-content h3 {
+        color: #e0e0e0;
+    }
+
+    .post-content code {
+        background-color: #3d3d3d;
+        color: #e0e0e0;
+    }
+
+    .post-content pre {
+        background-color: #3d3d3d;
+    }
+
+    .post-license {
+        color: #808080;
+        border-top-color: #3d3d3d;
+    }
+
+    .post-license a {
+        color: #00b4ff;
+    }
+
+    footer {
+        background-color: #1a1a1a;
+    }
+    
+    /* ==================== 卡片签名和日期样式 ==================== */
+    
+    .icity-card-signature {
+        color: #808080;
+    }
+    
+    .icity-card-date {
+        color: #666;
+    }
+}

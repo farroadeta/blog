@@ -5,6 +5,27 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{ if .IsHome }}{{ .Site.Title }}{{ else }}{{ .Title }} - {{ .Site.Title }}{{ end }}</title>
     <meta name="description" content="{{ with .Description }}{{ . }}{{ else }}{{ .Site.Params.description }}{{ end }}">
+    
+    <!-- SEO Meta Tags -->
+    <meta name="keywords" content="{{ if .Keywords }}{{ delimit .Keywords ", " }}{{ else }}{{ with .Site.Params.keywords }}{{ . }}{{ end }}{{ end }}">
+    <meta name="author" content="{{ with .Params.author }}{{ . }}{{ else }}{{ .Site.Params.author }}{{ end }}">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="{{ .Permalink }}">
+    
+    <!-- Open Graph Meta Tags -->
+    <meta property="og:title" content="{{ .Title }}">
+    <meta property="og:description" content="{{ with .Description }}{{ . }}{{ else }}{{ .Site.Params.description }}{{ end }}">
+    <meta property="og:type" content="{{ if .IsPage }}article{{ else }}website{{ end }}">
+    <meta property="og:url" content="{{ .Permalink }}">
+    <meta property="og:site_name" content="{{ .Site.Title }}">
+    {{ with .Params.cover }}<meta property="og:image" content="{{ . | absURL }}">{{ end }}
+    
+    <!-- Twitter Card Meta Tags -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="{{ .Title }}">
+    <meta name="twitter:description" content="{{ with .Description }}{{ . }}{{ else }}{{ .Site.Params.description }}{{ end }}">
+    {{ with .Params.cover }}<meta name="twitter:image" content="{{ . | absURL }}">{{ end }}
+    
     <!-- CSS重构后的新文件结构 -->
     <link rel="stylesheet" href="{{ "css/variables.css" | relURL }}?v=51">
     <link rel="stylesheet" href="{{ "css/base.css" | relURL }}?v=51">
@@ -13,51 +34,57 @@
     <link rel="stylesheet" href="{{ "css/pages.css" | relURL }}?v=51">
     <link rel="stylesheet" href="{{ "css/animations.css" | relURL }}?v=51">
     <link rel="icon" href="{{ "favicon.ico" | relURL }}" type="image/x-icon">
+    
+    <!-- Structured Data (JSON-LD) -->
+    {{ partial "jsonld.html" . }}
 </head>
 <body>
-    <header class="header">
+    <!-- Skip to main content link for accessibility -->
+    <a href="#main-content" class="skip-link">跳转到主要内容</a>
+    
+    <header class="header" role="banner">
         <div class="header-container">
             <div class="header-left">
-                <a href="{{ "/character" | relURL }}" title="人物" class="header-icon">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <a href="{{ "/character" | relURL }}" title="人物" class="header-icon" aria-label="查看人物列表">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
                         <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
                         <circle cx="12" cy="7" r="4"></circle>
                     </svg>
                 </a>
-                <a href="{{ "/posts" | relURL }}" title="归档" class="header-icon">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <a href="{{ "/posts" | relURL }}" title="归档" class="header-icon" aria-label="查看文章归档">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
                         <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
                         <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
                     </svg>
                 </a>
             </div>
             <div class="header-center">
-                <a href="{{ "/" | relURL }}" class="header-logo-link">
+                <a href="{{ "/" | relURL }}" class="header-logo-link" aria-label="返回首页">
                     <span class="header-logo-text">Qjournal</span>
                 </a>
             </div>
             <div class="header-right-new">
-                <a href="{{ "/search" | relURL }}" title="搜索" class="header-icon">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <a href="{{ "/search" | relURL }}" title="搜索" class="header-icon" aria-label="搜索文章">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
                         <circle cx="11" cy="11" r="8"></circle>
                         <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
                     </svg>
                 </a>
-                <button class="theme-toggle header-icon" aria-label="Toggle theme">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <button class="theme-toggle header-icon" aria-label="切换主题" title="切换亮色/暗色主题">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
                         <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
                     </svg>
                 </button>
             </div>
         </div>
     </header>
-    <main>
+    <main id="main-content" role="main">
         <div class="container">
             {{ block "main" . }}
             {{ end }}
         </div>
     </main>
-    <footer class="footer">
+    <footer class="footer" role="contentinfo">
         <div class="footer-container">
             <p class="footer-copyright">{{ .Site.Copyright }}</p>
             <p class="footer-powered">
@@ -67,8 +94,8 @@
     </footer>
     
     <!-- 回到顶部按钮 -->
-    <button id="back-to-top" class="back-to-top" aria-label="回到顶部">
-        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <button id="back-to-top" class="back-to-top" aria-label="回到顶部" title="回到页面顶部">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
             <path d="m18 15-6-6-6 6"/>
         </svg>
     </button>

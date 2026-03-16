@@ -5,6 +5,23 @@
  * 消除了重复定义，所有暗色模式样式统一管理
  */
 
+/* 平滑的主题切换过渡 */
+html {
+    transition: background-color 0.3s ease;
+}
+
+body,
+.header,
+.footer,
+.post,
+.post-card,
+.icity-card,
+.archive-card,
+.character-card,
+.search-result-item {
+    transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+}
+
 @media (prefers-color-scheme: dark),
 [data-theme="dark"] {
     :root {

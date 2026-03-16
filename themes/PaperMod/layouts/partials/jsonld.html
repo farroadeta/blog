@@ -1,0 +1,51 @@
+{{ if .IsPage }}
+<script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "BlogPosting",
+    "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": "{{ .Permalink }}"
+    },
+    "headline": "{{ .Title }}",
+    "description": "{{ with .Description }}{{ . }}{{ else }}{{ .Summary | plainify | truncate 160 }}{{ end }}",
+    "image": "{{ with .Params.cover }}{{ . | absURL }}{{ else }}{{ .Site.Params.defaultImage | absURL }}{{ end }}",
+    "datePublished": "{{ .Date.Format "2006-01-02T15:04:05Z07:00" }}",
+    "dateModified": "{{ with .Lastmod }}{{ .Format "2006-01-02T15:04:05Z07:00" }}{{ else }}{{ .Date.Format "2006-01-02T15:04:05Z07:00" }}{{ end }}",
+    "author": {
+        "@type": "Person",
+        "name": "{{ with .Params.author }}{{ . }}{{ else }}{{ .Site.Params.author }}{{ end }}"
+    },
+    "publisher": {
+        "@type": "Organization",
+        "name": "{{ .Site.Title }}",
+        "logo": {
+            "@type": "ImageObject",
+            "url": "{{ "favicon.ico" | absURL }}"
+        }
+    },
+    "wordCount": {{ .WordCount }},
+    "articleSection": "{{ with .Params.categories }}{{ index . 0 }}{{ else }}Blog{{ end }}",
+    "keywords": "{{ if .Keywords }}{{ delimit .Keywords ", " }}{{ else }}{{ with .Params.tags }}{{ delimit . ", " }}{{ end }}{{ end }}"
+}
+</script>
+{{ else if .IsHome }}
+<script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "name": "{{ .Site.Title }}",
+    "url": "{{ .Site.BaseURL }}",
+    "description": "{{ .Site.Params.description }}",
+    "author": {
+        "@type": "Person",
+        "name": "{{ .Site.Params.author }}"
+    },
+    "potentialAction": {
+        "@type": "SearchAction",
+        "target": "{{ .Site.BaseURL }}search?q={search_term_string}",
+        "query-input": "required name=search_term_string"
+    }
+}
+</script>
+{{ end }}

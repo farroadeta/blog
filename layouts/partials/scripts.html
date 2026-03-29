@@ -1,0 +1,20 @@
+<!-- 加载指示器控制脚本 -->
+<script>
+    (function() {
+        function forceStopLoadingIndicator() {
+            if (document.readyState === 'complete') {
+                document.body.classList.add('page-loaded');
+            }
+            window.addEventListener('load', function() {
+                document.body.classList.add('page-loaded');
+            });
+            setTimeout(function() {
+                document.body.classList.add('page-loaded');
+            }, 5000);
+        }
+        forceStopLoadingIndicator();
+    })();
+</script>
+
+<!-- 异步加载JavaScript -->
+<script src="{{ "js/bundle.js" | relURL }}" defer></script>

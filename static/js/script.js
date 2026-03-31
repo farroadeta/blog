@@ -412,11 +412,32 @@ document.addEventListener('DOMContentLoaded', () => {
     initPerformanceMonitoring();
     initSkeletonLoading();
     initGalleryMasonry();
+    initCardClickEvents();
 
     // 确保页面完全显示
     document.body.style.opacity = '1';
     document.body.style.transition = '';
 });
+
+// 初始化卡片点击事件
+function initCardClickEvents() {
+    const cards = document.querySelectorAll('.icity-card');
+    
+    cards.forEach(card => {
+        card.addEventListener('click', function(e) {
+            const url = card.getAttribute('data-url');
+            if (url) {
+                const clickedElement = e.target;
+                const isLink = clickedElement.closest('a');
+                const isImage = clickedElement.closest('.icity-card-images');
+                
+                if (!isLink && !isImage) {
+                    window.location.href = url;
+                }
+            }
+        });
+    });
+}
 
 // 窗口 resize 事件处理 - 使用防抖
 let resizeTimeout;

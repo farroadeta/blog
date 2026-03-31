@@ -11,14 +11,36 @@
         </div>
     </section>
     <script>
-        // 获取一言
-        fetch('https://v1.hitokoto.cn')
-            .then(response => response.json())
+        // 获取一言 - 添加超时处理
+        const fetchHitokoto = () => {
+            return new Promise((resolve, reject) => {
+                const timeout = setTimeout(() => {
+                    reject(new Error('API请求超时'));
+                }, 3000); // 3秒超时
+                
+                fetch('https://v1.hitokoto.cn')
+                    .then(response => {
+                        clearTimeout(timeout);
+                        return response.json();
+                    })
+                    .then(data => {
+                        resolve(data);
+                    })
+                    .catch(error => {
+                        clearTimeout(timeout);
+                        reject(error);
+                    });
+            });
+        };
+        
+        // 执行请求
+        fetchHitokoto()
             .then(data => {
                 document.getElementById('hitokoto').textContent = data.hitokoto;
                 document.getElementById('hitokoto-from').textContent = '—' + (data.from_who || '佚名') + '《' + data.from + '》—';
             })
             .catch(error => {
+                console.log('一言API请求失败:', error);
                 document.getElementById('hitokoto').textContent = '生活不止眼前的苟且，还有诗和远方。';
                 document.getElementById('hitokoto-from').textContent = '—高晓松—';
             });
@@ -133,24 +155,5 @@
             </div>
         </div>
     </section>
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const cards = document.querySelectorAll('.icity-card');
-            
-            cards.forEach(card => {
-                card.addEventListener('click', function(e) {
-                    const url = card.getAttribute('data-url');
-                    if (url) {
-                        const clickedElement = e.target;
-                        const isLink = clickedElement.closest('a');
-                        const isImage = clickedElement.closest('.icity-card-images');
-                        
-                        if (!isLink && !isImage) {
-                            window.location.href = url;
-                        }
-                    }
-                });
-            });
-        });
-    </script>
+
 {{ end }}

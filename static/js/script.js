@@ -406,15 +406,16 @@ document.addEventListener('DOMContentLoaded', () => {
     initLazyLoad();
     initMobileMenu();
     initFloatingMenu();
+    initScrollToTop();
+    initGridParallax();
+    initKeyboardNavigation();
+    initPerformanceMonitoring();
+    initSkeletonLoading();
+    initGalleryMasonry();
 
-    // 页面加载动画 - 移动端禁用
-    if (window.innerWidth > 768) {
-        document.body.style.opacity = '0';
-        document.body.style.transition = 'opacity 0.5s ease';
-        setTimeout(() => {
-            document.body.style.opacity = '1';
-        }, 100);
-    }
+    // 确保页面完全显示
+    document.body.style.opacity = '1';
+    document.body.style.transition = '';
 });
 
 // 窗口 resize 事件处理 - 使用防抖
@@ -459,9 +460,6 @@ function initScrollToTop() {
     });
 }
 
-// 初始化滚动到顶部按钮
-document.addEventListener('DOMContentLoaded', initScrollToTop);
-
 // 网格背景视差效果
 function initGridParallax() {
     const body = document.body;
@@ -492,9 +490,6 @@ function initGridParallax() {
 
     window.addEventListener('scroll', handleScroll, { passive: true });
 }
-
-// 初始化网格视差
-document.addEventListener('DOMContentLoaded', initGridParallax);
 
 // ==================== 键盘导航支持 ====================
 
@@ -622,9 +617,6 @@ function showKeyboardHelp() {
     document.addEventListener('keydown', closeOnEsc);
 }
 
-// 初始化键盘导航
-document.addEventListener('DOMContentLoaded', initKeyboardNavigation);
-
 // ==================== 性能监控 ====================
 
 function initPerformanceMonitoring() {
@@ -746,20 +738,9 @@ function initPerformanceMonitoring() {
     });
 }
 
-// 初始化性能监控
-document.addEventListener('DOMContentLoaded', initPerformanceMonitoring);
-
 // ==================== 骨架屏加载 ====================
 
 function initSkeletonLoading() {
-    // 显示骨架屏
-    function showSkeleton() {
-        const skeletons = document.querySelectorAll('.skeleton-container');
-        skeletons.forEach(skeleton => {
-            skeleton.style.display = 'block';
-        });
-    }
-    
     // 隐藏骨架屏
     function hideSkeleton() {
         const skeletons = document.querySelectorAll('.skeleton-container');
@@ -777,19 +758,14 @@ function initSkeletonLoading() {
         });
     }
     
-    // 页面加载完成后隐藏骨架屏
-    window.addEventListener('load', () => {
-        setTimeout(hideSkeleton, 300); // 延迟300ms，让内容完全加载
-    });
+    // 立即隐藏骨架屏，不再等待load事件
+    hideSkeleton();
     
-    // 如果页面已经加载完成，立即隐藏骨架屏
-    if (document.readyState === 'complete') {
+    // 页面加载完成后再次确认隐藏
+    window.addEventListener('load', () => {
         hideSkeleton();
-    }
+    });
 }
-
-// 初始化骨架屏
-document.addEventListener('DOMContentLoaded', initSkeletonLoading);
 
 // ==================== 画廊瀑布流布局 ====================
 
@@ -988,7 +964,6 @@ function initGalleryMasonry() {
     });
 }
 
-// 初始化瀑布流
-document.addEventListener('DOMContentLoaded', initGalleryMasonry);
+
 
 

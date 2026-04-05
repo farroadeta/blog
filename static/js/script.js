@@ -260,7 +260,7 @@ function initFloatingMenu() {
         floatingMenuToggle.setAttribute('aria-label', '收起菜单');
         
         // 根据设备类型调整动画锁时间
-        const animationDuration = isMobile() ? 320 : 400;
+        const animationDuration = isMobile() ? 380 : 400;
         setTimeout(() => {
             isAnimating = false;
             if (menuItems && menuItems.length > 0) {
@@ -279,7 +279,7 @@ function initFloatingMenu() {
         floatingMenuToggle.setAttribute('aria-label', '展开菜单');
         
         // 根据设备类型调整动画锁时间
-        const animationDuration = isMobile() ? 320 : 400;
+        const animationDuration = isMobile() ? 380 : 400;
         setTimeout(() => {
             isAnimating = false;
             floatingMenuToggle.focus();

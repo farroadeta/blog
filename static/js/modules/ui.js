@@ -19,24 +19,11 @@ export function initSmoothScroll() {
     });
 }
 
-// 文章卡片悬停效果
-export function initPostCardHover() {
-    const postCards = document.querySelectorAll('.post-card');
-    postCards.forEach(card => {
-        card.addEventListener('mouseenter', function() {
-            this.style.transform = 'translateY(-5px) scale(1.02)';
-        });
-        card.addEventListener('mouseleave', function() {
-            this.style.transform = 'translateY(0) scale(1)';
-        });
-    });
-}
+// 文章卡片悬停效果 - 已改由 CSS :hover 伪类控制（见 style.css）
+export function initPostCardHover() {}
 
-// 导航栏滚动效果 - 已禁用，保持固定样式
-export function initNavbarScroll() {
-    // 不再动态修改 header 样式，保持 CSS 中定义的固定样式
-    return;
-}
+// 导航栏滚动效果 - 已禁用，保持固定样式（由 CSS 控制）
+export function initNavbarScroll() {}
 
 // 图片懒加载和响应式处理
 export function initLazyLoad() {
@@ -59,11 +46,10 @@ export function initLazyLoad() {
                     };
                     
                     // 图片加载错误处理
-                    const handleError = () => {
-                        img.classList.remove('loading');
-                        img.classList.add('error');
-                        console.warn('图片加载失败:', img.src);
-                    };
+            const handleError = () => {
+                img.classList.remove('loading');
+                img.classList.add('error');
+            };
                     
                     // 检查图片是否已经加载
                     if (img.complete) {
@@ -156,11 +142,8 @@ export function initFloatingMenu() {
     const menuItems = floatingMenu?.querySelectorAll('.floating-menu-item');
     
     if (!floatingMenu || !floatingMenuToggle) {
-        console.log('Floating menu elements not found');
         return;
     }
-    
-    console.log('Floating menu initialized');
     
     let isAnimating = false;
     
@@ -174,7 +157,6 @@ export function initFloatingMenu() {
         if (isAnimating || floatingMenu.classList.contains('active')) return;
         isAnimating = true;
         
-        console.log('Opening menu');
         floatingMenu.classList.add('active');
         floatingMenuToggle.setAttribute('aria-expanded', 'true');
         floatingMenuToggle.setAttribute('aria-label', '收起菜单');
@@ -194,7 +176,6 @@ export function initFloatingMenu() {
         if (isAnimating || !floatingMenu.classList.contains('active')) return;
         isAnimating = true;
         
-        console.log('Closing menu');
         floatingMenu.classList.remove('active');
         floatingMenuToggle.setAttribute('aria-expanded', 'false');
         floatingMenuToggle.setAttribute('aria-label', '展开菜单');
@@ -209,7 +190,6 @@ export function initFloatingMenu() {
     
     // 切换菜单状态
     function toggleMenu() {
-        console.log('Toggling menu');
         if (floatingMenu.classList.contains('active')) {
             closeMenu();
         } else {
@@ -219,7 +199,6 @@ export function initFloatingMenu() {
     
     // 点击切换按钮
     floatingMenuToggle.addEventListener('click', (e) => {
-        console.log('Toggle button clicked');
         e.preventDefault();
         e.stopPropagation();
         toggleMenu();
@@ -336,29 +315,26 @@ export function initScrollToTop() {
 // 网格背景视差效果
 export function initGridParallax() {
     const body = document.body;
-    let lastScrollY = 0;
-    
+
     // 使用节流优化滚动性能
     const handleScroll = throttle(() => {
         const scrollY = window.scrollY;
-        
+
         // 添加滚动类以触发CSS动画
         if (scrollY > 50) {
             body.classList.add('scrolling');
         } else {
             body.classList.remove('scrolling');
         }
-        
-        // 根据滚动方向调整视差效果
+
+        // 根据滚动位置调整视差效果
         if (window.innerWidth > 768) {
             const gridOffset = Math.min(scrollY * 0.05, 10);
             const glowOffset = Math.min(scrollY * 0.08, 15);
-            
+
             body.style.setProperty('--grid-offset', `${gridOffset}px`);
             body.style.setProperty('--glow-offset', `${glowOffset}px`);
         }
-        
-        lastScrollY = scrollY;
     }, 16); // 约60fps
 
     window.addEventListener('scroll', handleScroll, { passive: true });
@@ -475,8 +451,7 @@ export function initGalleryMasonry() {
         const usableWidth = containerWidth - sidePadding * 2;
         const columnWidth = (usableWidth - gap * (newColumnCount - 1)) / newColumnCount;
         
-        // 如果列数变化，需要重新布局
-        const needsFullRelayout = newColumnCount !== columnCount;
+        // 更新列数
         columnCount = newColumnCount;
         
         // 创建列数组，存储每列当前高度

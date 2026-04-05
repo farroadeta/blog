@@ -63,11 +63,9 @@ document.addEventListener('DOMContentLoaded', () => {
         
         // 键盘导航
         initKeyboardNavigation();
-        
+
         // 性能监控
         initPerformanceMonitoring();
-        
-        console.log('Non-critical tasks initialized');
     });
     
     // 移除页面加载动画（可能导致加载指示器持续显示）
@@ -95,27 +93,23 @@ window.addEventListener('resize', () => {
 
 // 性能优化：监听页面加载完成事件
 window.addEventListener('load', () => {
-    console.log('All resources loaded');
-    
     // 标记页面加载完成
     document.body.classList.add('page-fully-loaded');
     
     // 停止所有可能的加载指示器
     if (document.readyState === 'complete') {
-        console.log('Loading indicator should stop now');
+        // Loading indicator should stop now
     }
 });
 
 // 性能优化：处理资源加载错误
 window.addEventListener('error', (e) => {
-    console.warn('Resource loading error:', e.target.src || e.target.href);
-    // 不阻止加载指示器，但记录错误
+    // Resource loading error - not blocking
 }, true);
 
 // 性能优化：处理资源加载超时
 setTimeout(() => {
     if (document.readyState !== 'complete') {
-        console.warn('Page load timeout - forcing completion');
         document.body.classList.add('page-load-timeout');
     }
 }, 10000); // 10秒超时保护

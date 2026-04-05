@@ -315,7 +315,7 @@ footer a:hover {
 }
 
 /* 暗色模式支持 */
-@media (prefers-color-scheme: dark) {
+[data-theme="dark"] {
     body {
         background-color: #1a1a1a;
         color: #e0e0e0;
@@ -673,54 +673,10 @@ footer a:hover {
 }
 
 /* 暗色模式 */
-@media (prefers-color-scheme: dark) {
+[data-theme="dark"] {
     .advanced-search-panel {
         box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
     }
-}
-
-/* 保留旧的搜索框样式兼容 */
-.search-box-old {
-    position: relative;
-    margin-bottom: 20px;
-}
-
-#search-input-old {
-    width: 100%;
-    padding: 15px 50px 15px 20px;
-    font-size: 1rem;
-    border: 2px solid #e0e0e0;
-    border-radius: 50px;
-    outline: none;
-    transition: border-color 0.3s ease, box-shadow 0.3s ease;
-    font-family: inherit;
-}
-
-#search-input:focus {
-    border-color: #007bff;
-    box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.1);
-}
-
-.search-clear {
-    position: absolute;
-    right: 15px;
-    top: 50%;
-    transform: translateY(-50%);
-    background: none;
-    border: none;
-    cursor: pointer;
-    padding: 5px;
-    color: #999;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: 50%;
-    transition: color 0.3s ease, background-color 0.3s ease;
-}
-
-.search-clear:hover {
-    color: #666;
-    background-color: #f0f0f0;
 }
 
 .search-stats {
@@ -731,89 +687,6 @@ footer a:hover {
 
 .search-stats strong {
     color: #007bff;
-}
-
-.search-results {
-    display: grid;
-    gap: 20px;
-}
-
-.search-result-item {
-    background-color: #fff;
-    border-radius: 8px;
-    padding: 25px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-
-.search-result-item:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-}
-
-.search-result-title {
-    font-size: 1.3rem;
-    margin-bottom: 10px;
-}
-
-.search-result-title a {
-    color: #333;
-    text-decoration: none;
-    transition: color 0.3s ease;
-}
-
-.search-result-title a:hover {
-    color: #007bff;
-}
-
-.search-result-title mark {
-    background-color: #fff3cd;
-    color: #856404;
-    padding: 2px 4px;
-    border-radius: 3px;
-}
-
-.search-result-meta {
-    display: flex;
-    gap: 15px;
-    margin-bottom: 12px;
-    font-size: 0.9rem;
-    color: #999;
-    flex-wrap: wrap;
-}
-
-.search-result-date {
-    display: flex;
-    align-items: center;
-    gap: 5px;
-}
-
-.search-result-tags {
-    display: flex;
-    gap: 8px;
-    flex-wrap: wrap;
-}
-
-.search-result-tags .tag {
-    background-color: #f0f0f0;
-    padding: 2px 10px;
-    border-radius: 12px;
-    font-size: 0.85rem;
-    color: #666;
-}
-
-.search-result-summary {
-    color: #666;
-    line-height: 1.6;
-    margin: 0;
-}
-
-.search-result-summary mark {
-    background-color: #fff3cd;
-    color: #856404;
-    padding: 2px 4px;
-    border-radius: 3px;
-    font-weight: 500;
 }
 
 .search-no-results {
@@ -832,166 +705,8 @@ footer a:hover {
     margin: 20px 0;
 }
 
-/* 搜索快捷键提示 */
-.search-hint {
-    text-align: center;
-    color: #999;
-    font-size: 0.9rem;
-    margin-top: 10px;
-}
-
-.search-hint kbd {
-    background-color: #f0f0f0;
-    padding: 2px 8px;
-    border-radius: 4px;
-    font-family: inherit;
-    font-size: 0.85rem;
-    border: 1px solid #ddd;
-}
-
-/* ==================== 高级搜索样式 ==================== */
-
-.advanced-search-toggle {
-    text-align: center;
-    margin-bottom: 1rem;
-}
-
-.toggle-btn {
-    background: none;
-    border: none;
-    color: var(--accent-color);
-    font-size: 0.9rem;
-    cursor: pointer;
-    display: inline-flex;
-    align-items: center;
-    gap: 0.5rem;
-    padding: 0.5rem 1rem;
-    border-radius: 20px;
-    transition: background-color 0.2s ease;
-}
-
-.toggle-btn:hover {
-    background-color: var(--card-background);
-}
-
-.toggle-icon {
-    transition: transform 0.3s ease;
-}
-
-.advanced-search-panel {
-    background-color: var(--card-background);
-    border-radius: 12px;
-    padding: 1.5rem;
-    margin-bottom: 1.5rem;
-    border: 1px solid var(--border-color);
-    animation: slideDown 0.3s ease;
-}
-
-@keyframes slideDown {
-    from {
-        opacity: 0;
-        transform: translateY(-10px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-
-.advanced-search-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: 1rem;
-    margin-bottom: 1rem;
-}
-
-.search-filter {
-    display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
-}
-
-.search-filter label {
-    font-size: 0.85rem;
-    color: var(--text-secondary);
-    font-weight: 500;
-}
-
-.search-filter select,
-.search-filter input[type="date"] {
-    padding: 0.6rem 0.8rem;
-    border: 1px solid var(--border-color);
-    border-radius: 8px;
-    background-color: var(--background-color);
-    color: var(--text-color);
-    font-size: 0.9rem;
-    transition: border-color 0.2s ease, box-shadow 0.2s ease;
-}
-
-.search-filter select:focus,
-.search-filter input[type="date"]:focus {
-    outline: none;
-    border-color: var(--accent-color);
-    box-shadow: 0 0 0 3px rgba(0, 180, 255, 0.1);
-}
-
-.search-scope {
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-    flex-wrap: wrap;
-    padding: 1rem 0;
-    border-top: 1px solid var(--border-color);
-    border-bottom: 1px solid var(--border-color);
-    margin-bottom: 1rem;
-}
-
-.search-scope > label:first-child {
-    font-size: 0.9rem;
-    color: var(--text-secondary);
-    font-weight: 500;
-}
-
-.checkbox-label {
-    display: flex;
-    align-items: center;
-    gap: 0.4rem;
-    cursor: pointer;
-    font-size: 0.9rem;
-    color: var(--text-color);
-}
-
-.checkbox-label input[type="checkbox"] {
-    width: 16px;
-    height: 16px;
-    accent-color: var(--accent-color);
-    cursor: pointer;
-}
-
-.advanced-search-actions {
-    display: flex;
-    justify-content: flex-end;
-}
-
-.reset-btn {
-    background-color: var(--background-color);
-    border: 1px solid var(--border-color);
-    color: var(--text-secondary);
-    padding: 0.5rem 1rem;
-    border-radius: 8px;
-    font-size: 0.9rem;
-    cursor: pointer;
-    transition: all 0.2s ease;
-}
-
-.reset-btn:hover {
-    background-color: var(--card-background);
-    color: var(--text-color);
-    border-color: var(--accent-color);
-}
-
 /* 暗色模式搜索样式 */
-@media (prefers-color-scheme: dark) {
+[data-theme="dark"] {
     .search-title {
         color: #e0e0e0;
     }
@@ -1416,7 +1131,7 @@ footer a:hover {
 }
 
 /* 暗色模式人物页面 */
-@media (prefers-color-scheme: dark) {
+[data-theme="dark"] {
     .character-card {
         background-color: #2d2d2d;
         box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
@@ -1475,7 +1190,7 @@ footer a:hover {
     color: #b0b0b0;
 }
 
-@media (prefers-color-scheme: dark) {
+[data-theme="dark"] {
     .character-posts-title {
         color: #e0e0e0;
         border-left-color: #00b4ff;
@@ -1541,7 +1256,7 @@ footer a:hover {
     display: inline-block;
 }
 
-@media (prefers-color-scheme: dark) {
+[data-theme="dark"] {
     .icity-card-signature {
         color: #808080;
     }

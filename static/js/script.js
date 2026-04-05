@@ -59,11 +59,11 @@ function initThemeToggle() {
     const themeToggles = document.querySelectorAll('.theme-toggle');
     if (!themeToggles.length) return;
 
-    // 检查本地存储中的主题偏好
+    // 检查本地存储中的主题偏好，否则跟随系统
     const savedTheme = localStorage.getItem('theme');
-    if (savedTheme) {
-        document.documentElement.setAttribute('data-theme', savedTheme);
-    }
+    const systemTheme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+    const activeTheme = savedTheme || systemTheme;
+    document.documentElement.setAttribute('data-theme', activeTheme);
 
     // 更新所有主题图标
     function updateAllThemeIcons(theme) {
@@ -94,9 +94,7 @@ function initThemeToggle() {
     });
 
     // 初始化图标
-    const currentTheme = document.documentElement.getAttribute('data-theme') || 
-                       (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
-    updateAllThemeIcons(currentTheme);
+    updateAllThemeIcons(activeTheme);
 }
 
 // 平滑滚动功能 - 移动端禁用
@@ -117,24 +115,15 @@ function initSmoothScroll() {
     });
 }
 
-// 文章卡片悬停效果
-function initPostCardHover() {
-    const postCards = document.querySelectorAll('.post-card');
-    postCards.forEach(card => {
-        card.addEventListener('mouseenter', function() {
-            this.style.transform = 'translateY(-5px) scale(1.02)';
-        });
-        card.addEventListener('mouseleave', function() {
-            this.style.transform = 'translateY(0) scale(1)';
-        });
-    });
-}
+// 文章卡片悬停效果 - 已改由 CSS :hover 伪类控制（见 style.css）
+// 保留空函数以兼容 DOMContentLoaded 中的调用
+function initPostCardHover() {}
 
-// 导航栏滚动效果 - 已禁用，保持固定样式
-function initNavbarScroll() {
-    // 不再动态修改 header 样式，保持 CSS 中定义的固定样式
-    return;
-}
+// 导航栏滚动效果 - 已禁用，保持固定样式（由 CSS 控制）
+// 保留空函数以兼容 DOMContentLoaded 中的调用
+function initNavbarScroll() {}
+// 保留空函数以兼容 DOMContentLoaded 中的调用
+function initNavbarScroll() {}
 
 // 图片懒加载和响应式处理
 function initLazyLoad() {
@@ -160,7 +149,6 @@ function initLazyLoad() {
                     const handleError = () => {
                         img.classList.remove('loading');
                         img.classList.add('error');
-                        console.warn('图片加载失败:', img.src);
                     };
                     
                     // 检查图片是否已经加载
@@ -463,29 +451,26 @@ function initScrollToTop() {
 // 网格背景视差效果
 function initGridParallax() {
     const body = document.body;
-    let lastScrollY = 0;
-    
+
     // 使用节流优化滚动性能
     const handleScroll = throttle(() => {
         const scrollY = window.scrollY;
-        
+
         // 添加滚动类以触发CSS动画
         if (scrollY > 50) {
             body.classList.add('scrolling');
         } else {
             body.classList.remove('scrolling');
         }
-        
-        // 根据滚动方向调整视差效果
+
+        // 根据滚动位置调整视差效果
         if (window.innerWidth > 768) {
             const gridOffset = Math.min(scrollY * 0.05, 10);
             const glowOffset = Math.min(scrollY * 0.08, 15);
-            
+
             body.style.setProperty('--grid-offset', `${gridOffset}px`);
             body.style.setProperty('--glow-offset', `${glowOffset}px`);
         }
-        
-        lastScrollY = scrollY;
     }, 16); // 约60fps
 
     window.addEventListener('scroll', handleScroll, { passive: true });
@@ -625,117 +610,23 @@ function initPerformanceMonitoring() {
         return;
     }
     
-    // 页面加载性能
+    // 页面加载性能（静默观察，不输出日志）
     if ('PerformanceObserver' in window) {
-        // 监控长任务
-        try {
-            const longTaskObserver = new PerformanceObserver((list) => {
-                for (const entry of list.getEntries()) {
-                    console.warn('长任务检测:', {
-                        name: entry.name,
-                        duration: `${entry.duration.toFixed(2)}ms`,
-                        startTime: `${entry.startTime.toFixed(2)}ms`
-                    });
-                }
-            });
-            longTaskObserver.observe({ entryTypes: ['longtask'] });
-        } catch (e) {
-            // 浏览器不支持
-        }
-        
-        // 监控布局偏移
-        try {
-            const clsObserver = new PerformanceObserver((list) => {
-                for (const entry of list.getEntries()) {
-                    if (entry.hadRecentInput) continue;
-                    
-                    console.log('布局偏移:', {
-                        value: entry.value.toFixed(4),
-                        sources: entry.sources.map(s => s.node?.nodeName || 'unknown')
-                    });
-                }
-            });
-            clsObserver.observe({ entryTypes: ['layout-shift'] });
-        } catch (e) {
-            // 浏览器不支持
-        }
-        
-        // 监控首次输入延迟
-        try {
-            const fidObserver = new PerformanceObserver((list) => {
-                for (const entry of list.getEntries()) {
-                    console.log('首次输入延迟:', {
-                        duration: `${entry.duration.toFixed(2)}ms`,
-                        name: entry.name
-                    });
-                }
-            });
-            fidObserver.observe({ entryTypes: ['first-input'] });
-        } catch (e) {
-            // 浏览器不支持
-        }
+        try { new PerformanceObserver(() => {}).observe({ entryTypes: ['longtask'] }); } catch (e) {}
+        try { new PerformanceObserver(() => {}).observe({ entryTypes: ['layout-shift'] }); } catch (e) {}
+        try { new PerformanceObserver(() => {}).observe({ entryTypes: ['first-input'] }); } catch (e) {}
+        try { new PerformanceObserver(() => {}).observe({ entryTypes: ['largest-contentful-paint'] }); } catch (e) {}
     }
     
-    // 页面加载完成后报告性能指标
-    window.addEventListener('load', () => {
-        setTimeout(() => {
-            const perfData = performance.getEntriesByType('navigation')[0];
-            if (perfData) {
-                console.log('页面性能指标:', {
-                    'DNS查询': `${(perfData.domainLookupEnd - perfData.domainLookupStart).toFixed(2)}ms`,
-                    'TCP连接': `${(perfData.connectEnd - perfData.connectStart).toFixed(2)}ms`,
-                    'DOM解析': `${(perfData.domContentLoadedEventEnd - perfData.domContentLoadedEventStart).toFixed(2)}ms`,
-                    '页面加载': `${(perfData.loadEventEnd - perfData.loadEventStart).toFixed(2)}ms`,
-                    '总耗时': `${(perfData.loadEventEnd - perfData.fetchStart).toFixed(2)}ms`
-                });
-            }
-            
-            // Web Vitals
-            if ('PerformanceObserver' in window) {
-                // LCP (Largest Contentful Paint)
-                try {
-                    const lcpObserver = new PerformanceObserver((list) => {
-                        const entries = list.getEntries();
-                        const lastEntry = entries[entries.length - 1];
-                        console.log('LCP (最大内容绘制):', `${lastEntry.startTime.toFixed(2)}ms`);
-                    });
-                    lcpObserver.observe({ entryTypes: ['largest-contentful-paint'] });
-                } catch (e) {
-                    // 浏览器不支持
-                }
-            }
-        }, 1000);
-    });
-    
-    // 资源加载错误监控
+    // 资源加载错误监控（标记失败资源）
     window.addEventListener('error', (event) => {
         if (event.target && (event.target.tagName === 'IMG' || event.target.tagName === 'SCRIPT' || event.target.tagName === 'LINK')) {
-            console.error('资源加载失败:', {
-                tag: event.target.tagName,
-                src: event.target.src || event.target.href,
-                message: event.message
-            });
+            event.target.classList.add('resource-load-failed');
         }
     }, true);
-    
-    // JavaScript错误监控
-    window.addEventListener('error', (event) => {
-        if (!event.target) {
-            console.error('JavaScript错误:', {
-                message: event.message,
-                filename: event.filename,
-                lineno: event.lineno,
-                colno: event.colno
-            });
-        }
-    });
-    
-    // Promise未捕获错误
-    window.addEventListener('unhandledrejection', (event) => {
-        console.error('Promise未捕获错误:', {
-            reason: event.reason
-        });
-    });
+
+    // Promise未捕获错误（静默）
+    window.addEventListener('unhandledrejection', () => {});
 }
 
 // ==================== 骨架屏加载 ====================
@@ -841,8 +732,7 @@ function initGalleryMasonry() {
         const usableWidth = containerWidth - sidePadding * 2;
         const columnWidth = (usableWidth - gap * (newColumnCount - 1)) / newColumnCount;
         
-        // 如果列数变化，需要重新布局
-        const needsFullRelayout = newColumnCount !== columnCount;
+        // 更新列数
         columnCount = newColumnCount;
         
         // 创建列数组，存储每列当前高度
@@ -963,7 +853,4 @@ function initGalleryMasonry() {
         setTimeout(layoutMasonry, 100);
     });
 }
-
-
-
 

@@ -46,7 +46,24 @@
         
         <script>
         var allData = {{ $allData | jsonify | safeJS }};
-        
+
+        // HTML 转义函数，防止 XSS
+        function escapeHtml(str) {
+            if (!str) return '';
+            return String(str)
+                .replace(/&/g, '&amp;')
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;')
+                .replace(/"/g, '&quot;')
+                .replace(/'/g, '&#39;');
+        }
+
+        // JS 字符串转义（用于拼接进 onclick 等属性值）
+        function escapeJs(str) {
+            if (!str) return '';
+            return String(str).replace(/\\/g, '\\\\').replace(/'/g, "\\'").replace(/\\/g, '\\');
+        }
+
         var currentPath = '';
         
         function getPathParts(path) {
@@ -136,9 +153,9 @@
                     builtPath += (builtPath ? '/' : '') + part;
                     var isLast = i === currentParts.length - 1;
                     if (isLast) {
-                        html += '<span class="archive-breadcrumb-separator"> / </span><span class="archive-breadcrumb-current">' + part + '</span>';
+                        html += '<span class="archive-breadcrumb-separator"> / </span><span class="archive-breadcrumb-current">' + escapeHtml(part) + '</span>';
                     } else {
-                        html += '<span class="archive-breadcrumb-separator"> / </span><a href="#" onclick="navigateTo(\'' + builtPath + '\'); return false;" class="archive-breadcrumb-link">' + part + '</a>';
+                        html += '<span class="archive-breadcrumb-separator"> / </span><a href="#" onclick="navigateTo(\'' + escapeJs(builtPath) + '\'); return false;" class="archive-breadcrumb-link">' + escapeHtml(part) + '</a>';
                     }
                 });
                 breadcrumbPath.innerHTML = html;
@@ -155,11 +172,11 @@
                 html += '<div class="folder-card-grid">';
                 folders.forEach(function(folder) {
                     var fullPath = currentPath ? currentPath + '/' + folder : folder;
-                    html += '<a href="#" onclick="navigateTo(\'' + fullPath + '\'); return false;" class="folder-card">';
+                    html += '<a href="#" onclick="navigateTo(\'' + escapeJs(fullPath) + '\'); return false;" class="folder-card">';
                     html += '<svg class="folder-card-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">';
                     html += '<path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"></path>';
                     html += '</svg>';
-                    html += '<h3 class="folder-card-name">' + folder + '</h3>';
+                    html += '<h3 class="folder-card-name">' + escapeHtml(folder) + '</h3>';
                     html += '</a>';
                 });
                 html += '</div>';
@@ -169,43 +186,46 @@
                 html += '<div class="icity-card-list">';
                 
                 files.forEach(function(file) {
-                    var title = file.title;
-                    var hasTitle = title && title !== 'null' && title !== '' && title !== 'no';
-                    
-                    var content = file.content || '';
+                    var title = escapeHtml(file.title);
+                    var hasTitle = title && title !== 'null' && title !== '';
+
+                    var content = escapeHtml(file.content) || '';
                     var imageCount = file.images ? file.images.length : 0;
-                    
-                    var avatarPath = file.avatar || 'images/avatar.png';
+
+                    var avatarPath = escapeHtml(file.avatar || 'images/avatar.png');
                     if (!avatarPath.startsWith('/')) {
                         avatarPath = '/' + avatarPath;
                     }
-                    
+
+                    var author = escapeHtml(file.author);
+                    var signature = escapeHtml(file.signature);
+
                     var coverClass = '';
                     var coverStyle = '';
                     if (file.cover) {
                         coverClass = ' has-cover';
-                        coverStyle = ' style="--card-cover-image: url(\'' + file.cover + '\')"';
+                        coverStyle = ' style="--card-cover-image: url(\'' + escapeJs(file.cover) + '\')"';
                     }
-                    
-                    html += '<article class="icity-card' + coverClass + '" data-url="' + file.url + '"' + coverStyle + '>';
+
+                    html += '<article class="icity-card' + coverClass + '" data-url="' + escapeJs(file.url) + '"' + coverStyle + '>';
                     html += '<div class="icity-card-header">';
-                    html += '<a href="/character/' + file.author + '" class="icity-card-avatar-link" title="查看' + file.author + '的详情">';
+                    html += '<a href="/character/' + encodeURIComponent(file.author) + '" class="icity-card-avatar-link" title="查看' + author + '的详情">';
                     html += '<div class="icity-card-avatar">';
-                    html += '<img src="' + avatarPath + '" alt="' + file.author + '的头像">';
+                    html += '<img src="' + avatarPath + '" alt="' + author + '的头像">';
                     html += '</div>';
                     html += '</a>';
                     html += '<div class="icity-card-user">';
-                    html += '<a href="/character/' + file.author + '" class="icity-card-username-link">';
-                    html += '<span class="icity-card-username">' + file.author + '</span>';
+                    html += '<a href="/character/' + encodeURIComponent(file.author) + '" class="icity-card-username-link">';
+                    html += '<span class="icity-card-username">' + author + '</span>';
                     html += '</a>';
-                    html += '<span class="icity-card-signature">' + file.signature + '</span>';
+                    html += '<span class="icity-card-signature">' + signature + '</span>';
                     html += '</div>';
                     html += '</div>';
-                    
+
                     html += '<div class="icity-card-body">';
                     if (hasTitle) {
                         html += '<h3 class="icity-card-title">';
-                        html += '<a href="' + file.url + '">' + title + '</a>';
+                        html += '<a href="' + escapeJs(file.url) + '">' + title + '</a>';
                         html += '</h3>';
                     }
                     html += '<p class="icity-card-content">' + content + '</p>';
@@ -214,40 +234,40 @@
                         html += '<div class="icity-card-images" data-count="' + Math.min(imageCount, 3) + '">';
                         for (var i = 0; i < Math.min(imageCount, 3); i++) {
                             html += '<div class="icity-image-item">';
-                            html += '<img src="' + file.images[i] + '" alt="图片" loading="lazy">';
+                            html += '<img src="' + escapeJs(file.images[i]) + '" alt="图片" loading="lazy">';
                             html += '</div>';
                         }
                         html += '</div>';
                     }
-                    
+
                     if (file.hasVideo) {
                         html += '<div class="icity-card-video">';
-                        html += '<video src="' + file.videoSrc + '" controls preload="metadata" playsinline></video>';
+                        html += '<video src="' + escapeJs(file.videoSrc) + '" controls preload="metadata" playsinline></video>';
                         html += '</div>';
                     }
-                    
+
                     if (file.hasMusic) {
                         html += '<div class="icity-card-music">';
                         if (file.musicPlatform === 'netease') {
-                            html += '<iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width="100%" height="86" src="https://music.163.com/outchain/player?type=2&id=' + file.musicId + '&auto=0&height=66"></iframe>';
+                            html += '<iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width="100%" height="86" src="https://music.163.com/outchain/player?type=2&id=' + escapeJs(file.musicId) + '&auto=0&height=66"></iframe>';
                         } else if (file.musicPlatform === 'qq') {
-                            html += '<iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width="100%" height="86" src="https://y.qq.com/portal/player.html?id=' + file.musicId + '"></iframe>';
+                            html += '<iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width="100%" height="86" src="https://y.qq.com/portal/player.html?id=' + escapeJs(file.musicId) + '"></iframe>';
                         } else if (file.musicPlatform === 'spotify') {
-                            html += '<iframe src="https://open.spotify.com/embed/track/' + file.musicId + '" width="100%" height="86" frameborder="0" allowtransparency="true" allow="encrypted-media"></iframe>';
+                            html += '<iframe src="https://open.spotify.com/embed/track/' + escapeJs(file.musicId) + '" width="100%" height="86" frameborder="0" allowtransparency="true" allow="encrypted-media"></iframe>';
                         }
                         html += '</div>';
                     }
-                    
+
                     if (file.hasBilibili) {
                         html += '<div class="icity-card-bilibili">';
-                        html += '<iframe src="https://player.bilibili.com/player.html?bvid=' + file.bvid + '&page=1&high_quality=1&danmaku=0&autoplay=0" scrolling="no" border="0" frameborder="no" framespacing="0" allowfullscreen="true" width="100%" height="200"></iframe>';
+                        html += '<iframe src="https://player.bilibili.com/player.html?bvid=' + escapeJs(file.bvid) + '&page=1&high_quality=1&danmaku=0&autoplay=0" scrolling="no" border="0" frameborder="no" framespacing="0" allowfullscreen="true" width="100%" height="200"></iframe>';
                         html += '</div>';
                     }
-                    
+
                     html += '</div>';
                     html += '<div class="icity-card-footer">';
-                    html += '<span class="icity-card-date">' + file.date + '</span>';
-                    html += '<span class="icity-card-path">' + file.path + '</span>';
+                    html += '<span class="icity-card-date">' + escapeHtml(file.date) + '</span>';
+                    html += '<span class="icity-card-path">' + escapeHtml(file.path) + '</span>';
                     html += '</div>';
                     html += '</article>';
                 });
@@ -300,9 +320,9 @@
                     </div>
                 </div>
                 <div class="icity-card-body">
-                    {{ if and .Title (ne .Title "no") }}
+                    {{ with .Title }}
                     <h3 class="icity-card-title">
-                        <a href="{{ .RelPermalink }}">{{ .Title }}</a>
+                        <a href="{{ $.RelPermalink }}">{{ . }}</a>
                     </h3>
                     {{ end }}
                     <p class="icity-card-content">{{ .Plain | truncate 200 }}</p>

@@ -46,9 +46,9 @@
                         </div>
                     </div>
                     <div class="icity-card-body">
-                        {{ if and .Title (ne .Title "no") }}
+                        {{ with .Title }}
                         <h3 class="icity-card-title">
-                            <a href="{{ .RelPermalink }}">{{ .Title }}</a>
+                            <a href="{{ $.RelPermalink }}">{{ . }}</a>
                         </h3>
                         {{ end }}
                         <p class="icity-card-content">{{ .Plain | truncate 200 }}</p>

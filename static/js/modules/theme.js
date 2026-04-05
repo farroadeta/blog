@@ -5,11 +5,11 @@ export function initThemeToggle() {
     const themeToggles = document.querySelectorAll('.theme-toggle');
     if (!themeToggles.length) return;
 
-    // 检查本地存储中的主题偏好
+    // 检查本地存储中的主题偏好，否则跟随系统
     const savedTheme = localStorage.getItem('theme');
-    if (savedTheme) {
-        document.documentElement.setAttribute('data-theme', savedTheme);
-    }
+    const systemTheme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+    const activeTheme = savedTheme || systemTheme;
+    document.documentElement.setAttribute('data-theme', activeTheme);
 
     // 更新所有主题图标
     function updateAllThemeIcons(theme) {
@@ -40,7 +40,5 @@ export function initThemeToggle() {
     });
 
     // 初始化图标
-    const currentTheme = document.documentElement.getAttribute('data-theme') || 
-                       (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
-    updateAllThemeIcons(currentTheme);
+    updateAllThemeIcons(activeTheme);
 }

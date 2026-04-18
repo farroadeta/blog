@@ -46,9 +46,10 @@
                         </div>
                     </div>
                     <div class="icity-card-body">
+                        {{ $permalink := .RelPermalink }}
                         {{ with .Title }}
                         <h3 class="icity-card-title">
-                            <a href="{{ $.RelPermalink }}">{{ . }}</a>
+                            <a href="{{ $permalink }}">{{ . }}</a>
                         </h3>
                         {{ end }}
                         <p class="icity-card-content">{{ .Plain | truncate 200 }}</p>
